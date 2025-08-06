@@ -59,3 +59,157 @@
 		top: 50%;
 	}
 }
+
+// Styles for the value pairs plugin
+.#{tp.$prefix}-valuepairsv {
+	@extend %tp-input;
+	
+	padding: 6px;
+	overflow: visible;
+	height: auto;
+	min-height: auto;
+	
+	&.#{tp.$prefix}-v-disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	&_list {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		overflow: visible;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	&_row {
+		display: grid;
+		grid-template-columns: 1fr 1fr auto;
+		gap: 8px;
+		align-items: end;
+		padding: 8px;
+		margin-bottom: 6px;
+		background-color: #{rgba(255, 255, 255, 0.02)};
+		border: 1px solid #{rgba(255, 255, 255, 0.08)};
+		border-radius: 3px;
+		transition: background-color 0.15s ease;
+		width: 100%;
+		box-sizing: border-box;
+		position: relative;
+		overflow: visible;
+
+		&:hover {
+			background-color: #{rgba(255, 255, 255, 0.04)};
+			border-color: #{rgba(255, 255, 255, 0.12)};
+		}
+		
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&_input-container {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		width: 100%;
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	&_label {
+		font-size: 0.75em;
+		color: tp.cssVar('input-fg');
+		opacity: 0.8;
+		text-transform: uppercase;
+		font-weight: 500;
+		letter-spacing: 0.5px;
+	}
+
+	&_input {
+		@extend %tp-input;
+		
+		width: 100%;
+		height: calc(#{tp.cssVar('container-unit-size')} * 0.75);
+		padding: 0 6px;
+		font-size: 0.85em;
+		border: 1px solid #{rgba(255, 255, 255, 0.1)};
+		border-radius: 2px;
+		background-color: #{rgba(255, 255, 255, 0.03)};
+		color: tp.cssVar('input-fg');
+		transition: all 0.15s ease;
+
+		&:focus {
+			background-color: #{rgba(255, 255, 255, 0.08)};
+			border-color: #{rgba(255, 255, 255, 0.25)};
+			outline: none;
+			box-shadow: 0 0 0 1px #{rgba(255, 255, 255, 0.1)};
+		}
+
+		&:hover {
+			border-color: #{rgba(255, 255, 255, 0.15)};
+		}
+	}
+
+	&_delete-btn {
+		width: 24px;
+		height: calc(#{tp.cssVar('container-unit-size')} * 0.75);
+		padding: 0;
+		border: 1px solid #{rgba(255, 80, 80, 0.3)};
+		border-radius: 2px;
+		background-color: #{rgba(255, 80, 80, 0.1)};
+		color: #{rgb(255, 150, 150)};
+		cursor: pointer;
+		font-size: 12px;
+		font-weight: bold;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.15s ease;
+
+		&:hover {
+			background-color: #{rgba(255, 80, 80, 0.2)};
+			border-color: #{rgba(255, 80, 80, 0.5)};
+			color: #{rgb(255, 200, 200)};
+			transform: scale(1.05);
+		}
+
+		&:active {
+			background-color: #{rgba(255, 80, 80, 0.3)};
+			transform: scale(0.95);
+		}
+	}
+
+	&_add-btn {
+		@extend %tp-button;
+		
+		width: 100%;
+		height: calc(#{tp.cssVar('container-unit-size')} * 0.85);
+		margin-top: 8px;
+		font-size: 0.8em;
+		border: 1px dashed #{rgba(255, 255, 255, 0.2)};
+		background-color: transparent;
+		color: tp.cssVar('input-fg');
+		cursor: pointer;
+		transition: all 0.15s ease;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		font-weight: 500;
+		box-sizing: border-box;
+		position: relative;
+		clear: both;
+
+		&:hover {
+			background-color: #{rgba(255, 255, 255, 0.05)};
+			border-color: #{rgba(255, 255, 255, 0.3)};
+			border-style: solid;
+			transform: translateY(-1px);
+		}
+
+		&:active {
+			background-color: #{rgba(255, 255, 255, 0.08)};
+			transform: translateY(0);
+		}
+	}
+}

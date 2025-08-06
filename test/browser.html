@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>Tweakpane Value Pairs Plugin Test</title>
 </head>
 <body>
 	<script type="module">
@@ -10,21 +10,98 @@
 		import * as TweakpaneTemplatePlugin from '../dist/tweakpane-plugin-template.js';
 
 		const params = {
-			prop: 3,
+			// Original template plugin example
+			dotValue: 3,
+			
+			// Value pairs plugin examples
+			coordinates: [
+				{first: 10, second: 20},
+				{first: 30, second: 40},
+			],
+			
+			positions: [
+				{first: 0, second: 0},
+				{first: 100, second: 150},
+				{first: 200, second: 75},
+			],
+			
+			// Empty list example
+			emptyList: [],
 		};
 
 		const pane = new Pane();
-		// Register plugin
+		// Register plugin bundle
 		pane.registerPlugin(TweakpaneTemplatePlugin);
 
-		// TODO: Update parameters for your plugin
-		pane.addBinding(params, 'prop', {
+		// Original dots plugin
+		const folder1 = pane.addFolder({title: 'Original Dots Plugin'});
+		folder1.addBinding(params, 'dotValue', {
 			view: 'dots',
 		}).on('change', (ev) => {
-			console.log(ev.value);
+			console.log('Dots value:', ev.value);
 		});
 
-		window.pane = pane;
+		// Value pairs plugin examples using native folders
+		const folder2 = pane.addFolder({title: 'Value Pairs with Folders', expanded: true});
+		
+		// Create individual folders for each pair list
+		const coordFolder = folder2.addFolder({title: 'Coordinates', expanded: true});
+		coordFolder.addBinding(params, 'coordinates', {
+			view: 'valuepairs',
+			firstLabel: 'X',
+			secondLabel: 'Y',
+		}).on('change', (ev) => {
+			console.log('Coordinates:', ev.value);
+		});
+
+		const posFolder = folder2.addFolder({title: 'Positions', expanded: true});
+		posFolder.addBinding(params, 'positions', {
+			view: 'valuepairs',
+			firstLabel: 'Width', 
+			secondLabel: 'Height',
+			defaultFirst: 50,
+			defaultSecond: 50,
+			// Add constraint examples
+			min: 0,
+			max: 500,
+			step: 5,
+		}).on('change', (ev) => {
+			console.log('Positions:', ev.value);
+		});
+
+		const rangeFolder = folder2.addFolder({title: 'Ranges', expanded: false});
+		rangeFolder.addBinding(params, 'emptyList', {
+			view: 'valuepairs',
+			firstLabel: 'Min',
+			secondLabel: 'Max',
+			defaultFirst: 0,
+			defaultSecond: 100,
+			// Different constraints per dimension
+			first: {
+				min: -50,
+				max: 50,
+				step: 0.1,
+			},
+			second: {
+				min: 0,
+				max: 200,
+				step: 1,
+			},
+		}).on('change', (ev) => {
+			console.log('Ranges:', ev.value);
+		});
+
+		// Add some helper buttons
+		const folder3 = pane.addFolder({title: 'Helpers'});
+		
+		folder3.addButton({title: 'Log All Values'}).on('click', () => {
+			console.log('Current params:', params);
+		});
+
+		folder3.addButton({title: 'Reset Coordinates'}).on('click', () => {
+			params.coordinates = [{first: 0, second: 0}];
+			pane.refresh();
+		});
 	</script>
 </body>
 </html>
