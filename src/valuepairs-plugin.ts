@@ -17,13 +17,26 @@ function isValuePairArray(value: unknown): value is ValuePair[] {
 	if (!Array.isArray(value)) {
 		return false;
 	}
-
-	return value.every(item => 
-		typeof item === 'object' && 
-		item !== null &&
-		typeof (item as any).first === 'number' &&
-		typeof (item as any).second === 'number'
-	);
+	
+	// Allow empty arrays
+	if (value.length === 0) {
+		return true;
+	}
+	
+	// Check if every item is an object with exactly 2 numeric properties
+	return value.every(item => {
+		if (!item || typeof item !== 'object') {
+			return false;
+		}
+		
+		const values = Object.values(item);
+		const keys = Object.keys(item);
+		
+		// Must have exactly 2 properties, both numbers
+		return keys.length === 2 && 
+			   values.length === 2 && 
+			   values.every(v => typeof v === 'number');
+	});
 }
 
 // Input plugin for editing arrays of value pairs
@@ -44,26 +57,44 @@ export const ValuePairsInputPlugin: InputBindingPlugin<
 		// Parse parameters object with constraint support
 		const result = parseRecord<ValuePairsInputParams>(params, (p) => ({
 			view: p.required.constant('valuepairs'),
+			// Dynamic property names
+			firstProperty: p.optional.string,
+			secondProperty: p.optional.string,
+			// Labels
 			firstLabel: p.optional.string,
 			secondLabel: p.optional.string,
+			// Default values
 			defaultFirst: p.optional.number,
 			defaultSecond: p.optional.number,
 			// Global constraints
 			min: p.optional.number,
 			max: p.optional.number,
 			step: p.optional.number,
-			// Dimension-specific constraints
-			first: p.optional.object({
-				min: p.optional.number,
-				max: p.optional.number,
-				step: p.optional.number,
-			}),
-			second: p.optional.object({
-				min: p.optional.number,
-				max: p.optional.number,
-				step: p.optional.number,
-			}),
+			// We'll handle dynamic constraint objects separately
 		}));
+
+		// Handle dynamic constraint objects
+		if (result) {
+			const firstProp = result.firstProperty || 'first';
+			const secondProp = result.secondProperty || 'second';
+			
+			// Add dynamic constraint objects
+			if (params && typeof params === 'object' && firstProp in params && params[firstProp]) {
+				(result as any)[firstProp] = parseRecord(params[firstProp] as Record<string, unknown>, (p) => ({
+					min: p.optional.number,
+					max: p.optional.number,
+					step: p.optional.number,
+				}));
+			}
+			
+			if (params && typeof params === 'object' && secondProp in params && params[secondProp]) {
+				(result as any)[secondProp] = parseRecord(params[secondProp] as Record<string, unknown>, (p) => ({
+					min: p.optional.number,
+					max: p.optional.number,
+					step: p.optional.number,
+				}));
+			}
+		}
 
 		if (!result) {
 			return null;
@@ -81,11 +112,8 @@ export const ValuePairsInputPlugin: InputBindingPlugin<
 			return (exValue: unknown): ValuePair[] => {
 				// Convert external value to internal value
 				if (isValuePairArray(exValue)) {
-					// Create a deep copy to avoid mutation issues
-					return exValue.map(pair => ({
-						first: pair.first,
-						second: pair.second,
-					}));
+					// Just return the value as-is since it's already validated
+					return exValue;
 				}
 				
 				// Return empty array as fallback
@@ -99,13 +127,8 @@ export const ValuePairsInputPlugin: InputBindingPlugin<
 		writer(_args) {
 			return (target: BindingTarget, inValue: ValuePair[]) => {
 				// Write the internal value back to the target
-				// Create a deep copy to avoid mutation issues
-				const outputValue = inValue.map(pair => ({
-					first: pair.first,
-					second: pair.second,
-				}));
-				
-				target.write(outputValue);
+				// Just pass through the value as-is since dynamic properties are preserved
+				target.write(inValue);
 			};
 		},
 	},

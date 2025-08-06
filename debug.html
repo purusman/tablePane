@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Debug Tweakpane Value Pairs Plugin</title>
+</head>
+<body>
+	<div id="debug"></div>
+	<script type="module">
+		import {Pane} from './node_modules/tweakpane/dist/tweakpane.min.js';
+		import * as TweakpaneTemplatePlugin from './dist/tweakpane-plugin-template.js';
+
+		// Simple test data
+		const params = {
+			// Test with custom property names
+			sizes: [
+				{width: 100, height: 200},
+				{width: 50, height: 75},
+			],
+		};
+
+		console.log('Initial params:', params);
+
+		const pane = new Pane();
+		
+		try {
+			// Register plugin bundle
+			pane.registerPlugin(TweakpaneTemplatePlugin);
+			console.log('Plugin registered successfully');
+			
+			// Test custom property names
+			const folder = pane.addFolder({title: 'Debug Custom Properties', expanded: true});
+			
+			const sizesBinding = folder.addBinding(params, 'sizes', {
+				view: 'valuepairs',
+				firstProperty: 'width',
+				secondProperty: 'height',
+				firstLabel: 'Width',
+				secondLabel: 'Height',
+				defaultFirst: 100,
+				defaultSecond: 100,
+				min: 10,
+				max: 1000,
+				step: 10,
+			});
+			
+			sizesBinding.on('change', (ev) => {
+				console.log('Sizes changed:', ev.value);
+			});
+			
+			console.log('Binding created successfully');
+			
+		} catch (error) {
+			console.error('Error:', error);
+			document.getElementById('debug').innerHTML = '<pre>Error: ' + error.message + '</pre>';
+		}
+	</script>
+</body>
+</html>

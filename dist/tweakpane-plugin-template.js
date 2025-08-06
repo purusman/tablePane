@@ -6922,17 +6922,20 @@ class PairRowView {
         // Create row container
         this.element = doc.createElement('div');
         this.element.classList.add(className('row'));
+        // Get dynamic property names (default to 'first' and 'second')
+        const firstProp = params.firstProperty || 'first';
+        const secondProp = params.secondProperty || 'second';
         // Create target objects for bindings
-        this.firstTarget_ = { value: pair.first };
-        this.secondTarget_ = { value: pair.second };
+        this.firstTarget_ = { value: pair[firstProp] || 0 };
+        this.secondTarget_ = { value: pair[secondProp] || 0 };
         // Create first input using NumberInputPlugin
         const firstContainer = doc.createElement('div');
         firstContainer.classList.add(className('input-container'));
         const firstLabel = doc.createElement('label');
         firstLabel.classList.add(className('label'));
-        firstLabel.textContent = params.firstLabel || 'First';
-        // Prepare constraint parameters for first input
-        const firstParams = params.first || {};
+        firstLabel.textContent = params.firstLabel || firstProp;
+        // Prepare constraint parameters for first input (use dynamic property name)
+        const firstParams = params[firstProp] || {};
         const globalMin = params.min;
         const globalMax = params.max;
         const globalStep = params.step;
@@ -6962,9 +6965,9 @@ class PairRowView {
         secondContainer.classList.add(className('input-container'));
         const secondLabel = doc.createElement('label');
         secondLabel.classList.add(className('label'));
-        secondLabel.textContent = params.secondLabel || 'Second';
-        // Prepare constraint parameters for second input
-        const secondParams = params.second || {};
+        secondLabel.textContent = params.secondLabel || secondProp;
+        // Prepare constraint parameters for second input (use dynamic property name)
+        const secondParams = params[secondProp] || {};
         const secondInputParams = Object.assign(Object.assign(Object.assign({}, (secondParams.min !== undefined || globalMin !== undefined ? { min: (_d = secondParams.min) !== null && _d !== void 0 ? _d : globalMin } : {})), (secondParams.max !== undefined || globalMax !== undefined ? { max: (_e = secondParams.max) !== null && _e !== void 0 ? _e : globalMax } : {})), (secondParams.step !== undefined || globalStep !== undefined ? { step: (_f = secondParams.step) !== null && _f !== void 0 ? _f : globalStep } : {}));
         // Create second binding using NumberInputPlugin
         const secondResult = NumberInputPlugin.accept(this.secondTarget_.value, secondInputParams);
@@ -6996,21 +6999,25 @@ class PairRowView {
         this.element.appendChild(secondContainer);
         this.element.appendChild(this.deleteButton);
     }
-    updatePair(pair) {
-        this.firstTarget_.value = pair.first;
-        this.secondTarget_.value = pair.second;
+    updatePair(pair, params) {
+        const firstProp = params.firstProperty || 'first';
+        const secondProp = params.secondProperty || 'second';
+        this.firstTarget_.value = pair[firstProp] || 0;
+        this.secondTarget_.value = pair[secondProp] || 0;
         if (this.firstBinding) {
-            this.firstBinding.value.rawValue = pair.first;
+            this.firstBinding.value.rawValue = pair[firstProp] || 0;
         }
         if (this.secondBinding) {
-            this.secondBinding.value.rawValue = pair.second;
+            this.secondBinding.value.rawValue = pair[secondProp] || 0;
         }
     }
-    getPair() {
-        return {
-            first: this.firstTarget_.value,
-            second: this.secondTarget_.value,
-        };
+    getPair(params) {
+        const firstProp = params.firstProperty || 'first';
+        const secondProp = params.secondProperty || 'second';
+        const result = {};
+        result[firstProp] = this.firstTarget_.value;
+        result[secondProp] = this.secondTarget_.value;
+        return result;
     }
 }
 // Main view class for the value pairs plugin
@@ -7076,17 +7083,18 @@ class ValuePairsView {
         this.value_.rawValue = pairs;
     }
     addPair() {
-        const newPair = {
-            first: this.params_.defaultFirst || 0,
-            second: this.params_.defaultSecond || 0,
-        };
+        const firstProp = this.params_.firstProperty || 'first';
+        const secondProp = this.params_.secondProperty || 'second';
+        const newPair = {};
+        newPair[firstProp] = this.params_.defaultFirst || 0;
+        newPair[secondProp] = this.params_.defaultSecond || 0;
         const pairs = [...this.value_.rawValue, newPair];
         this.value_.rawValue = pairs;
     }
     onPairChange_(index) {
         const currentPairs = [...this.value_.rawValue];
         if (this.pairRows_[index]) {
-            currentPairs[index] = this.pairRows_[index].getPair();
+            currentPairs[index] = this.pairRows_[index].getPair(this.params_);
             this.value_.rawValue = currentPairs;
         }
     }
@@ -7183,10 +7191,22 @@ function isValuePairArray(value) {
     if (!Array.isArray(value)) {
         return false;
     }
-    return value.every(item => typeof item === 'object' &&
-        item !== null &&
-        typeof item.first === 'number' &&
-        typeof item.second === 'number');
+    // Allow empty arrays
+    if (value.length === 0) {
+        return true;
+    }
+    // Check if every item is an object with exactly 2 numeric properties
+    return value.every(item => {
+        if (!item || typeof item !== 'object') {
+            return false;
+        }
+        const values = Object.values(item);
+        const keys = Object.keys(item);
+        // Must have exactly 2 properties, both numbers
+        return keys.length === 2 &&
+            values.length === 2 &&
+            values.every(v => typeof v === 'number');
+    });
 }
 // Input plugin for editing arrays of value pairs
 const ValuePairsInputPlugin = createPlugin({
@@ -7200,26 +7220,41 @@ const ValuePairsInputPlugin = createPlugin({
         // Parse parameters object with constraint support
         const result = parseRecord(params, (p) => ({
             view: p.required.constant('valuepairs'),
+            // Dynamic property names
+            firstProperty: p.optional.string,
+            secondProperty: p.optional.string,
+            // Labels
             firstLabel: p.optional.string,
             secondLabel: p.optional.string,
+            // Default values
             defaultFirst: p.optional.number,
             defaultSecond: p.optional.number,
             // Global constraints
             min: p.optional.number,
             max: p.optional.number,
             step: p.optional.number,
-            // Dimension-specific constraints
-            first: p.optional.object({
-                min: p.optional.number,
-                max: p.optional.number,
-                step: p.optional.number,
-            }),
-            second: p.optional.object({
-                min: p.optional.number,
-                max: p.optional.number,
-                step: p.optional.number,
-            }),
+            // We'll handle dynamic constraint objects separately
         }));
+        // Handle dynamic constraint objects
+        if (result) {
+            const firstProp = result.firstProperty || 'first';
+            const secondProp = result.secondProperty || 'second';
+            // Add dynamic constraint objects
+            if (params && typeof params === 'object' && firstProp in params && params[firstProp]) {
+                result[firstProp] = parseRecord(params[firstProp], (p) => ({
+                    min: p.optional.number,
+                    max: p.optional.number,
+                    step: p.optional.number,
+                }));
+            }
+            if (params && typeof params === 'object' && secondProp in params && params[secondProp]) {
+                result[secondProp] = parseRecord(params[secondProp], (p) => ({
+                    min: p.optional.number,
+                    max: p.optional.number,
+                    step: p.optional.number,
+                }));
+            }
+        }
         if (!result) {
             return null;
         }
@@ -7234,11 +7269,8 @@ const ValuePairsInputPlugin = createPlugin({
             return (exValue) => {
                 // Convert external value to internal value
                 if (isValuePairArray(exValue)) {
-                    // Create a deep copy to avoid mutation issues
-                    return exValue.map(pair => ({
-                        first: pair.first,
-                        second: pair.second,
-                    }));
+                    // Just return the value as-is since it's already validated
+                    return exValue;
                 }
                 // Return empty array as fallback
                 return [];
@@ -7249,12 +7281,8 @@ const ValuePairsInputPlugin = createPlugin({
         writer(_args) {
             return (target, inValue) => {
                 // Write the internal value back to the target
-                // Create a deep copy to avoid mutation issues
-                const outputValue = inValue.map(pair => ({
-                    first: pair.first,
-                    second: pair.second,
-                }));
-                target.write(outputValue);
+                // Just pass through the value as-is since dynamic properties are preserved
+                target.write(inValue);
             };
         },
     },

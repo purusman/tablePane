@@ -39,9 +39,13 @@ class PairRowView {
 		this.element = doc.createElement('div');
 		this.element.classList.add(className('row'));
 
+		// Get dynamic property names (default to 'first' and 'second')
+		const firstProp = params.firstProperty || 'first';
+		const secondProp = params.secondProperty || 'second';
+
 		// Create target objects for bindings
-		this.firstTarget_ = {value: pair.first};
-		this.secondTarget_ = {value: pair.second};
+		this.firstTarget_ = {value: (pair as any)[firstProp] || 0};
+		this.secondTarget_ = {value: (pair as any)[secondProp] || 0};
 
 		// Create first input using NumberInputPlugin
 		const firstContainer = doc.createElement('div');
@@ -49,10 +53,10 @@ class PairRowView {
 		
 		const firstLabel = doc.createElement('label');
 		firstLabel.classList.add(className('label'));
-		firstLabel.textContent = params.firstLabel || 'First';
+		firstLabel.textContent = params.firstLabel || firstProp;
 		
-		// Prepare constraint parameters for first input
-		const firstParams = params.first || {};
+		// Prepare constraint parameters for first input (use dynamic property name)
+		const firstParams = (params as any)[firstProp] || {};
 		const globalMin = params.min;
 		const globalMax = params.max;
 		const globalStep = params.step;
@@ -92,10 +96,10 @@ class PairRowView {
 		
 		const secondLabel = doc.createElement('label');
 		secondLabel.classList.add(className('label'));
-		secondLabel.textContent = params.secondLabel || 'Second';
+		secondLabel.textContent = params.secondLabel || secondProp;
 		
-		// Prepare constraint parameters for second input
-		const secondParams = params.second || {};
+		// Prepare constraint parameters for second input (use dynamic property name)
+		const secondParams = (params as any)[secondProp] || {};
 		
 		const secondInputParams = {
 			...(secondParams.min !== undefined || globalMin !== undefined ? { min: secondParams.min ?? globalMin } : {}),
@@ -138,22 +142,28 @@ class PairRowView {
 		this.element.appendChild(this.deleteButton);
 	}
 
-	updatePair(pair: ValuePair): void {
-		this.firstTarget_.value = pair.first;
-		this.secondTarget_.value = pair.second;
+	updatePair(pair: ValuePair, params: ValuePairsInputParams): void {
+		const firstProp = params.firstProperty || 'first';
+		const secondProp = params.secondProperty || 'second';
+		
+		this.firstTarget_.value = (pair as any)[firstProp] || 0;
+		this.secondTarget_.value = (pair as any)[secondProp] || 0;
 		if (this.firstBinding) {
-			this.firstBinding.value.rawValue = pair.first;
+			this.firstBinding.value.rawValue = (pair as any)[firstProp] || 0;
 		}
 		if (this.secondBinding) {
-			this.secondBinding.value.rawValue = pair.second;
+			this.secondBinding.value.rawValue = (pair as any)[secondProp] || 0;
 		}
 	}
 
-	getPair(): ValuePair {
-		return {
-			first: this.firstTarget_.value,
-			second: this.secondTarget_.value,
-		};
+	getPair(params: ValuePairsInputParams): ValuePair {
+		const firstProp = params.firstProperty || 'first';
+		const secondProp = params.secondProperty || 'second';
+		
+		const result: any = {};
+		result[firstProp] = this.firstTarget_.value;
+		result[secondProp] = this.secondTarget_.value;
+		return result;
 	}
 }
 
@@ -250,10 +260,12 @@ export class ValuePairsView implements View {
 	}
 
 	public addPair(): void {
-		const newPair: ValuePair = {
-			first: this.params_.defaultFirst || 0,
-			second: this.params_.defaultSecond || 0,
-		};
+		const firstProp = this.params_.firstProperty || 'first';
+		const secondProp = this.params_.secondProperty || 'second';
+		
+		const newPair: any = {};
+		newPair[firstProp] = this.params_.defaultFirst || 0;
+		newPair[secondProp] = this.params_.defaultSecond || 0;
 
 		const pairs = [...this.value_.rawValue, newPair];
 		this.value_.rawValue = pairs;
@@ -262,7 +274,7 @@ export class ValuePairsView implements View {
 	private onPairChange_(index: number): void {
 		const currentPairs = [...this.value_.rawValue];
 		if (this.pairRows_[index]) {
-			currentPairs[index] = this.pairRows_[index].getPair();
+			currentPairs[index] = this.pairRows_[index].getPair(this.params_);
 			this.value_.rawValue = currentPairs;
 		}
 	}

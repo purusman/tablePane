@@ -2,34 +2,27 @@ import {BaseInputParams} from '@tweakpane/core';
 
 // Value pair interface
 export interface ValuePair {
-	first: number;
-	second: number;
+	[key: string]: number;
 }
 
 // Plugin input parameters
 export interface ValuePairsInputParams extends BaseInputParams {
 	view: 'valuepairs';
-	// Optional: labels for the two values
+	// Dynamic property names (defaults to 'first' and 'second')
+	firstProperty?: string;
+	secondProperty?: string;
+	// Labels (defaults to property names)
 	firstLabel?: string;
 	secondLabel?: string;
-	// Optional: default values for new pairs
+	// Default values
 	defaultFirst?: number;
 	defaultSecond?: number;
 	// Constraint parameters like Point2D plugin
 	min?: number;
 	max?: number;
 	step?: number;
-	// Dimension-specific constraints
-	first?: {
-		min?: number;
-		max?: number;
-		step?: number;
-	};
-	second?: {
-		min?: number;
-		max?: number;
-		step?: number;
-	};
+	// Dimension-specific constraints using dynamic property names
+	[key: string]: any; // Allow dynamic constraint objects
 }
 
 // Event data for pair operations

@@ -13,7 +13,7 @@
 			// Original template plugin example
 			dotValue: 3,
 			
-			// Value pairs plugin examples
+			// Value pairs plugin examples with default property names
 			coordinates: [
 				{first: 10, second: 20},
 				{first: 30, second: 40},
@@ -25,6 +25,17 @@
 				{first: 200, second: 75},
 			],
 			
+			// Custom property names examples
+			sizes: [
+				{width: 100, height: 200},
+				{width: 50, height: 75},
+			],
+			
+			colors: [
+				{red: 255, blue: 128},
+				{red: 64, blue: 200},
+			],
+			
 			// Empty list example
 			emptyList: [],
 		};
@@ -34,27 +45,27 @@
 		pane.registerPlugin(TweakpaneTemplatePlugin);
 
 		// Original dots plugin
-		const folder1 = pane.addFolder({title: 'Original Dots Plugin'});
+		const folder1 = pane.addFolder({title: 'Original Dots Plugin', expanded: true});
 		folder1.addBinding(params, 'dotValue', {
 			view: 'dots',
 		}).on('change', (ev) => {
-			console.log('Dots value:', ev.value);
+			console.log('Dots changed:', ev.value);
 		});
 
 		// Value pairs plugin examples using native folders
-		const folder2 = pane.addFolder({title: 'Value Pairs with Folders', expanded: true});
+		const folder2 = pane.addFolder({title: 'Value Pairs with Default Names', expanded: true});
 		
 		// Create individual folders for each pair list
-		const coordFolder = folder2.addFolder({title: 'Coordinates', expanded: true});
+		const coordFolder = folder2.addFolder({title: 'Coordinates (X,Y)', expanded: true});
 		coordFolder.addBinding(params, 'coordinates', {
 			view: 'valuepairs',
 			firstLabel: 'X',
 			secondLabel: 'Y',
 		}).on('change', (ev) => {
-			console.log('Coordinates:', ev.value);
+			console.log('Coordinates changed:', ev.value);
 		});
 
-		const posFolder = folder2.addFolder({title: 'Positions', expanded: true});
+		const posFolder = folder2.addFolder({title: 'Positions (Width/Height)', expanded: true});
 		posFolder.addBinding(params, 'positions', {
 			view: 'valuepairs',
 			firstLabel: 'Width', 
@@ -66,10 +77,52 @@
 			max: 500,
 			step: 5,
 		}).on('change', (ev) => {
-			console.log('Positions:', ev.value);
+			console.log('Positions changed:', ev.value);
 		});
 
-		const rangeFolder = folder2.addFolder({title: 'Ranges', expanded: false});
+		// Custom property names examples
+		const folder3 = pane.addFolder({title: 'Value Pairs with Custom Property Names', expanded: true});
+		
+		const sizesFolder = folder3.addFolder({title: 'Sizes (width/height)', expanded: true});
+		sizesFolder.addBinding(params, 'sizes', {
+			view: 'valuepairs',
+			firstProperty: 'width',
+			secondProperty: 'height',
+			// Labels will default to property names if not specified
+			defaultFirst: 100,
+			defaultSecond: 100,
+			min: 10,
+			max: 1000,
+			step: 10,
+		}).on('change', (ev) => {
+			console.log('Sizes changed:', ev.value);
+		});
+
+		const colorsFolder = folder3.addFolder({title: 'Colors (red/blue)', expanded: true});
+		colorsFolder.addBinding(params, 'colors', {
+			view: 'valuepairs',
+			firstProperty: 'red',
+			secondProperty: 'blue',
+			firstLabel: 'Red Channel',
+			secondLabel: 'Blue Channel',
+			defaultFirst: 128,
+			defaultSecond: 128,
+			// Different constraints per dimension using custom property names
+			red: {
+				min: 0,
+				max: 255,
+				step: 1,
+			},
+			blue: {
+				min: 0,
+				max: 255, 
+				step: 1,
+			},
+		}).on('change', (ev) => {
+			console.log('Colors changed:', ev.value);
+		});
+
+		const rangeFolder = folder2.addFolder({title: 'Ranges (with constraints)', expanded: false});
 		rangeFolder.addBinding(params, 'emptyList', {
 			view: 'valuepairs',
 			firstLabel: 'Min',
@@ -88,20 +141,10 @@
 				step: 1,
 			},
 		}).on('change', (ev) => {
-			console.log('Ranges:', ev.value);
+			console.log('Ranges changed:', ev.value);
 		});
 
-		// Add some helper buttons
-		const folder3 = pane.addFolder({title: 'Helpers'});
-		
-		folder3.addButton({title: 'Log All Values'}).on('click', () => {
-			console.log('Current params:', params);
-		});
-
-		folder3.addButton({title: 'Reset Coordinates'}).on('click', () => {
-			params.coordinates = [{first: 0, second: 0}];
-			pane.refresh();
-		});
+		console.log('Initial params:', params);
 	</script>
 </body>
 </html>
