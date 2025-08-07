@@ -8,11 +8,12 @@ import {
 	CompositeConstraint,
 	createRangeConstraint,
 	createStepConstraint,
-	createNumberFormatter,
+	NumberTextController,
 	ValueMap,
 	getSuitableKeyScale,
 	getSuitablePointerScale,
-	NumberInputPlugin,
+	Formatter,
+	createNumberTextPropsObject,
 } from '@tweakpane/core';
 import {ValuePair, ValuePairsInputParams} from './types.js';
 
@@ -25,14 +26,12 @@ interface Config {
 // Create a class name generator for the value pairs view
 const className = ClassName('valuepairs');
 
-// Individual pair row view using native Tweakpane InputBindingApi
+// Individual pair row view using NumberTextController
 class PairRowView {
 	public readonly element: HTMLElement;
-	public readonly firstBinding: any;
-	public readonly secondBinding: any;
+	public readonly firstController: NumberTextController;
+	public readonly secondController: NumberTextController;
 	public readonly deleteButton: HTMLButtonElement;
-	private readonly firstTarget_: {value: number};
-	private readonly secondTarget_: {value: number};
 
 	constructor(doc: Document, pair: ValuePair, index: number, params: ValuePairsInputParams, viewProps: ViewProps, onValueChange: () => void) {
 		// Create row container
@@ -43,11 +42,7 @@ class PairRowView {
 		const firstProp = params.firstProperty || 'first';
 		const secondProp = params.secondProperty || 'second';
 
-		// Create target objects for bindings
-		this.firstTarget_ = {value: (pair as any)[firstProp] || 0};
-		this.secondTarget_ = {value: (pair as any)[secondProp] || 0};
-
-		// Create first input using NumberInputPlugin
+		// Create first input using NumberTextController
 		const firstContainer = doc.createElement('div');
 		firstContainer.classList.add(className('input-container'));
 		
@@ -55,42 +50,58 @@ class PairRowView {
 		firstLabel.classList.add(className('label'));
 		firstLabel.textContent = params.firstLabel || firstProp;
 		
-		// Prepare constraint parameters for first input (use dynamic property name)
+		// Prepare constraints for first input
 		const firstParams = (params as any)[firstProp] || {};
 		const globalMin = params.min;
 		const globalMax = params.max;
 		const globalStep = params.step;
 		
-		const firstInputParams = {
-			...(firstParams.min !== undefined || globalMin !== undefined ? { min: firstParams.min ?? globalMin } : {}),
-			...(firstParams.max !== undefined || globalMax !== undefined ? { max: firstParams.max ?? globalMax } : {}),
-			...(firstParams.step !== undefined || globalStep !== undefined ? { step: firstParams.step ?? globalStep } : {}),
-		};
-
-		// Create first binding using NumberInputPlugin
-		const firstResult = NumberInputPlugin.accept(this.firstTarget_.value, firstInputParams);
-		if (firstResult) {
-			this.firstBinding = NumberInputPlugin.controller({
-				document: doc,
-				value: createValue(this.firstTarget_.value),
-				viewProps: viewProps,
-				params: firstResult.params,
-				initialValue: firstResult.initialValue,
-				constraint: undefined, // We'll apply constraints via params instead
-			});
-			
-			this.firstBinding.value.emitter.on('change', () => {
-				this.firstTarget_.value = this.firstBinding.value.rawValue;
-				onValueChange();
-			});
+		const firstConstraints = [];
+		const firstMin = firstParams.min !== undefined ? firstParams.min : globalMin;
+		const firstMax = firstParams.max !== undefined ? firstParams.max : globalMax;
+		const firstStep = firstParams.step !== undefined ? firstParams.step : globalStep;
+		
+		if (firstMin !== undefined || firstMax !== undefined) {
+			const rangeConstraint = createRangeConstraint({min: firstMin, max: firstMax});
+			if (rangeConstraint) firstConstraints.push(rangeConstraint);
 		}
+		
+		if (firstStep !== undefined) {
+			const stepConstraint = createStepConstraint({step: firstStep});
+			if (stepConstraint) firstConstraints.push(stepConstraint);
+		}
+
+		// Create first NumberTextController
+		const firstInitialValue = (pair as any)[firstProp] || 0;
+		const firstScaleParams = {
+			...(firstMin !== undefined ? {min: firstMin} : {}),
+			...(firstMax !== undefined ? {max: firstMax} : {}),
+			...(firstStep !== undefined ? {step: firstStep} : {}),
+		};
+		
+		this.firstController = new NumberTextController(doc, {
+			arrayPosition: 'fst',
+			parser: parseNumber,
+			props: ValueMap.fromObject(createNumberTextPropsObject(firstScaleParams, firstInitialValue)),
+			sliderProps: new ValueMap({
+				keyScale: createValue(getSuitableKeyScale(firstScaleParams)),
+				min: createValue(firstMin !== undefined ? firstMin : -Infinity),
+				max: createValue(firstMax !== undefined ? firstMax : Infinity),
+			}),
+			value: createValue(firstInitialValue, {
+				constraint: firstConstraints.length > 0 ? new CompositeConstraint(firstConstraints) : undefined,
+			}),
+			viewProps: viewProps,
+		});
+
+		this.firstController.value.emitter.on('change', () => {
+			onValueChange();
+		});
 
 		firstContainer.appendChild(firstLabel);
-		if (this.firstBinding) {
-			firstContainer.appendChild(this.firstBinding.view.element);
-		}
+		firstContainer.appendChild(this.firstController.view.element);
 
-		// Create second input using NumberInputPlugin
+		// Create second input using NumberTextController
 		const secondContainer = doc.createElement('div');
 		secondContainer.classList.add(className('input-container'));
 		
@@ -98,37 +109,53 @@ class PairRowView {
 		secondLabel.classList.add(className('label'));
 		secondLabel.textContent = params.secondLabel || secondProp;
 		
-		// Prepare constraint parameters for second input (use dynamic property name)
+		// Prepare constraints for second input
 		const secondParams = (params as any)[secondProp] || {};
 		
-		const secondInputParams = {
-			...(secondParams.min !== undefined || globalMin !== undefined ? { min: secondParams.min ?? globalMin } : {}),
-			...(secondParams.max !== undefined || globalMax !== undefined ? { max: secondParams.max ?? globalMax } : {}),
-			...(secondParams.step !== undefined || globalStep !== undefined ? { step: secondParams.step ?? globalStep } : {}),
-		};
-
-		// Create second binding using NumberInputPlugin
-		const secondResult = NumberInputPlugin.accept(this.secondTarget_.value, secondInputParams);
-		if (secondResult) {
-			this.secondBinding = NumberInputPlugin.controller({
-				document: doc,
-				value: createValue(this.secondTarget_.value),
-				viewProps: viewProps,
-				params: secondResult.params,
-				initialValue: secondResult.initialValue,
-				constraint: undefined, // We'll apply constraints via params instead
-			});
-			
-			this.secondBinding.value.emitter.on('change', () => {
-				this.secondTarget_.value = this.secondBinding.value.rawValue;
-				onValueChange();
-			});
+		const secondConstraints = [];
+		const secondMin = secondParams.min !== undefined ? secondParams.min : globalMin;
+		const secondMax = secondParams.max !== undefined ? secondParams.max : globalMax;
+		const secondStep = secondParams.step !== undefined ? secondParams.step : globalStep;
+		
+		if (secondMin !== undefined || secondMax !== undefined) {
+			const rangeConstraint = createRangeConstraint({min: secondMin, max: secondMax});
+			if (rangeConstraint) secondConstraints.push(rangeConstraint);
 		}
+		
+		if (secondStep !== undefined) {
+			const stepConstraint = createStepConstraint({step: secondStep});
+			if (stepConstraint) secondConstraints.push(stepConstraint);
+		}
+
+		// Create second NumberTextController
+		const secondInitialValue = (pair as any)[secondProp] || 0;
+		const secondScaleParams = {
+			...(secondMin !== undefined ? {min: secondMin} : {}),
+			...(secondMax !== undefined ? {max: secondMax} : {}),
+			...(secondStep !== undefined ? {step: secondStep} : {}),
+		};
+		
+		this.secondController = new NumberTextController(doc, {
+			arrayPosition: 'lst',
+			parser: parseNumber,
+			props: ValueMap.fromObject(createNumberTextPropsObject(secondScaleParams, secondInitialValue)),
+			sliderProps: new ValueMap({
+				keyScale: createValue(getSuitableKeyScale(secondScaleParams)),
+				min: createValue(secondMin !== undefined ? secondMin : -Infinity),
+				max: createValue(secondMax !== undefined ? secondMax : Infinity),
+			}),
+			value: createValue(secondInitialValue, {
+				constraint: secondConstraints.length > 0 ? new CompositeConstraint(secondConstraints) : undefined,
+			}),
+			viewProps: viewProps,
+		});
+
+		this.secondController.value.emitter.on('change', () => {
+			onValueChange();
+		});
 
 		secondContainer.appendChild(secondLabel);
-		if (this.secondBinding) {
-			secondContainer.appendChild(this.secondBinding.view.element);
-		}
+		secondContainer.appendChild(this.secondController.view.element);
 
 		// Create delete button
 		this.deleteButton = doc.createElement('button');
@@ -146,14 +173,8 @@ class PairRowView {
 		const firstProp = params.firstProperty || 'first';
 		const secondProp = params.secondProperty || 'second';
 		
-		this.firstTarget_.value = (pair as any)[firstProp] || 0;
-		this.secondTarget_.value = (pair as any)[secondProp] || 0;
-		if (this.firstBinding) {
-			this.firstBinding.value.rawValue = (pair as any)[firstProp] || 0;
-		}
-		if (this.secondBinding) {
-			this.secondBinding.value.rawValue = (pair as any)[secondProp] || 0;
-		}
+		this.firstController.value.rawValue = (pair as any)[firstProp] || 0;
+		this.secondController.value.rawValue = (pair as any)[secondProp] || 0;
 	}
 
 	getPair(params: ValuePairsInputParams): ValuePair {
@@ -161,8 +182,8 @@ class PairRowView {
 		const secondProp = params.secondProperty || 'second';
 		
 		const result: any = {};
-		result[firstProp] = this.firstTarget_.value;
-		result[secondProp] = this.secondTarget_.value;
+		result[firstProp] = this.firstController.value.rawValue;
+		result[secondProp] = this.secondController.value.rawValue;
 		return result;
 	}
 }
@@ -211,9 +232,9 @@ export class ValuePairsView implements View {
 		this.refresh_();
 
 		config.viewProps.handleDispose(() => {
-			// Cleanup native controllers
+			// Cleanup NumberTextControllers
 			this.pairRows_.forEach(row => {
-				// Native controllers handle their own disposal
+				// NumberTextControllers handle their own disposal automatically
 			});
 		});
 	}

@@ -1,10 +1,11 @@
 import { BaseInputParams } from '@tweakpane/core';
 export interface ValuePair {
-    first: number;
-    second: number;
+    [key: string]: number;
 }
 export interface ValuePairsInputParams extends BaseInputParams {
     view: 'valuepairs';
+    firstProperty?: string;
+    secondProperty?: string;
     firstLabel?: string;
     secondLabel?: string;
     defaultFirst?: number;
@@ -12,16 +13,7 @@ export interface ValuePairsInputParams extends BaseInputParams {
     min?: number;
     max?: number;
     step?: number;
-    first?: {
-        min?: number;
-        max?: number;
-        step?: number;
-    };
-    second?: {
-        min?: number;
-        max?: number;
-        step?: number;
-    };
+    [key: string]: any;
 }
 export interface PairChangeEvent {
     index: number;

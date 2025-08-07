@@ -1130,7 +1130,7 @@ function ClassName(viewName) {
     return fn;
 }
 
-const cn$q = ClassName('lbl');
+const cn$v = ClassName('lbl');
 function createLabelNode(doc, label) {
     const frag = doc.createDocumentFragment();
     const lineNodes = label.split('\n').map((line) => {
@@ -1147,16 +1147,16 @@ function createLabelNode(doc, label) {
 class LabelView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$q());
+        this.element.classList.add(cn$v());
         config.viewProps.bindClassModifiers(this.element);
         const labelElem = doc.createElement('div');
-        labelElem.classList.add(cn$q('l'));
+        labelElem.classList.add(cn$v('l'));
         bindValueMap(config.props, 'label', (value) => {
             if (isEmpty(value)) {
-                this.element.classList.add(cn$q(undefined, 'nol'));
+                this.element.classList.add(cn$v(undefined, 'nol'));
             }
             else {
-                this.element.classList.remove(cn$q(undefined, 'nol'));
+                this.element.classList.remove(cn$v(undefined, 'nol'));
                 removeChildNodes(labelElem);
                 labelElem.appendChild(createLabelNode(doc, value));
             }
@@ -1164,7 +1164,7 @@ class LabelView {
         this.element.appendChild(labelElem);
         this.labelElement = labelElem;
         const valueElem = doc.createElement('div');
-        valueElem.classList.add(cn$q('v'));
+        valueElem.classList.add(cn$v('v'));
         this.element.appendChild(valueElem);
         this.valueElement = valueElem;
     }
@@ -1200,7 +1200,7 @@ function getAllBladePositions() {
     return ['veryfirst', 'first', 'last', 'verylast'];
 }
 
-const cn$p = ClassName('');
+const cn$u = ClassName('');
 const POS_TO_CLASS_NAME_MAP = {
     veryfirst: 'vfst',
     first: 'fst',
@@ -1216,10 +1216,10 @@ class BladeController {
         const elem = this.view.element;
         this.blade.value('positions').emitter.on('change', () => {
             getAllBladePositions().forEach((pos) => {
-                elem.classList.remove(cn$p(undefined, POS_TO_CLASS_NAME_MAP[pos]));
+                elem.classList.remove(cn$u(undefined, POS_TO_CLASS_NAME_MAP[pos]));
             });
             this.blade.get('positions').forEach((pos) => {
-                elem.classList.add(cn$p(undefined, POS_TO_CLASS_NAME_MAP[pos]));
+                elem.classList.add(cn$u(undefined, POS_TO_CLASS_NAME_MAP[pos]));
             });
         });
         this.viewProps.handleDispose(() => {
@@ -1295,19 +1295,19 @@ function bindValueToTextContent(value, elem) {
     });
 }
 
-const cn$o = ClassName('btn');
+const cn$t = ClassName('btn');
 class ButtonView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$o());
+        this.element.classList.add(cn$t());
         config.viewProps.bindClassModifiers(this.element);
         const buttonElem = doc.createElement('button');
-        buttonElem.classList.add(cn$o('b'));
+        buttonElem.classList.add(cn$t('b'));
         config.viewProps.bindDisabled(buttonElem);
         this.element.appendChild(buttonElem);
         this.buttonElement = buttonElem;
         const titleElem = doc.createElement('div');
-        titleElem.classList.add(cn$o('t'));
+        titleElem.classList.add(cn$t('t'));
         bindValueToTextContent(config.props.value('title'), titleElem);
         this.buttonElement.appendChild(titleElem);
     }
@@ -2140,9 +2140,9 @@ createPlugin({
     },
 });
 
-const cn$n = ClassName('');
+const cn$s = ClassName('');
 function valueToModifier(elem, modifier) {
-    return valueToClassName(elem, cn$n(undefined, modifier));
+    return valueToClassName(elem, cn$s(undefined, modifier));
 }
 class ViewProps extends ValueMap {
     constructor(valueMap) {
@@ -2224,40 +2224,40 @@ class ViewProps extends ValueMap {
     }
 }
 
-const cn$m = ClassName('tbp');
+const cn$r = ClassName('tbp');
 class TabPageView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$m());
+        this.element.classList.add(cn$r());
         config.viewProps.bindClassModifiers(this.element);
         const containerElem = doc.createElement('div');
-        containerElem.classList.add(cn$m('c'));
+        containerElem.classList.add(cn$r('c'));
         this.element.appendChild(containerElem);
         this.containerElement = containerElem;
     }
 }
 
-const cn$l = ClassName('tbi');
+const cn$q = ClassName('tbi');
 class TabItemView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$l());
+        this.element.classList.add(cn$q());
         config.viewProps.bindClassModifiers(this.element);
         bindValueMap(config.props, 'selected', (selected) => {
             if (selected) {
-                this.element.classList.add(cn$l(undefined, 'sel'));
+                this.element.classList.add(cn$q(undefined, 'sel'));
             }
             else {
-                this.element.classList.remove(cn$l(undefined, 'sel'));
+                this.element.classList.remove(cn$q(undefined, 'sel'));
             }
         });
         const buttonElem = doc.createElement('button');
-        buttonElem.classList.add(cn$l('b'));
+        buttonElem.classList.add(cn$q('b'));
         config.viewProps.bindDisabled(buttonElem);
         this.element.appendChild(buttonElem);
         this.buttonElement = buttonElem;
         const titleElem = doc.createElement('div');
-        titleElem.classList.add(cn$l('t'));
+        titleElem.classList.add(cn$q('t'));
         bindValueToTextContent(config.props.value('title'), titleElem);
         this.buttonElement.appendChild(titleElem);
         this.titleElement = titleElem;
@@ -2478,22 +2478,22 @@ class Tab {
     }
 }
 
-const cn$k = ClassName('tab');
+const cn$p = ClassName('tab');
 class TabView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$k(), bladeContainerClassName());
+        this.element.classList.add(cn$p(), bladeContainerClassName());
         config.viewProps.bindClassModifiers(this.element);
-        bindValue(config.empty, valueToClassName(this.element, cn$k(undefined, 'nop')));
+        bindValue(config.empty, valueToClassName(this.element, cn$p(undefined, 'nop')));
         const titleElem = doc.createElement('div');
-        titleElem.classList.add(cn$k('t'));
+        titleElem.classList.add(cn$p('t'));
         this.element.appendChild(titleElem);
         this.itemsElement = titleElem;
         const indentElem = doc.createElement('div');
-        indentElem.classList.add(cn$k('i'));
+        indentElem.classList.add(cn$p('i'));
         this.element.appendChild(indentElem);
         const contentsElem = doc.createElement('div');
-        contentsElem.classList.add(cn$k('c'));
+        contentsElem.classList.add(cn$p('c'));
         this.element.appendChild(contentsElem);
         this.contentsElement = contentsElem;
     }
@@ -2681,21 +2681,21 @@ function createListConstraint(options) {
         : null;
 }
 
-const cn$j = ClassName('lst');
+const cn$o = ClassName('lst');
 class ListView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         this.props_ = config.props;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$j());
+        this.element.classList.add(cn$o());
         config.viewProps.bindClassModifiers(this.element);
         const selectElem = doc.createElement('select');
-        selectElem.classList.add(cn$j('s'));
+        selectElem.classList.add(cn$o('s'));
         config.viewProps.bindDisabled(selectElem);
         this.element.appendChild(selectElem);
         this.selectElement = selectElem;
         const markElem = doc.createElement('div');
-        markElem.classList.add(cn$j('m'));
+        markElem.classList.add(cn$o('m'));
         markElem.appendChild(createSvgIconElement(doc, 'dropdown'));
         this.element.appendChild(markElem);
         config.value.emitter.on('change', this.onValueChange_);
@@ -2752,13 +2752,13 @@ class ListController {
     }
 }
 
-const cn$i = ClassName('pop');
+const cn$n = ClassName('pop');
 class PopupView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$i());
+        this.element.classList.add(cn$n());
         config.viewProps.bindClassModifiers(this.element);
-        bindValue(config.shows, valueToClassName(this.element, cn$i(undefined, 'v')));
+        bindValue(config.shows, valueToClassName(this.element, cn$n(undefined, 'v')));
     }
 }
 
@@ -2773,17 +2773,17 @@ class PopupController {
     }
 }
 
-const cn$h = ClassName('txt');
+const cn$m = ClassName('txt');
 class TextView {
     constructor(doc, config) {
         this.onChange_ = this.onChange_.bind(this);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$h());
+        this.element.classList.add(cn$m());
         config.viewProps.bindClassModifiers(this.element);
         this.props_ = config.props;
         this.props_.emitter.on('change', this.onChange_);
         const inputElem = doc.createElement('input');
-        inputElem.classList.add(cn$h('i'));
+        inputElem.classList.add(cn$m('i'));
         inputElem.type = 'text';
         config.viewProps.bindDisabled(inputElem);
         this.element.appendChild(inputElem);
@@ -2926,7 +2926,7 @@ function isArrowKey(key) {
     return isVerticalArrowKey(key) || key === 'ArrowLeft' || key === 'ArrowRight';
 }
 
-function computeOffset$1(ev, elem) {
+function computeOffset$2(ev, elem) {
     var _a, _b;
     const win = elem.ownerDocument.defaultView;
     const rect = elem.getBoundingClientRect();
@@ -2979,7 +2979,7 @@ class PointerHandler {
         doc.addEventListener('mouseup', this.onDocumentMouseUp_);
         this.emitter.emit('down', {
             altKey: ev.altKey,
-            data: this.computePosition_(computeOffset$1(ev, this.elem_)),
+            data: this.computePosition_(computeOffset$2(ev, this.elem_)),
             sender: this,
             shiftKey: ev.shiftKey,
         });
@@ -2987,7 +2987,7 @@ class PointerHandler {
     onDocumentMouseMove_(ev) {
         this.emitter.emit('move', {
             altKey: ev.altKey,
-            data: this.computePosition_(computeOffset$1(ev, this.elem_)),
+            data: this.computePosition_(computeOffset$2(ev, this.elem_)),
             sender: this,
             shiftKey: ev.shiftKey,
         });
@@ -2998,7 +2998,7 @@ class PointerHandler {
         doc.removeEventListener('mouseup', this.onDocumentMouseUp_);
         this.emitter.emit('up', {
             altKey: ev.altKey,
-            data: this.computePosition_(computeOffset$1(ev, this.elem_)),
+            data: this.computePosition_(computeOffset$2(ev, this.elem_)),
             sender: this,
             shiftKey: ev.shiftKey,
         });
@@ -3054,20 +3054,20 @@ class PointerHandler {
     }
 }
 
-const cn$g = ClassName('txt');
+const cn$l = ClassName('txt');
 class NumberTextView {
     constructor(doc, config) {
         this.onChange_ = this.onChange_.bind(this);
         this.props_ = config.props;
         this.props_.emitter.on('change', this.onChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$g(), cn$g(undefined, 'num'));
+        this.element.classList.add(cn$l(), cn$l(undefined, 'num'));
         if (config.arrayPosition) {
-            this.element.classList.add(cn$g(undefined, config.arrayPosition));
+            this.element.classList.add(cn$l(undefined, config.arrayPosition));
         }
         config.viewProps.bindClassModifiers(this.element);
         const inputElem = doc.createElement('input');
-        inputElem.classList.add(cn$g('i'));
+        inputElem.classList.add(cn$l('i'));
         inputElem.type = 'text';
         config.viewProps.bindDisabled(inputElem);
         this.element.appendChild(inputElem);
@@ -3075,21 +3075,21 @@ class NumberTextView {
         this.onDraggingChange_ = this.onDraggingChange_.bind(this);
         this.dragging_ = config.dragging;
         this.dragging_.emitter.on('change', this.onDraggingChange_);
-        this.element.classList.add(cn$g());
-        this.inputElement.classList.add(cn$g('i'));
+        this.element.classList.add(cn$l());
+        this.inputElement.classList.add(cn$l('i'));
         const knobElem = doc.createElement('div');
-        knobElem.classList.add(cn$g('k'));
+        knobElem.classList.add(cn$l('k'));
         this.element.appendChild(knobElem);
         this.knobElement = knobElem;
         const guideElem = doc.createElementNS(SVG_NS, 'svg');
-        guideElem.classList.add(cn$g('g'));
+        guideElem.classList.add(cn$l('g'));
         this.knobElement.appendChild(guideElem);
         const bodyElem = doc.createElementNS(SVG_NS, 'path');
-        bodyElem.classList.add(cn$g('gb'));
+        bodyElem.classList.add(cn$l('gb'));
         guideElem.appendChild(bodyElem);
         this.guideBodyElem_ = bodyElem;
         const headElem = doc.createElementNS(SVG_NS, 'path');
-        headElem.classList.add(cn$g('gh'));
+        headElem.classList.add(cn$l('gh'));
         guideElem.appendChild(headElem);
         this.guideHeadElem_ = headElem;
         const tooltipElem = doc.createElement('div');
@@ -3102,10 +3102,10 @@ class NumberTextView {
     }
     onDraggingChange_(ev) {
         if (ev.rawValue === null) {
-            this.element.classList.remove(cn$g(undefined, 'drg'));
+            this.element.classList.remove(cn$l(undefined, 'drg'));
             return;
         }
-        this.element.classList.add(cn$g(undefined, 'drg'));
+        this.element.classList.add(cn$l(undefined, 'drg'));
         const x = ev.rawValue / this.props_.get('pointerScale');
         const aox = x + (x > 0 ? -1 : x < 0 ? +1 : 0);
         const adx = constrainRange(-aox, -4, +4);
@@ -3232,22 +3232,22 @@ class NumberTextController {
     }
 }
 
-const cn$f = ClassName('sld');
+const cn$k = ClassName('sld');
 class SliderView {
     constructor(doc, config) {
         this.onChange_ = this.onChange_.bind(this);
         this.props_ = config.props;
         this.props_.emitter.on('change', this.onChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$f());
+        this.element.classList.add(cn$k());
         config.viewProps.bindClassModifiers(this.element);
         const trackElem = doc.createElement('div');
-        trackElem.classList.add(cn$f('t'));
+        trackElem.classList.add(cn$k('t'));
         config.viewProps.bindTabIndex(trackElem);
         this.element.appendChild(trackElem);
         this.trackElement = trackElem;
         const knobElem = doc.createElement('div');
-        knobElem.classList.add(cn$f('k'));
+        knobElem.classList.add(cn$k('k'));
         this.trackElement.appendChild(knobElem);
         this.knobElement = knobElem;
         config.value.emitter.on('change', this.onChange_);
@@ -3324,18 +3324,18 @@ class SliderController {
     }
 }
 
-const cn$e = ClassName('sldtxt');
+const cn$j = ClassName('sldtxt');
 class SliderTextView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$e());
+        this.element.classList.add(cn$j());
         const sliderElem = doc.createElement('div');
-        sliderElem.classList.add(cn$e('s'));
+        sliderElem.classList.add(cn$j('s'));
         this.sliderView_ = config.sliderView;
         sliderElem.appendChild(this.sliderView_.element);
         this.element.appendChild(sliderElem);
         const textElem = doc.createElement('div');
-        textElem.classList.add(cn$e('t'));
+        textElem.classList.add(cn$j('t'));
         this.textView_ = config.textView;
         textElem.appendChild(this.textView_.element);
         this.element.appendChild(textElem);
@@ -3446,25 +3446,25 @@ function writePrimitive(target, value) {
     target.write(value);
 }
 
-const cn$d = ClassName('ckb');
+const cn$i = ClassName('ckb');
 class CheckboxView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$d());
+        this.element.classList.add(cn$i());
         config.viewProps.bindClassModifiers(this.element);
         const labelElem = doc.createElement('label');
-        labelElem.classList.add(cn$d('l'));
+        labelElem.classList.add(cn$i('l'));
         this.element.appendChild(labelElem);
         this.labelElement = labelElem;
         const inputElem = doc.createElement('input');
-        inputElem.classList.add(cn$d('i'));
+        inputElem.classList.add(cn$i('i'));
         inputElem.type = 'checkbox';
         this.labelElement.appendChild(inputElem);
         this.inputElement = inputElem;
         config.viewProps.bindDisabled(this.inputElement);
         const wrapperElem = doc.createElement('div');
-        wrapperElem.classList.add(cn$d('w'));
+        wrapperElem.classList.add(cn$i('w'));
         this.labelElement.appendChild(wrapperElem);
         const markElem = createSvgIconElement(doc, 'check');
         wrapperElem.appendChild(markElem);
@@ -3504,7 +3504,7 @@ class CheckboxController {
     }
 }
 
-function createConstraint$6(params) {
+function createConstraint$8(params) {
     const constraints = [];
     const lc = createListConstraint(params.options);
     if (lc) {
@@ -3532,7 +3532,7 @@ createPlugin({
     },
     binding: {
         reader: (_args) => boolFromUnknown,
-        constraint: (args) => createConstraint$6(args.params),
+        constraint: (args) => createConstraint$8(args.params),
         writer: (_args) => writePrimitive,
     },
     controller: (args) => {
@@ -3565,27 +3565,27 @@ createPlugin({
     },
 });
 
-const cn$c = ClassName('col');
+const cn$h = ClassName('col');
 class ColorView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$c());
-        config.foldable.bindExpandedClass(this.element, cn$c(undefined, 'expanded'));
-        bindValueMap(config.foldable, 'completed', valueToClassName(this.element, cn$c(undefined, 'cpl')));
+        this.element.classList.add(cn$h());
+        config.foldable.bindExpandedClass(this.element, cn$h(undefined, 'expanded'));
+        bindValueMap(config.foldable, 'completed', valueToClassName(this.element, cn$h(undefined, 'cpl')));
         const headElem = doc.createElement('div');
-        headElem.classList.add(cn$c('h'));
+        headElem.classList.add(cn$h('h'));
         this.element.appendChild(headElem);
         const swatchElem = doc.createElement('div');
-        swatchElem.classList.add(cn$c('s'));
+        swatchElem.classList.add(cn$h('s'));
         headElem.appendChild(swatchElem);
         this.swatchElement = swatchElem;
         const textElem = doc.createElement('div');
-        textElem.classList.add(cn$c('t'));
+        textElem.classList.add(cn$h('t'));
         headElem.appendChild(textElem);
         this.textElement = textElem;
         if (config.pickerLayout === 'inline') {
             const pickerElem = doc.createElement('div');
-            pickerElem.classList.add(cn$c('p'));
+            pickerElem.classList.add(cn$h('p'));
             this.element.appendChild(pickerElem);
             this.pickerElement = pickerElem;
         }
@@ -3791,28 +3791,28 @@ class IntColor {
     }
 }
 
-const cn$b = ClassName('colp');
+const cn$g = ClassName('colp');
 class ColorPickerView {
     constructor(doc, config) {
         this.alphaViews_ = null;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$b());
+        this.element.classList.add(cn$g());
         config.viewProps.bindClassModifiers(this.element);
         const hsvElem = doc.createElement('div');
-        hsvElem.classList.add(cn$b('hsv'));
+        hsvElem.classList.add(cn$g('hsv'));
         const svElem = doc.createElement('div');
-        svElem.classList.add(cn$b('sv'));
+        svElem.classList.add(cn$g('sv'));
         this.svPaletteView_ = config.svPaletteView;
         svElem.appendChild(this.svPaletteView_.element);
         hsvElem.appendChild(svElem);
         const hElem = doc.createElement('div');
-        hElem.classList.add(cn$b('h'));
+        hElem.classList.add(cn$g('h'));
         this.hPaletteView_ = config.hPaletteView;
         hElem.appendChild(this.hPaletteView_.element);
         hsvElem.appendChild(hElem);
         this.element.appendChild(hsvElem);
         const rgbElem = doc.createElement('div');
-        rgbElem.classList.add(cn$b('rgb'));
+        rgbElem.classList.add(cn$g('rgb'));
         this.textsView_ = config.textsView;
         rgbElem.appendChild(this.textsView_.element);
         this.element.appendChild(rgbElem);
@@ -3822,13 +3822,13 @@ class ColorPickerView {
                 text: config.alphaViews.text,
             };
             const aElem = doc.createElement('div');
-            aElem.classList.add(cn$b('a'));
+            aElem.classList.add(cn$g('a'));
             const apElem = doc.createElement('div');
-            apElem.classList.add(cn$b('ap'));
+            apElem.classList.add(cn$g('ap'));
             apElem.appendChild(this.alphaViews_.palette.element);
             aElem.appendChild(apElem);
             const atElem = doc.createElement('div');
-            atElem.classList.add(cn$b('at'));
+            atElem.classList.add(cn$g('at'));
             atElem.appendChild(this.alphaViews_.text.element);
             aElem.appendChild(atElem);
             this.element.appendChild(aElem);
@@ -4428,29 +4428,29 @@ function findColorStringifier(format) {
     }, null);
 }
 
-const cn$a = ClassName('apl');
+const cn$f = ClassName('apl');
 class APaletteView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         this.value = config.value;
         this.value.emitter.on('change', this.onValueChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$a());
+        this.element.classList.add(cn$f());
         config.viewProps.bindClassModifiers(this.element);
         config.viewProps.bindTabIndex(this.element);
         const barElem = doc.createElement('div');
-        barElem.classList.add(cn$a('b'));
+        barElem.classList.add(cn$f('b'));
         this.element.appendChild(barElem);
         const colorElem = doc.createElement('div');
-        colorElem.classList.add(cn$a('c'));
+        colorElem.classList.add(cn$f('c'));
         barElem.appendChild(colorElem);
         this.colorElem_ = colorElem;
         const markerElem = doc.createElement('div');
-        markerElem.classList.add(cn$a('m'));
+        markerElem.classList.add(cn$f('m'));
         this.element.appendChild(markerElem);
         this.markerElem_ = markerElem;
         const previewElem = doc.createElement('div');
-        previewElem.classList.add(cn$a('p'));
+        previewElem.classList.add(cn$f('p'));
         this.markerElem_.appendChild(previewElem);
         this.previewElem_ = previewElem;
         this.update_();
@@ -4546,7 +4546,7 @@ class APaletteController {
     }
 }
 
-const cn$9 = ClassName('coltxt');
+const cn$e = ClassName('coltxt');
 function createModeSelectElement(doc) {
     const selectElem = doc.createElement('select');
     const items = [
@@ -4567,21 +4567,21 @@ function createModeSelectElement(doc) {
 class ColorTextsView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$9());
+        this.element.classList.add(cn$e());
         config.viewProps.bindClassModifiers(this.element);
         const modeElem = doc.createElement('div');
-        modeElem.classList.add(cn$9('m'));
+        modeElem.classList.add(cn$e('m'));
         this.modeElem_ = createModeSelectElement(doc);
-        this.modeElem_.classList.add(cn$9('ms'));
+        this.modeElem_.classList.add(cn$e('ms'));
         modeElem.appendChild(this.modeSelectElement);
         config.viewProps.bindDisabled(this.modeElem_);
         const modeMarkerElem = doc.createElement('div');
-        modeMarkerElem.classList.add(cn$9('mm'));
+        modeMarkerElem.classList.add(cn$e('mm'));
         modeMarkerElem.appendChild(createSvgIconElement(doc, 'dropdown'));
         modeElem.appendChild(modeMarkerElem);
         this.element.appendChild(modeElem);
         const inputsElem = doc.createElement('div');
-        inputsElem.classList.add(cn$9('w'));
+        inputsElem.classList.add(cn$e('w'));
         this.element.appendChild(inputsElem);
         this.inputsElem_ = inputsElem;
         this.inputViews_ = config.inputViews;
@@ -4605,7 +4605,7 @@ class ColorTextsView {
         const doc = this.element.ownerDocument;
         this.inputViews_.forEach((v) => {
             const compElem = doc.createElement('div');
-            compElem.classList.add(cn$9('c'));
+            compElem.classList.add(cn$e('c'));
             compElem.appendChild(v.element);
             this.inputsElem_.appendChild(compElem);
         });
@@ -4615,7 +4615,7 @@ class ColorTextsView {
 function createFormatter$2(type) {
     return createNumberFormatter(type === 'float' ? 2 : 0);
 }
-function createConstraint$5(mode, type, index) {
+function createConstraint$7(mode, type, index) {
     const max = getColorMaxComponents(mode, type)[index];
     return new DefiniteRangeConstraint({
         min: 0,
@@ -4632,7 +4632,7 @@ function createComponentController(doc, config, index) {
             pointerScale: config.colorType === 'float' ? 0.01 : 1,
         }),
         value: createValue(0, {
-            constraint: createConstraint$5(config.colorMode, config.colorType, index),
+            constraint: createConstraint$7(config.colorMode, config.colorType, index),
         }),
         viewProps: config.viewProps,
     });
@@ -4723,21 +4723,21 @@ class ColorTextsController {
     }
 }
 
-const cn$8 = ClassName('hpl');
+const cn$d = ClassName('hpl');
 class HPaletteView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         this.value = config.value;
         this.value.emitter.on('change', this.onValueChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$8());
+        this.element.classList.add(cn$d());
         config.viewProps.bindClassModifiers(this.element);
         config.viewProps.bindTabIndex(this.element);
         const colorElem = doc.createElement('div');
-        colorElem.classList.add(cn$8('c'));
+        colorElem.classList.add(cn$d('c'));
         this.element.appendChild(colorElem);
         const markerElem = doc.createElement('div');
-        markerElem.classList.add(cn$8('m'));
+        markerElem.classList.add(cn$d('m'));
         this.element.appendChild(markerElem);
         this.markerElem_ = markerElem;
         this.update_();
@@ -4825,7 +4825,7 @@ class HPaletteController {
     }
 }
 
-const cn$7 = ClassName('svp');
+const cn$c = ClassName('svp');
 const CANVAS_RESOL = 64;
 class SvPaletteView {
     constructor(doc, config) {
@@ -4833,17 +4833,17 @@ class SvPaletteView {
         this.value = config.value;
         this.value.emitter.on('change', this.onValueChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$7());
+        this.element.classList.add(cn$c());
         config.viewProps.bindClassModifiers(this.element);
         config.viewProps.bindTabIndex(this.element);
         const canvasElem = doc.createElement('canvas');
         canvasElem.height = CANVAS_RESOL;
         canvasElem.width = CANVAS_RESOL;
-        canvasElem.classList.add(cn$7('c'));
+        canvasElem.classList.add(cn$c('c'));
         this.element.appendChild(canvasElem);
         this.canvasElement = canvasElem;
         const markerElem = doc.createElement('div');
-        markerElem.classList.add(cn$7('m'));
+        markerElem.classList.add(cn$c('m'));
         this.element.appendChild(markerElem);
         this.markerElem_ = markerElem;
         this.update_();
@@ -5027,21 +5027,21 @@ class ColorPickerController {
     }
 }
 
-const cn$6 = ClassName('colsw');
+const cn$b = ClassName('colsw');
 class ColorSwatchView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         config.value.emitter.on('change', this.onValueChange_);
         this.value = config.value;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$6());
+        this.element.classList.add(cn$b());
         config.viewProps.bindClassModifiers(this.element);
         const swatchElem = doc.createElement('div');
-        swatchElem.classList.add(cn$6('sw'));
+        swatchElem.classList.add(cn$b('sw'));
         this.element.appendChild(swatchElem);
         this.swatchElem_ = swatchElem;
         const buttonElem = doc.createElement('button');
-        buttonElem.classList.add(cn$6('b'));
+        buttonElem.classList.add(cn$b('b'));
         config.viewProps.bindDisabled(buttonElem);
         this.element.appendChild(buttonElem);
         this.buttonElement = buttonElem;
@@ -5489,22 +5489,22 @@ class PointNdConstraint {
     }
 }
 
-const cn$5 = ClassName('pndtxt');
-class PointNdTextView {
+const cn$a = ClassName('pndtxt');
+class PointNdTextView$1 {
     constructor(doc, config) {
         this.textViews = config.textViews;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$5());
+        this.element.classList.add(cn$a());
         this.textViews.forEach((v) => {
             const axisElem = doc.createElement('div');
-            axisElem.classList.add(cn$5('a'));
+            axisElem.classList.add(cn$a('a'));
             axisElem.appendChild(v.element);
             this.element.appendChild(axisElem);
         });
     }
 }
 
-function createAxisController(doc, config, index) {
+function createAxisController$1(doc, config, index) {
     return new NumberTextController(doc, {
         arrayPosition: index === 0 ? 'fst' : index === config.axes.length - 1 ? 'lst' : 'mid',
         parser: config.parser,
@@ -5515,11 +5515,11 @@ function createAxisController(doc, config, index) {
         viewProps: config.viewProps,
     });
 }
-class PointNdTextController {
+class PointNdTextController$1 {
     constructor(doc, config) {
         this.value = config.value;
         this.viewProps = config.viewProps;
-        this.acs_ = config.axes.map((_, index) => createAxisController(doc, config, index));
+        this.acs_ = config.axes.map((_, index) => createAxisController$1(doc, config, index));
         this.acs_.forEach((c, index) => {
             connectValues({
                 primary: this.value,
@@ -5532,7 +5532,7 @@ class PointNdTextController {
                 },
             });
         });
-        this.view = new PointNdTextView(doc, {
+        this.view = new PointNdTextView$1(doc, {
             textViews: this.acs_.map((ac) => ac.view),
         });
     }
@@ -5556,7 +5556,7 @@ class SliderInputBindingApi extends BindingApi {
     }
 }
 
-function createConstraint$4(params, initialValue) {
+function createConstraint$6(params, initialValue) {
     const constraints = [];
     const sc = createStepConstraint(params, initialValue);
     if (sc) {
@@ -5572,7 +5572,7 @@ function createConstraint$4(params, initialValue) {
     }
     return new CompositeConstraint(constraints);
 }
-const NumberInputPlugin = createPlugin({
+createPlugin({
     id: 'input-number',
     type: 'input',
     accept: (value, params) => {
@@ -5589,7 +5589,7 @@ const NumberInputPlugin = createPlugin({
     },
     binding: {
         reader: (_args) => numberFromUnknown,
-        constraint: (args) => createConstraint$4(args.params, args.initialValue),
+        constraint: (args) => createConstraint$6(args.params, args.initialValue),
         writer: (_args) => writePrimitive,
     },
     controller: (args) => {
@@ -5631,7 +5631,7 @@ const NumberInputPlugin = createPlugin({
     },
 });
 
-class Point2d {
+class Point2d$1 {
     constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
@@ -5660,34 +5660,34 @@ class Point2d {
         };
     }
 }
-const Point2dAssembly = {
+const Point2dAssembly$1 = {
     toComponents: (p) => p.getComponents(),
-    fromComponents: (comps) => new Point2d(...comps),
+    fromComponents: (comps) => new Point2d$1(...comps),
 };
 
-const cn$4 = ClassName('p2d');
-class Point2dView {
+const cn$9 = ClassName('p2d');
+class Point2dView$1 {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$4());
+        this.element.classList.add(cn$9());
         config.viewProps.bindClassModifiers(this.element);
-        bindValue(config.expanded, valueToClassName(this.element, cn$4(undefined, 'expanded')));
+        bindValue(config.expanded, valueToClassName(this.element, cn$9(undefined, 'expanded')));
         const headElem = doc.createElement('div');
-        headElem.classList.add(cn$4('h'));
+        headElem.classList.add(cn$9('h'));
         this.element.appendChild(headElem);
         const buttonElem = doc.createElement('button');
-        buttonElem.classList.add(cn$4('b'));
+        buttonElem.classList.add(cn$9('b'));
         buttonElem.appendChild(createSvgIconElement(doc, 'p2dpad'));
         config.viewProps.bindDisabled(buttonElem);
         headElem.appendChild(buttonElem);
         this.buttonElement = buttonElem;
         const textElem = doc.createElement('div');
-        textElem.classList.add(cn$4('t'));
+        textElem.classList.add(cn$9('t'));
         headElem.appendChild(textElem);
         this.textElement = textElem;
         if (config.pickerLayout === 'inline') {
             const pickerElem = doc.createElement('div');
-            pickerElem.classList.add(cn$4('p'));
+            pickerElem.classList.add(cn$9('p'));
             this.element.appendChild(pickerElem);
             this.pickerElement = pickerElem;
         }
@@ -5697,8 +5697,8 @@ class Point2dView {
     }
 }
 
-const cn$3 = ClassName('p2dp');
-class Point2dPickerView {
+const cn$8 = ClassName('p2dp');
+class Point2dPickerView$1 {
     constructor(doc, config) {
         this.onFoldableChange_ = this.onFoldableChange_.bind(this);
         this.onPropsChange_ = this.onPropsChange_.bind(this);
@@ -5706,42 +5706,42 @@ class Point2dPickerView {
         this.props_ = config.props;
         this.props_.emitter.on('change', this.onPropsChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$3());
+        this.element.classList.add(cn$8());
         if (config.layout === 'popup') {
-            this.element.classList.add(cn$3(undefined, 'p'));
+            this.element.classList.add(cn$8(undefined, 'p'));
         }
         config.viewProps.bindClassModifiers(this.element);
         const padElem = doc.createElement('div');
-        padElem.classList.add(cn$3('p'));
+        padElem.classList.add(cn$8('p'));
         config.viewProps.bindTabIndex(padElem);
         this.element.appendChild(padElem);
         this.padElement = padElem;
         const svgElem = doc.createElementNS(SVG_NS, 'svg');
-        svgElem.classList.add(cn$3('g'));
+        svgElem.classList.add(cn$8('g'));
         this.padElement.appendChild(svgElem);
         this.svgElem_ = svgElem;
         const xAxisElem = doc.createElementNS(SVG_NS, 'line');
-        xAxisElem.classList.add(cn$3('ax'));
+        xAxisElem.classList.add(cn$8('ax'));
         xAxisElem.setAttributeNS(null, 'x1', '0');
         xAxisElem.setAttributeNS(null, 'y1', '50%');
         xAxisElem.setAttributeNS(null, 'x2', '100%');
         xAxisElem.setAttributeNS(null, 'y2', '50%');
         this.svgElem_.appendChild(xAxisElem);
         const yAxisElem = doc.createElementNS(SVG_NS, 'line');
-        yAxisElem.classList.add(cn$3('ax'));
+        yAxisElem.classList.add(cn$8('ax'));
         yAxisElem.setAttributeNS(null, 'x1', '50%');
         yAxisElem.setAttributeNS(null, 'y1', '0');
         yAxisElem.setAttributeNS(null, 'x2', '50%');
         yAxisElem.setAttributeNS(null, 'y2', '100%');
         this.svgElem_.appendChild(yAxisElem);
         const lineElem = doc.createElementNS(SVG_NS, 'line');
-        lineElem.classList.add(cn$3('l'));
+        lineElem.classList.add(cn$8('l'));
         lineElem.setAttributeNS(null, 'x1', '50%');
         lineElem.setAttributeNS(null, 'y1', '50%');
         this.svgElem_.appendChild(lineElem);
         this.lineElem_ = lineElem;
         const markerElem = doc.createElement('div');
-        markerElem.classList.add(cn$3('m'));
+        markerElem.classList.add(cn$8('m'));
         this.padElement.appendChild(markerElem);
         this.markerElem_ = markerElem;
         config.value.emitter.on('change', this.onValueChange_);
@@ -5773,13 +5773,13 @@ class Point2dPickerView {
     }
 }
 
-function computeOffset(ev, keyScales, invertsY) {
+function computeOffset$1(ev, keyScales, invertsY) {
     return [
         getStepForKey(keyScales[0], getHorizontalStepKeys(ev)),
         getStepForKey(keyScales[1], getVerticalStepKeys(ev)) * (invertsY ? 1 : -1),
     ];
 }
-class Point2dPickerController {
+class Point2dPickerController$1 {
     constructor(doc, config) {
         this.onPadKeyDown_ = this.onPadKeyDown_.bind(this);
         this.onPadKeyUp_ = this.onPadKeyUp_.bind(this);
@@ -5789,7 +5789,7 @@ class Point2dPickerController {
         this.props = config.props;
         this.value = config.value;
         this.viewProps = config.viewProps;
-        this.view = new Point2dPickerView(doc, {
+        this.view = new Point2dPickerView$1(doc, {
             layout: config.layout,
             props: this.props,
             value: this.value,
@@ -5809,7 +5809,7 @@ class Point2dPickerController {
         const max = this.props.get('max');
         const px = mapRange(d.point.x, 0, d.bounds.width, -max, +max);
         const py = mapRange(this.props.get('invertsY') ? d.bounds.height - d.point.y : d.point.y, 0, d.bounds.height, -max, +max);
-        this.value.setRawValue(new Point2d(px, py), opts);
+        this.value.setRawValue(new Point2d$1(px, py), opts);
     }
     onPointerDown_(ev) {
         this.handlePointerEvent_(ev.data, {
@@ -5833,17 +5833,17 @@ class Point2dPickerController {
         if (isArrowKey(ev.key)) {
             ev.preventDefault();
         }
-        const [dx, dy] = computeOffset(ev, [this.props.get('xKeyScale'), this.props.get('yKeyScale')], this.props.get('invertsY'));
+        const [dx, dy] = computeOffset$1(ev, [this.props.get('xKeyScale'), this.props.get('yKeyScale')], this.props.get('invertsY'));
         if (dx === 0 && dy === 0) {
             return;
         }
-        this.value.setRawValue(new Point2d(this.value.rawValue.x + dx, this.value.rawValue.y + dy), {
+        this.value.setRawValue(new Point2d$1(this.value.rawValue.x + dx, this.value.rawValue.y + dy), {
             forceEmit: false,
             last: false,
         });
     }
     onPadKeyUp_(ev) {
-        const [dx, dy] = computeOffset(ev, [this.props.get('xKeyScale'), this.props.get('yKeyScale')], this.props.get('invertsY'));
+        const [dx, dy] = computeOffset$1(ev, [this.props.get('xKeyScale'), this.props.get('yKeyScale')], this.props.get('invertsY'));
         if (dx === 0 && dy === 0) {
             return;
         }
@@ -5854,7 +5854,7 @@ class Point2dPickerController {
     }
 }
 
-class Point2dController {
+class Point2dController$1 {
     constructor(doc, config) {
         var _a, _b;
         this.onPopupChildBlur_ = this.onPopupChildBlur_.bind(this);
@@ -5870,7 +5870,7 @@ class Point2dController {
                     viewProps: this.viewProps,
                 })
                 : null;
-        const padC = new Point2dPickerController(doc, {
+        const padC = new Point2dPickerController$1(doc, {
             layout: config.pickerLayout,
             props: new ValueMap({
                 invertsY: createValue(config.invertsY),
@@ -5886,14 +5886,14 @@ class Point2dController {
             elem.addEventListener('keydown', this.onPopupChildKeydown_);
         });
         this.pickerC_ = padC;
-        this.textC_ = new PointNdTextController(doc, {
-            assembly: Point2dAssembly,
+        this.textC_ = new PointNdTextController$1(doc, {
+            assembly: Point2dAssembly$1,
             axes: config.axes,
             parser: config.parser,
             value: this.value,
             viewProps: this.viewProps,
         });
-        this.view = new Point2dView(doc, {
+        this.view = new Point2dView$1(doc, {
             expanded: this.foldable_.value('expanded'),
             pickerLayout: config.pickerLayout,
             viewProps: this.viewProps,
@@ -5965,26 +5965,26 @@ class Point2dController {
     }
 }
 
-function point2dFromUnknown(value) {
-    return Point2d.isObject(value)
-        ? new Point2d(value.x, value.y)
-        : new Point2d();
+function point2dFromUnknown$1(value) {
+    return Point2d$1.isObject(value)
+        ? new Point2d$1(value.x, value.y)
+        : new Point2d$1();
 }
-function writePoint2d(target, value) {
+function writePoint2d$1(target, value) {
     target.writeProperty('x', value.x);
     target.writeProperty('y', value.y);
 }
 
-function createConstraint$3(params, initialValue) {
+function createConstraint$5(params, initialValue) {
     return new PointNdConstraint({
-        assembly: Point2dAssembly,
+        assembly: Point2dAssembly$1,
         components: [
             createDimensionConstraint(Object.assign(Object.assign({}, params), params.x), initialValue.x),
             createDimensionConstraint(Object.assign(Object.assign({}, params), params.y), initialValue.y),
         ],
     });
 }
-function getSuitableMaxDimensionValue(params, rawValue) {
+function getSuitableMaxDimensionValue$1(params, rawValue) {
     var _a, _b;
     if (!isEmpty(params.min) || !isEmpty(params.max)) {
         return Math.max(Math.abs((_a = params.min) !== null && _a !== void 0 ? _a : 0), Math.abs((_b = params.max) !== null && _b !== void 0 ? _b : 0));
@@ -5992,13 +5992,13 @@ function getSuitableMaxDimensionValue(params, rawValue) {
     const step = getSuitableKeyScale(params);
     return Math.max(Math.abs(step) * 10, Math.abs(rawValue) * 10);
 }
-function getSuitableMax(params, initialValue) {
+function getSuitableMax$1(params, initialValue) {
     var _a, _b;
-    const xr = getSuitableMaxDimensionValue(deepMerge(params, ((_a = params.x) !== null && _a !== void 0 ? _a : {})), initialValue.x);
-    const yr = getSuitableMaxDimensionValue(deepMerge(params, ((_b = params.y) !== null && _b !== void 0 ? _b : {})), initialValue.y);
+    const xr = getSuitableMaxDimensionValue$1(deepMerge(params, ((_a = params.x) !== null && _a !== void 0 ? _a : {})), initialValue.x);
+    const yr = getSuitableMaxDimensionValue$1(deepMerge(params, ((_b = params.y) !== null && _b !== void 0 ? _b : {})), initialValue.y);
     return Math.max(xr, yr);
 }
-function shouldInvertY(params) {
+function shouldInvertY$1(params) {
     if (!('y' in params)) {
         return false;
     }
@@ -6012,7 +6012,7 @@ createPlugin({
     id: 'input-point2d',
     type: 'input',
     accept: (value, params) => {
-        if (!Point2d.isObject(value)) {
+        if (!Point2d$1.isObject(value)) {
             return null;
         }
         const result = parseRecord(params, (p) => (Object.assign(Object.assign({}, createPointDimensionParser(p)), { expanded: p.optional.boolean, picker: p.optional.custom(parsePickerLayout), readonly: p.optional.constant(false), x: p.optional.custom(parsePointDimensionParams), y: p.optional.object(Object.assign(Object.assign({}, createPointDimensionParser(p)), { inverted: p.optional.boolean })) })));
@@ -6024,10 +6024,10 @@ createPlugin({
             : null;
     },
     binding: {
-        reader: () => point2dFromUnknown,
-        constraint: (args) => createConstraint$3(args.params, args.initialValue),
-        equals: Point2d.equals,
-        writer: () => writePoint2d,
+        reader: () => point2dFromUnknown$1,
+        constraint: (args) => createConstraint$5(args.params, args.initialValue),
+        equals: Point2d$1.equals,
+        writer: () => writePoint2d$1,
     },
     controller: (args) => {
         var _a, _b;
@@ -6035,7 +6035,7 @@ createPlugin({
         const value = args.value;
         const c = args.constraint;
         const dParams = [args.params.x, args.params.y];
-        return new Point2dController(doc, {
+        return new Point2dController$1(doc, {
             axes: value.rawValue.getComponents().map((comp, i) => {
                 var _a;
                 return createPointAxis({
@@ -6045,8 +6045,8 @@ createPlugin({
                 });
             }),
             expanded: (_a = args.params.expanded) !== null && _a !== void 0 ? _a : false,
-            invertsY: shouldInvertY(args.params),
-            max: getSuitableMax(args.params, value.rawValue),
+            invertsY: shouldInvertY$1(args.params),
+            max: getSuitableMax$1(args.params, value.rawValue),
             parser: parseNumber,
             pickerLayout: (_b = args.params.picker) !== null && _b !== void 0 ? _b : 'popup',
             value: value,
@@ -6105,7 +6105,7 @@ function writePoint3d(target, value) {
     target.writeProperty('z', value.z);
 }
 
-function createConstraint$2(params, initialValue) {
+function createConstraint$4(params, initialValue) {
     return new PointNdConstraint({
         assembly: Point3dAssembly,
         components: [
@@ -6132,7 +6132,7 @@ createPlugin({
     },
     binding: {
         reader: (_args) => point3dFromUnknown,
-        constraint: (args) => createConstraint$2(args.params, args.initialValue),
+        constraint: (args) => createConstraint$4(args.params, args.initialValue),
         equals: Point3d.equals,
         writer: (_args) => writePoint3d,
     },
@@ -6140,7 +6140,7 @@ createPlugin({
         const value = args.value;
         const c = args.constraint;
         const dParams = [args.params.x, args.params.y, args.params.z];
-        return new PointNdTextController(args.document, {
+        return new PointNdTextController$1(args.document, {
             assembly: Point3dAssembly,
             axes: value.rawValue.getComponents().map((comp, i) => {
                 var _a;
@@ -6212,7 +6212,7 @@ function writePoint4d(target, value) {
     target.writeProperty('w', value.w);
 }
 
-function createConstraint$1(params, initialValue) {
+function createConstraint$3(params, initialValue) {
     return new PointNdConstraint({
         assembly: Point4dAssembly,
         components: [
@@ -6240,7 +6240,7 @@ createPlugin({
     },
     binding: {
         reader: (_args) => point4dFromUnknown,
-        constraint: (args) => createConstraint$1(args.params, args.initialValue),
+        constraint: (args) => createConstraint$3(args.params, args.initialValue),
         equals: Point4d.equals,
         writer: (_args) => writePoint4d,
     },
@@ -6253,7 +6253,7 @@ createPlugin({
             args.params.z,
             args.params.w,
         ];
-        return new PointNdTextController(args.document, {
+        return new PointNdTextController$1(args.document, {
             assembly: Point4dAssembly,
             axes: value.rawValue.getComponents().map((comp, i) => {
                 var _a;
@@ -6270,7 +6270,7 @@ createPlugin({
     },
 });
 
-function createConstraint(params) {
+function createConstraint$2(params) {
     const constraints = [];
     const lc = createListConstraint(params.options);
     if (lc) {
@@ -6298,7 +6298,7 @@ createPlugin({
     },
     binding: {
         reader: (_args) => stringFromUnknown,
-        constraint: (args) => createConstraint(args.params),
+        constraint: (args) => createConstraint$2(args.params),
         writer: (_args) => writePrimitive,
     },
     controller: (args) => {
@@ -6342,16 +6342,16 @@ const Constants = {
     },
 };
 
-const cn$2 = ClassName('mll');
+const cn$7 = ClassName('mll');
 class MultiLogView {
     constructor(doc, config) {
         this.onValueUpdate_ = this.onValueUpdate_.bind(this);
         this.formatter_ = config.formatter;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$2());
+        this.element.classList.add(cn$7());
         config.viewProps.bindClassModifiers(this.element);
         const textareaElem = doc.createElement('textarea');
-        textareaElem.classList.add(cn$2('i'));
+        textareaElem.classList.add(cn$7('i'));
         textareaElem.style.height = `calc(var(${getCssVar('containerUnitSize')}) * ${config.rows})`;
         textareaElem.readOnly = true;
         config.viewProps.bindDisabled(textareaElem);
@@ -6393,16 +6393,16 @@ class MultiLogController {
     }
 }
 
-const cn$1 = ClassName('sgl');
+const cn$6 = ClassName('sgl');
 class SingleLogView {
     constructor(doc, config) {
         this.onValueUpdate_ = this.onValueUpdate_.bind(this);
         this.formatter_ = config.formatter;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$1());
+        this.element.classList.add(cn$6());
         config.viewProps.bindClassModifiers(this.element);
         const inputElem = doc.createElement('input');
-        inputElem.classList.add(cn$1('i'));
+        inputElem.classList.add(cn$6('i'));
         inputElem.readOnly = true;
         inputElem.type = 'text';
         config.viewProps.bindDisabled(inputElem);
@@ -6489,20 +6489,20 @@ class GraphLogMonitorBindingApi extends BindingApi {
     }
 }
 
-const cn = ClassName('grl');
+const cn$5 = ClassName('grl');
 class GraphLogView {
     constructor(doc, config) {
         this.onCursorChange_ = this.onCursorChange_.bind(this);
         this.onValueUpdate_ = this.onValueUpdate_.bind(this);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn());
+        this.element.classList.add(cn$5());
         config.viewProps.bindClassModifiers(this.element);
         this.formatter_ = config.formatter;
         this.props_ = config.props;
         this.cursor_ = config.cursor;
         this.cursor_.emitter.on('change', this.onCursorChange_);
         const svgElem = doc.createElementNS(SVG_NS, 'svg');
-        svgElem.classList.add(cn('g'));
+        svgElem.classList.add(cn$5('g'));
         svgElem.style.height = `calc(var(${getCssVar('containerUnitSize')}) * ${config.rows})`;
         this.element.appendChild(svgElem);
         this.svgElem_ = svgElem;
@@ -6510,7 +6510,7 @@ class GraphLogView {
         this.svgElem_.appendChild(lineElem);
         this.lineElem_ = lineElem;
         const tooltipElem = doc.createElement('div');
-        tooltipElem.classList.add(cn('t'), ClassName('tt')());
+        tooltipElem.classList.add(cn$5('t'), ClassName('tt')());
         this.element.appendChild(tooltipElem);
         this.tooltipElem_ = tooltipElem;
         config.value.emitter.on('change', this.onValueUpdate_);
@@ -6538,7 +6538,7 @@ class GraphLogView {
         const tooltipElem = this.tooltipElem_;
         const value = this.value.rawValue[this.cursor_.rawValue];
         if (value === undefined) {
-            tooltipElem.classList.remove(cn('t', 'a'));
+            tooltipElem.classList.remove(cn$5('t', 'a'));
             return;
         }
         const tx = mapRange(this.cursor_.rawValue, 0, maxIndex, 0, w);
@@ -6546,10 +6546,10 @@ class GraphLogView {
         tooltipElem.style.left = `${tx}px`;
         tooltipElem.style.top = `${ty}px`;
         tooltipElem.textContent = `${this.formatter_(value)}`;
-        if (!tooltipElem.classList.contains(cn('t', 'a'))) {
-            tooltipElem.classList.add(cn('t', 'a'), cn('t', 'in'));
+        if (!tooltipElem.classList.contains(cn$5('t', 'a'))) {
+            tooltipElem.classList.add(cn$5('t', 'a'), cn$5('t', 'in'));
             forceReflow(tooltipElem);
-            tooltipElem.classList.remove(cn('t', 'in'));
+            tooltipElem.classList.remove(cn$5('t', 'in'));
         }
     }
     onValueUpdate_() {
@@ -6915,80 +6915,106 @@ const TemplateInputPlugin = createPlugin({
 
 // Create a class name generator for the value pairs view
 const className = ClassName('valuepairs');
-// Individual pair row view using native Tweakpane InputBindingApi
+// Individual pair row view using NumberTextController
 class PairRowView {
     constructor(doc, pair, index, params, viewProps, onValueChange) {
-        var _a, _b, _c, _d, _e, _f;
         // Create row container
         this.element = doc.createElement('div');
         this.element.classList.add(className('row'));
         // Get dynamic property names (default to 'first' and 'second')
         const firstProp = params.firstProperty || 'first';
         const secondProp = params.secondProperty || 'second';
-        // Create target objects for bindings
-        this.firstTarget_ = { value: pair[firstProp] || 0 };
-        this.secondTarget_ = { value: pair[secondProp] || 0 };
-        // Create first input using NumberInputPlugin
+        // Create first input using NumberTextController
         const firstContainer = doc.createElement('div');
         firstContainer.classList.add(className('input-container'));
         const firstLabel = doc.createElement('label');
         firstLabel.classList.add(className('label'));
         firstLabel.textContent = params.firstLabel || firstProp;
-        // Prepare constraint parameters for first input (use dynamic property name)
+        // Prepare constraints for first input
         const firstParams = params[firstProp] || {};
         const globalMin = params.min;
         const globalMax = params.max;
         const globalStep = params.step;
-        const firstInputParams = Object.assign(Object.assign(Object.assign({}, (firstParams.min !== undefined || globalMin !== undefined ? { min: (_a = firstParams.min) !== null && _a !== void 0 ? _a : globalMin } : {})), (firstParams.max !== undefined || globalMax !== undefined ? { max: (_b = firstParams.max) !== null && _b !== void 0 ? _b : globalMax } : {})), (firstParams.step !== undefined || globalStep !== undefined ? { step: (_c = firstParams.step) !== null && _c !== void 0 ? _c : globalStep } : {}));
-        // Create first binding using NumberInputPlugin
-        const firstResult = NumberInputPlugin.accept(this.firstTarget_.value, firstInputParams);
-        if (firstResult) {
-            this.firstBinding = NumberInputPlugin.controller({
-                document: doc,
-                value: createValue(this.firstTarget_.value),
-                viewProps: viewProps,
-                params: firstResult.params,
-                initialValue: firstResult.initialValue,
-                constraint: undefined, // We'll apply constraints via params instead
-            });
-            this.firstBinding.value.emitter.on('change', () => {
-                this.firstTarget_.value = this.firstBinding.value.rawValue;
-                onValueChange();
-            });
+        const firstConstraints = [];
+        const firstMin = firstParams.min !== undefined ? firstParams.min : globalMin;
+        const firstMax = firstParams.max !== undefined ? firstParams.max : globalMax;
+        const firstStep = firstParams.step !== undefined ? firstParams.step : globalStep;
+        if (firstMin !== undefined || firstMax !== undefined) {
+            const rangeConstraint = createRangeConstraint({ min: firstMin, max: firstMax });
+            if (rangeConstraint)
+                firstConstraints.push(rangeConstraint);
         }
+        if (firstStep !== undefined) {
+            const stepConstraint = createStepConstraint({ step: firstStep });
+            if (stepConstraint)
+                firstConstraints.push(stepConstraint);
+        }
+        // Create first NumberTextController
+        const firstInitialValue = pair[firstProp] || 0;
+        const firstScaleParams = Object.assign(Object.assign(Object.assign({}, (firstMin !== undefined ? { min: firstMin } : {})), (firstMax !== undefined ? { max: firstMax } : {})), (firstStep !== undefined ? { step: firstStep } : {}));
+        this.firstController = new NumberTextController(doc, {
+            arrayPosition: 'fst',
+            parser: parseNumber,
+            props: ValueMap.fromObject(createNumberTextPropsObject(firstScaleParams, firstInitialValue)),
+            sliderProps: new ValueMap({
+                keyScale: createValue(getSuitableKeyScale(firstScaleParams)),
+                min: createValue(firstMin !== undefined ? firstMin : -Infinity),
+                max: createValue(firstMax !== undefined ? firstMax : Infinity),
+            }),
+            value: createValue(firstInitialValue, {
+                constraint: firstConstraints.length > 0 ? new CompositeConstraint(firstConstraints) : undefined,
+            }),
+            viewProps: viewProps,
+        });
+        this.firstController.value.emitter.on('change', () => {
+            onValueChange();
+        });
         firstContainer.appendChild(firstLabel);
-        if (this.firstBinding) {
-            firstContainer.appendChild(this.firstBinding.view.element);
-        }
-        // Create second input using NumberInputPlugin
+        firstContainer.appendChild(this.firstController.view.element);
+        // Create second input using NumberTextController
         const secondContainer = doc.createElement('div');
         secondContainer.classList.add(className('input-container'));
         const secondLabel = doc.createElement('label');
         secondLabel.classList.add(className('label'));
         secondLabel.textContent = params.secondLabel || secondProp;
-        // Prepare constraint parameters for second input (use dynamic property name)
+        // Prepare constraints for second input
         const secondParams = params[secondProp] || {};
-        const secondInputParams = Object.assign(Object.assign(Object.assign({}, (secondParams.min !== undefined || globalMin !== undefined ? { min: (_d = secondParams.min) !== null && _d !== void 0 ? _d : globalMin } : {})), (secondParams.max !== undefined || globalMax !== undefined ? { max: (_e = secondParams.max) !== null && _e !== void 0 ? _e : globalMax } : {})), (secondParams.step !== undefined || globalStep !== undefined ? { step: (_f = secondParams.step) !== null && _f !== void 0 ? _f : globalStep } : {}));
-        // Create second binding using NumberInputPlugin
-        const secondResult = NumberInputPlugin.accept(this.secondTarget_.value, secondInputParams);
-        if (secondResult) {
-            this.secondBinding = NumberInputPlugin.controller({
-                document: doc,
-                value: createValue(this.secondTarget_.value),
-                viewProps: viewProps,
-                params: secondResult.params,
-                initialValue: secondResult.initialValue,
-                constraint: undefined, // We'll apply constraints via params instead
-            });
-            this.secondBinding.value.emitter.on('change', () => {
-                this.secondTarget_.value = this.secondBinding.value.rawValue;
-                onValueChange();
-            });
+        const secondConstraints = [];
+        const secondMin = secondParams.min !== undefined ? secondParams.min : globalMin;
+        const secondMax = secondParams.max !== undefined ? secondParams.max : globalMax;
+        const secondStep = secondParams.step !== undefined ? secondParams.step : globalStep;
+        if (secondMin !== undefined || secondMax !== undefined) {
+            const rangeConstraint = createRangeConstraint({ min: secondMin, max: secondMax });
+            if (rangeConstraint)
+                secondConstraints.push(rangeConstraint);
         }
+        if (secondStep !== undefined) {
+            const stepConstraint = createStepConstraint({ step: secondStep });
+            if (stepConstraint)
+                secondConstraints.push(stepConstraint);
+        }
+        // Create second NumberTextController
+        const secondInitialValue = pair[secondProp] || 0;
+        const secondScaleParams = Object.assign(Object.assign(Object.assign({}, (secondMin !== undefined ? { min: secondMin } : {})), (secondMax !== undefined ? { max: secondMax } : {})), (secondStep !== undefined ? { step: secondStep } : {}));
+        this.secondController = new NumberTextController(doc, {
+            arrayPosition: 'lst',
+            parser: parseNumber,
+            props: ValueMap.fromObject(createNumberTextPropsObject(secondScaleParams, secondInitialValue)),
+            sliderProps: new ValueMap({
+                keyScale: createValue(getSuitableKeyScale(secondScaleParams)),
+                min: createValue(secondMin !== undefined ? secondMin : -Infinity),
+                max: createValue(secondMax !== undefined ? secondMax : Infinity),
+            }),
+            value: createValue(secondInitialValue, {
+                constraint: secondConstraints.length > 0 ? new CompositeConstraint(secondConstraints) : undefined,
+            }),
+            viewProps: viewProps,
+        });
+        this.secondController.value.emitter.on('change', () => {
+            onValueChange();
+        });
         secondContainer.appendChild(secondLabel);
-        if (this.secondBinding) {
-            secondContainer.appendChild(this.secondBinding.view.element);
-        }
+        secondContainer.appendChild(this.secondController.view.element);
         // Create delete button
         this.deleteButton = doc.createElement('button');
         this.deleteButton.classList.add(className('delete-btn'));
@@ -7002,21 +7028,15 @@ class PairRowView {
     updatePair(pair, params) {
         const firstProp = params.firstProperty || 'first';
         const secondProp = params.secondProperty || 'second';
-        this.firstTarget_.value = pair[firstProp] || 0;
-        this.secondTarget_.value = pair[secondProp] || 0;
-        if (this.firstBinding) {
-            this.firstBinding.value.rawValue = pair[firstProp] || 0;
-        }
-        if (this.secondBinding) {
-            this.secondBinding.value.rawValue = pair[secondProp] || 0;
-        }
+        this.firstController.value.rawValue = pair[firstProp] || 0;
+        this.secondController.value.rawValue = pair[secondProp] || 0;
     }
     getPair(params) {
         const firstProp = params.firstProperty || 'first';
         const secondProp = params.secondProperty || 'second';
         const result = {};
-        result[firstProp] = this.firstTarget_.value;
-        result[secondProp] = this.secondTarget_.value;
+        result[firstProp] = this.firstController.value.rawValue;
+        result[secondProp] = this.secondController.value.rawValue;
         return result;
     }
 }
@@ -7048,9 +7068,9 @@ class ValuePairsView {
         // Initial render
         this.refresh_();
         config.viewProps.handleDispose(() => {
-            // Cleanup native controllers
+            // Cleanup NumberTextControllers
             this.pairRows_.forEach(row => {
-                // Native controllers handle their own disposal
+                // NumberTextControllers handle their own disposal automatically
             });
         });
     }
@@ -7296,15 +7316,920 @@ const ValuePairsInputPlugin = createPlugin({
     },
 });
 
+class ValuePair {
+    constructor(first = 0, second = 0) {
+        this.first = first;
+        this.second = second;
+    }
+    getComponents() {
+        return [this.first, this.second];
+    }
+    static isObject(obj, firstProp = 'first', secondProp = 'second') {
+        if (typeof obj !== 'object' || obj === null) {
+            return false;
+        }
+        const o = obj;
+        if (typeof o[firstProp] !== 'number' || typeof o[secondProp] !== 'number') {
+            return false;
+        }
+        return true;
+    }
+    static equals(v1, v2) {
+        return v1.first === v2.first && v1.second === v2.second;
+    }
+    static fromObject(obj, firstProp = 'first', secondProp = 'second') {
+        return new ValuePair(obj[firstProp] || 0, obj[secondProp] || 0);
+    }
+    toObject(firstProp = 'first', secondProp = 'second') {
+        const result = {};
+        result[firstProp] = this.first;
+        result[secondProp] = this.second;
+        return result;
+    }
+}
+const ValuePairAssembly = {
+    toComponents: (p) => p.getComponents(),
+    fromComponents: (comps) => new ValuePair(comps[0], comps[1]),
+};
+
+const cn$4 = ClassName('vp');
+class ValuePairView {
+    constructor(doc, config) {
+        this.element = doc.createElement('div');
+        this.element.classList.add(cn$4());
+        config.viewProps.bindClassModifiers(this.element);
+        const textElem = doc.createElement('div');
+        textElem.classList.add(cn$4('t'));
+        this.element.appendChild(textElem);
+        this.textElement = textElem;
+    }
+}
+
+const cn$3 = ClassName('pndtxt');
+/**
+ * @hidden
+ */
+class PointNdTextView {
+    constructor(doc, config) {
+        this.textViews = config.textViews;
+        this.element = doc.createElement('div');
+        this.element.classList.add(cn$3());
+        this.textViews.forEach((v) => {
+            const axisElem = doc.createElement('div');
+            axisElem.classList.add(cn$3('a'));
+            axisElem.appendChild(v.element);
+            this.element.appendChild(axisElem);
+        });
+    }
+}
+
+function createAxisController(doc, config, index) {
+    return new NumberTextController(doc, {
+        arrayPosition: index === 0 ? 'fst' : index === config.axes.length - 1 ? 'lst' : 'mid',
+        parser: config.parser,
+        props: config.axes[index].textProps,
+        value: createValue(0, {
+            constraint: config.axes[index].constraint,
+        }),
+        viewProps: config.viewProps,
+    });
+}
+class PointNdTextController {
+    constructor(doc, config) {
+        this.value = config.value;
+        this.viewProps = config.viewProps;
+        console.log(config.axes);
+        this.acs_ = config.axes.map((_, index) => createAxisController(doc, config, index));
+        this.acs_.forEach((c, index) => {
+            connectValues({
+                primary: this.value,
+                secondary: c.value,
+                forward: (p) => config.assembly.toComponents(p)[index],
+                backward: (p, s) => {
+                    const comps = config.assembly.toComponents(p);
+                    comps[index] = s;
+                    return config.assembly.fromComponents(comps);
+                },
+            });
+        });
+        this.view = new PointNdTextView(doc, {
+            textViews: this.acs_.map((ac) => ac.view),
+        });
+    }
+    get textControllers() {
+        return this.acs_;
+    }
+}
+
+class ValuePairController {
+    constructor(doc, config) {
+        this.value = config.value;
+        this.viewProps = config.viewProps;
+        this.textC_ = new PointNdTextController(doc, {
+            assembly: ValuePairAssembly,
+            axes: config.axes,
+            parser: parseNumber,
+            value: this.value,
+            viewProps: this.viewProps,
+        });
+        this.view = new ValuePairView(doc, {
+            viewProps: this.viewProps,
+        });
+        this.view.textElement.appendChild(this.textC_.view.element);
+    }
+    get textController() {
+        return this.textC_;
+    }
+}
+
+function valuePairFromUnknown(value, firstProp = 'first', secondProp = 'second') {
+    if (ValuePair.isObject(value, firstProp, secondProp)) {
+        return ValuePair.fromObject(value, firstProp, secondProp);
+    }
+    return new ValuePair();
+}
+function writeValuePair(target, inValue, firstProp = 'first', secondProp = 'second') {
+    target.write(inValue.toObject(firstProp, secondProp));
+}
+
+function createConstraint$1(params, initialValue) {
+    return new PointNdConstraint({
+        assembly: ValuePairAssembly,
+        components: [
+            createDimensionConstraint(Object.assign(Object.assign({}, params), params.first), initialValue.first),
+            createDimensionConstraint(Object.assign(Object.assign({}, params), params.second), initialValue.second),
+        ],
+    });
+}
+const ValuePairInputPlugin = createPlugin({
+    id: 'input-valuepair',
+    type: 'input',
+    accept: (value, params) => {
+        const parsedParams = parseRecord(params, (p) => ({
+            view: p.optional.constant('valuepair'),
+            firstProp: p.optional.string,
+            secondProp: p.optional.string,
+            min: p.optional.number,
+            max: p.optional.number,
+            step: p.optional.number,
+            first: p.optional.object({
+                min: p.optional.number,
+                max: p.optional.number,
+                step: p.optional.number,
+            }),
+            second: p.optional.object({
+                min: p.optional.number,
+                max: p.optional.number,
+                step: p.optional.number,
+            }),
+        }));
+        if (!parsedParams) {
+            return null;
+        }
+        const firstProp = parsedParams.firstProp || 'first';
+        const secondProp = parsedParams.secondProp || 'second';
+        if (!ValuePair.isObject(value, firstProp, secondProp)) {
+            return null;
+        }
+        return {
+            initialValue: value,
+            params: parsedParams,
+        };
+    },
+    binding: {
+        reader: (args) => (value) => valuePairFromUnknown(value, args.params.firstProp, args.params.secondProp),
+        constraint: (args) => createConstraint$1(args.params, args.initialValue),
+        equals: ValuePair.equals,
+        writer: (args) => (target, inValue) => writeValuePair(target, inValue, args.params.firstProp, args.params.secondProp),
+    },
+    controller: (args) => {
+        const doc = args.document;
+        const value = args.value;
+        const c = args.constraint;
+        const dParams = [args.params.first, args.params.second];
+        return new ValuePairController(doc, {
+            axes: value.rawValue.getComponents().map((comp, i) => {
+                var _a;
+                return createPointAxis({
+                    constraint: c.components[i],
+                    initialValue: comp,
+                    params: deepMerge(args.params, ((_a = dParams[i]) !== null && _a !== void 0 ? _a : {})),
+                });
+            }),
+            value: value,
+            viewProps: args.viewProps,
+        });
+    },
+});
+
+const cn$2 = ClassName('vpl');
+class ValuePairListView {
+    constructor(doc, config) {
+        this.element = doc.createElement('div');
+        this.element.classList.add(cn$2());
+        config.viewProps.bindClassModifiers(this.element);
+        // Create header with labels
+        this.headerElement_ = doc.createElement('div');
+        this.headerElement_.classList.add(cn$2('h'));
+        const firstLabel = doc.createElement('div');
+        firstLabel.classList.add(cn$2('l'));
+        firstLabel.textContent = config.firstLabel;
+        this.headerElement_.appendChild(firstLabel);
+        const secondLabel = doc.createElement('div');
+        secondLabel.classList.add(cn$2('l'));
+        secondLabel.textContent = config.secondLabel;
+        this.headerElement_.appendChild(secondLabel);
+        const actionLabel = doc.createElement('div');
+        actionLabel.classList.add(cn$2('l'));
+        actionLabel.textContent = 'Actions';
+        this.headerElement_.appendChild(actionLabel);
+        this.element.appendChild(this.headerElement_);
+        // Create list container
+        this.listElement_ = doc.createElement('div');
+        this.listElement_.classList.add(cn$2('list'));
+        this.element.appendChild(this.listElement_);
+        // Create add button
+        this.addButton = doc.createElement('button');
+        this.addButton.classList.add(cn$2('add'));
+        this.addButton.textContent = '+ Add Pair';
+        this.element.appendChild(this.addButton);
+    }
+    addPairRow(pairView, onRemove, firstLabel, secondLabel) {
+        const rowElement = document.createElement('div');
+        rowElement.classList.add(cn$2('row'));
+        // Create a wrapper that includes labels and the original pair view
+        const pairWrapper = document.createElement('div');
+        pairWrapper.classList.add(cn$2('pair-wrapper'));
+        // Create labels container
+        const labelsContainer = document.createElement('div');
+        labelsContainer.classList.add(cn$2('labels'));
+        const firstLabelElem = document.createElement('div');
+        firstLabelElem.classList.add(cn$2('label'));
+        firstLabelElem.textContent = firstLabel || 'First';
+        labelsContainer.appendChild(firstLabelElem);
+        const secondLabelElem = document.createElement('div');
+        secondLabelElem.classList.add(cn$2('label'));
+        secondLabelElem.textContent = secondLabel || 'Second';
+        labelsContainer.appendChild(secondLabelElem);
+        // Add labels and the original pair view
+        pairWrapper.appendChild(labelsContainer);
+        pairWrapper.appendChild(pairView.element);
+        rowElement.appendChild(pairWrapper);
+        // Add remove button
+        const removeButton = document.createElement('button');
+        removeButton.classList.add(cn$2('remove'));
+        removeButton.textContent = '×';
+        removeButton.addEventListener('click', () => {
+            // Remove the row from the list
+            if (rowElement.parentNode) {
+                rowElement.parentNode.removeChild(rowElement);
+            }
+            onRemove();
+        });
+        rowElement.appendChild(removeButton);
+        this.listElement_.appendChild(rowElement);
+    }
+    clearRows() {
+        while (this.listElement_.firstChild) {
+            this.listElement_.removeChild(this.listElement_.firstChild);
+        }
+    }
+}
+
+class ValuePairListController {
+    constructor(doc, config) {
+        this.pairControllers_ = [];
+        this.value = config.value;
+        this.viewProps = config.viewProps;
+        this.params_ = config.params;
+        this.view = new ValuePairListView(doc, {
+            viewProps: this.viewProps,
+            firstLabel: config.params.firstLabel || 'First',
+            secondLabel: config.params.secondLabel || 'Second',
+        });
+        // Create controllers for existing pairs
+        this.recreateControllers_(doc);
+        // Listen for value changes to recreate controllers only when array length changes
+        this.value.emitter.on('change', () => {
+            const currentLength = this.value.rawValue.length;
+            const controllerLength = this.pairControllers_.length;
+            // Only recreate if the array length changed (add/remove), not for value updates within pairs
+            if (currentLength !== controllerLength) {
+                this.recreateControllers_(doc);
+            }
+        });
+        // Handle add button
+        this.view.addButton.addEventListener('click', () => {
+            this.addPair_();
+        });
+    }
+    recreateControllers_(doc) {
+        // Clear existing controllers and views
+        this.pairControllers_.forEach(controller => {
+            // Remove from view properly
+            if (controller.view.element.parentNode) {
+                controller.view.element.parentNode.removeChild(controller.view.element);
+            }
+        });
+        this.pairControllers_.length = 0;
+        // Clear all rows from the view
+        this.view.clearRows();
+        // Create new controllers for current pairs
+        const pairs = this.value.rawValue;
+        pairs.forEach((pair, index) => {
+            this.createPairController_(doc, pair, index);
+        });
+    }
+    createPairController_(doc, pair, index) {
+        // Create constraint for this pair
+        const constraint = new PointNdConstraint({
+            assembly: ValuePairAssembly,
+            components: [
+                createDimensionConstraint(Object.assign(Object.assign({}, this.params_), this.params_.first), pair.first),
+                createDimensionConstraint(Object.assign(Object.assign({}, this.params_), this.params_.second), pair.second),
+            ],
+        });
+        // Create axes
+        const dParams = [this.params_.first, this.params_.second];
+        const axes = pair.getComponents().map((comp, i) => {
+            var _a;
+            return createPointAxis({
+                constraint: constraint.components[i],
+                initialValue: comp,
+                params: deepMerge(this.params_, ((_a = dParams[i]) !== null && _a !== void 0 ? _a : {})),
+            });
+        });
+        // Create value for this pair
+        const pairValue = createValue(pair);
+        // Create controller
+        const controller = new ValuePairController(doc, {
+            axes: axes,
+            value: pairValue,
+            viewProps: this.viewProps,
+        });
+        // Listen for changes to update the main array
+        pairValue.emitter.on('change', () => {
+            this.updatePairAtIndex_(index, pairValue.rawValue);
+        });
+        this.pairControllers_.push(controller);
+        // Add to view with remove button
+        this.view.addPairRow(controller.view, () => {
+            this.removePair_(index);
+        }, this.params_.firstLabel || 'First', this.params_.secondLabel || 'Second');
+    }
+    addPair_() {
+        const newPair = new ValuePair(0, 0);
+        const currentPairs = [...this.value.rawValue];
+        currentPairs.push(newPair);
+        this.value.rawValue = currentPairs;
+    }
+    removePair_(index) {
+        const currentPairs = [...this.value.rawValue];
+        currentPairs.splice(index, 1);
+        this.value.rawValue = currentPairs;
+    }
+    updatePairAtIndex_(index, newPair) {
+        const currentPairs = [...this.value.rawValue];
+        // Only update if the value actually changed to prevent unnecessary events
+        if (!ValuePair.equals(currentPairs[index], newPair)) {
+            currentPairs[index] = newPair;
+            this.value.rawValue = currentPairs;
+        }
+    }
+}
+
+function valuePairListFromUnknown(value, firstProp = 'first', secondProp = 'second') {
+    if (!Array.isArray(value)) {
+        return [];
+    }
+    return value.map(item => {
+        if (ValuePair.isObject(item, firstProp, secondProp)) {
+            return ValuePair.fromObject(item, firstProp, secondProp);
+        }
+        return new ValuePair();
+    });
+}
+function writeValuePairList(target, inValue, firstProp = 'first', secondProp = 'second') {
+    target.write(inValue.map(pair => pair.toObject(firstProp, secondProp)));
+}
+
+const ValuePairListInputPlugin = createPlugin({
+    id: 'input-valuepairlist',
+    type: 'input',
+    accept: (value, params) => {
+        if (!Array.isArray(value)) {
+            return null;
+        }
+        const result = parseRecord(params, (p) => ({
+            view: p.optional.constant('valuepairlist'),
+            firstProp: p.optional.string,
+            secondProp: p.optional.string,
+            min: p.optional.number,
+            max: p.optional.number,
+            step: p.optional.number,
+            first: p.optional.object({
+                min: p.optional.number,
+                max: p.optional.number,
+                step: p.optional.number,
+            }),
+            second: p.optional.object({
+                min: p.optional.number,
+                max: p.optional.number,
+                step: p.optional.number,
+            }),
+            firstLabel: p.optional.string,
+            secondLabel: p.optional.string,
+        }));
+        if (!result) {
+            return null;
+        }
+        const firstProp = result.firstProp || 'first';
+        const secondProp = result.secondProp || 'second';
+        // Check if all items in array are ValuePair objects with the specified properties
+        const allValid = value.every(item => ValuePair.isObject(item, firstProp, secondProp));
+        if (!allValid) {
+            return null;
+        }
+        return {
+            initialValue: value,
+            params: result,
+        };
+    },
+    binding: {
+        reader: (args) => (value) => valuePairListFromUnknown(value, args.params.firstProp, args.params.secondProp),
+        constraint: () => undefined,
+        equals: (v1, v2) => {
+            if (v1.length !== v2.length)
+                return false;
+            return v1.every((pair, i) => ValuePair.equals(pair, v2[i]));
+        },
+        writer: (args) => (target, inValue) => writeValuePairList(target, inValue, args.params.firstProp, args.params.secondProp),
+    },
+    controller: (args) => {
+        const doc = args.document;
+        const value = args.value;
+        return new ValuePairListController(doc, {
+            params: args.params,
+            value: value,
+            viewProps: args.viewProps,
+        });
+    },
+});
+
+class Point2d {
+    constructor(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
+    }
+    getComponents() {
+        return [this.x, this.y];
+    }
+    static isObject(obj) {
+        if (isEmpty(obj)) {
+            return false;
+        }
+        const x = obj.x;
+        const y = obj.y;
+        if (typeof x !== 'number' || typeof y !== 'number') {
+            return false;
+        }
+        return true;
+    }
+    static equals(v1, v2) {
+        return v1.x === v2.x && v1.y === v2.y;
+    }
+    toObject() {
+        return {
+            x: this.x,
+            y: this.y,
+        };
+    }
+}
+const Point2dAssembly = {
+    toComponents: (p) => p.getComponents(),
+    fromComponents: (comps) => new Point2d(...comps),
+};
+
+const cn$1 = ClassName('p2d');
+/**
+ * @hidden
+ */
+class Point2dView {
+    constructor(doc, config) {
+        this.element = doc.createElement('div');
+        this.element.classList.add(cn$1());
+        config.viewProps.bindClassModifiers(this.element);
+        bindValue(config.expanded, valueToClassName(this.element, cn$1(undefined, 'expanded')));
+        const headElem = doc.createElement('div');
+        headElem.classList.add(cn$1('h'));
+        this.element.appendChild(headElem);
+        const buttonElem = doc.createElement('button');
+        buttonElem.classList.add(cn$1('b'));
+        buttonElem.appendChild(createSvgIconElement(doc, 'p2dpad'));
+        config.viewProps.bindDisabled(buttonElem);
+        headElem.appendChild(buttonElem);
+        this.buttonElement = buttonElem;
+        const textElem = doc.createElement('div');
+        textElem.classList.add(cn$1('t'));
+        headElem.appendChild(textElem);
+        this.textElement = textElem;
+        if (config.pickerLayout === 'inline') {
+            const pickerElem = doc.createElement('div');
+            pickerElem.classList.add(cn$1('p'));
+            this.element.appendChild(pickerElem);
+            this.pickerElement = pickerElem;
+        }
+        else {
+            this.pickerElement = null;
+        }
+    }
+}
+
+const cn = ClassName('p2dp');
+/**
+ * @hidden
+ */
+class Point2dPickerView {
+    constructor(doc, config) {
+        this.onFoldableChange_ = this.onFoldableChange_.bind(this);
+        this.onPropsChange_ = this.onPropsChange_.bind(this);
+        this.onValueChange_ = this.onValueChange_.bind(this);
+        this.props_ = config.props;
+        this.props_.emitter.on('change', this.onPropsChange_);
+        this.element = doc.createElement('div');
+        this.element.classList.add(cn());
+        if (config.layout === 'popup') {
+            this.element.classList.add(cn(undefined, 'p'));
+        }
+        config.viewProps.bindClassModifiers(this.element);
+        const padElem = doc.createElement('div');
+        padElem.classList.add(cn('p'));
+        config.viewProps.bindTabIndex(padElem);
+        this.element.appendChild(padElem);
+        this.padElement = padElem;
+        const svgElem = doc.createElementNS(SVG_NS, 'svg');
+        svgElem.classList.add(cn('g'));
+        this.padElement.appendChild(svgElem);
+        this.svgElem_ = svgElem;
+        const xAxisElem = doc.createElementNS(SVG_NS, 'line');
+        xAxisElem.classList.add(cn('ax'));
+        xAxisElem.setAttributeNS(null, 'x1', '0');
+        xAxisElem.setAttributeNS(null, 'y1', '50%');
+        xAxisElem.setAttributeNS(null, 'x2', '100%');
+        xAxisElem.setAttributeNS(null, 'y2', '50%');
+        this.svgElem_.appendChild(xAxisElem);
+        const yAxisElem = doc.createElementNS(SVG_NS, 'line');
+        yAxisElem.classList.add(cn('ax'));
+        yAxisElem.setAttributeNS(null, 'x1', '50%');
+        yAxisElem.setAttributeNS(null, 'y1', '0');
+        yAxisElem.setAttributeNS(null, 'x2', '50%');
+        yAxisElem.setAttributeNS(null, 'y2', '100%');
+        this.svgElem_.appendChild(yAxisElem);
+        const lineElem = doc.createElementNS(SVG_NS, 'line');
+        lineElem.classList.add(cn('l'));
+        lineElem.setAttributeNS(null, 'x1', '50%');
+        lineElem.setAttributeNS(null, 'y1', '50%');
+        this.svgElem_.appendChild(lineElem);
+        this.lineElem_ = lineElem;
+        const markerElem = doc.createElement('div');
+        markerElem.classList.add(cn('m'));
+        this.padElement.appendChild(markerElem);
+        this.markerElem_ = markerElem;
+        config.value.emitter.on('change', this.onValueChange_);
+        this.value = config.value;
+        this.update_();
+    }
+    get allFocusableElements() {
+        return [this.padElement];
+    }
+    update_() {
+        const [x, y] = this.value.rawValue.getComponents();
+        const max = this.props_.get('max');
+        const px = mapRange(x, -max, +max, 0, 100);
+        const py = mapRange(y, -max, +max, 0, 100);
+        const ipy = this.props_.get('invertsY') ? 100 - py : py;
+        this.lineElem_.setAttributeNS(null, 'x2', `${px}%`);
+        this.lineElem_.setAttributeNS(null, 'y2', `${ipy}%`);
+        this.markerElem_.style.left = `${px}%`;
+        this.markerElem_.style.top = `${ipy}%`;
+    }
+    onValueChange_() {
+        this.update_();
+    }
+    onPropsChange_() {
+        this.update_();
+    }
+    onFoldableChange_() {
+        this.update_();
+    }
+}
+
+function computeOffset(ev, keyScales, invertsY) {
+    return [
+        getStepForKey(keyScales[0], getHorizontalStepKeys(ev)),
+        getStepForKey(keyScales[1], getVerticalStepKeys(ev)) * (invertsY ? 1 : -1),
+    ];
+}
+/**
+ * @hidden
+ */
+class Point2dPickerController {
+    constructor(doc, config) {
+        this.onPadKeyDown_ = this.onPadKeyDown_.bind(this);
+        this.onPadKeyUp_ = this.onPadKeyUp_.bind(this);
+        this.onPointerDown_ = this.onPointerDown_.bind(this);
+        this.onPointerMove_ = this.onPointerMove_.bind(this);
+        this.onPointerUp_ = this.onPointerUp_.bind(this);
+        this.props = config.props;
+        this.value = config.value;
+        this.viewProps = config.viewProps;
+        this.view = new Point2dPickerView(doc, {
+            layout: config.layout,
+            props: this.props,
+            value: this.value,
+            viewProps: this.viewProps,
+        });
+        this.ptHandler_ = new PointerHandler(this.view.padElement);
+        this.ptHandler_.emitter.on('down', this.onPointerDown_);
+        this.ptHandler_.emitter.on('move', this.onPointerMove_);
+        this.ptHandler_.emitter.on('up', this.onPointerUp_);
+        this.view.padElement.addEventListener('keydown', this.onPadKeyDown_);
+        this.view.padElement.addEventListener('keyup', this.onPadKeyUp_);
+    }
+    handlePointerEvent_(d, opts) {
+        if (!d.point) {
+            return;
+        }
+        const max = this.props.get('max');
+        const px = mapRange(d.point.x, 0, d.bounds.width, -max, +max);
+        const py = mapRange(this.props.get('invertsY') ? d.bounds.height - d.point.y : d.point.y, 0, d.bounds.height, -max, +max);
+        this.value.setRawValue(new Point2d(px, py), opts);
+    }
+    onPointerDown_(ev) {
+        this.handlePointerEvent_(ev.data, {
+            forceEmit: false,
+            last: false,
+        });
+    }
+    onPointerMove_(ev) {
+        this.handlePointerEvent_(ev.data, {
+            forceEmit: false,
+            last: false,
+        });
+    }
+    onPointerUp_(ev) {
+        this.handlePointerEvent_(ev.data, {
+            forceEmit: true,
+            last: true,
+        });
+    }
+    onPadKeyDown_(ev) {
+        if (isArrowKey(ev.key)) {
+            ev.preventDefault();
+        }
+        const [dx, dy] = computeOffset(ev, [this.props.get('xKeyScale'), this.props.get('yKeyScale')], this.props.get('invertsY'));
+        if (dx === 0 && dy === 0) {
+            return;
+        }
+        this.value.setRawValue(new Point2d(this.value.rawValue.x + dx, this.value.rawValue.y + dy), {
+            forceEmit: false,
+            last: false,
+        });
+    }
+    onPadKeyUp_(ev) {
+        const [dx, dy] = computeOffset(ev, [this.props.get('xKeyScale'), this.props.get('yKeyScale')], this.props.get('invertsY'));
+        if (dx === 0 && dy === 0) {
+            return;
+        }
+        this.value.setRawValue(this.value.rawValue, {
+            forceEmit: true,
+            last: true,
+        });
+    }
+}
+
+/**
+ * @hidden
+ */
+class Point2dController {
+    constructor(doc, config) {
+        var _a, _b;
+        this.onPopupChildBlur_ = this.onPopupChildBlur_.bind(this);
+        this.onPopupChildKeydown_ = this.onPopupChildKeydown_.bind(this);
+        this.onPadButtonBlur_ = this.onPadButtonBlur_.bind(this);
+        this.onPadButtonClick_ = this.onPadButtonClick_.bind(this);
+        this.value = config.value;
+        this.viewProps = config.viewProps;
+        this.foldable_ = Foldable.create(config.expanded);
+        this.popC_ =
+            config.pickerLayout === 'popup'
+                ? new PopupController(doc, {
+                    viewProps: this.viewProps,
+                })
+                : null;
+        const padC = new Point2dPickerController(doc, {
+            layout: config.pickerLayout,
+            props: new ValueMap({
+                invertsY: createValue(config.invertsY),
+                max: createValue(config.max),
+                xKeyScale: config.axes[0].textProps.value('keyScale'),
+                yKeyScale: config.axes[1].textProps.value('keyScale'),
+            }),
+            value: this.value,
+            viewProps: this.viewProps,
+        });
+        padC.view.allFocusableElements.forEach((elem) => {
+            elem.addEventListener('blur', this.onPopupChildBlur_);
+            elem.addEventListener('keydown', this.onPopupChildKeydown_);
+        });
+        this.pickerC_ = padC;
+        this.textC_ = new PointNdTextController(doc, {
+            assembly: Point2dAssembly,
+            axes: config.axes,
+            parser: config.parser,
+            value: this.value,
+            viewProps: this.viewProps,
+        });
+        this.view = new Point2dView(doc, {
+            expanded: this.foldable_.value('expanded'),
+            pickerLayout: config.pickerLayout,
+            viewProps: this.viewProps,
+        });
+        this.view.textElement.appendChild(this.textC_.view.element);
+        (_a = this.view.buttonElement) === null || _a === void 0 ? void 0 : _a.addEventListener('blur', this.onPadButtonBlur_);
+        (_b = this.view.buttonElement) === null || _b === void 0 ? void 0 : _b.addEventListener('click', this.onPadButtonClick_);
+        if (this.popC_) {
+            this.view.element.appendChild(this.popC_.view.element);
+            this.popC_.view.element.appendChild(this.pickerC_.view.element);
+            connectValues({
+                primary: this.foldable_.value('expanded'),
+                secondary: this.popC_.shows,
+                forward: (p) => p,
+                backward: (_, s) => s,
+            });
+        }
+        else if (this.view.pickerElement) {
+            this.view.pickerElement.appendChild(this.pickerC_.view.element);
+            bindFoldable(this.foldable_, this.view.pickerElement);
+        }
+    }
+    get textController() {
+        return this.textC_;
+    }
+    onPadButtonBlur_(e) {
+        if (!this.popC_) {
+            return;
+        }
+        const elem = this.view.element;
+        const nextTarget = forceCast(e.relatedTarget);
+        if (!nextTarget || !elem.contains(nextTarget)) {
+            this.popC_.shows.rawValue = false;
+        }
+    }
+    onPadButtonClick_() {
+        this.foldable_.set('expanded', !this.foldable_.get('expanded'));
+        if (this.foldable_.get('expanded')) {
+            this.pickerC_.view.allFocusableElements[0].focus();
+        }
+    }
+    onPopupChildBlur_(ev) {
+        if (!this.popC_) {
+            return;
+        }
+        const elem = this.popC_.view.element;
+        const nextTarget = findNextTarget(ev);
+        if (nextTarget && elem.contains(nextTarget)) {
+            // Next target is in the popup
+            return;
+        }
+        if (nextTarget &&
+            nextTarget === this.view.buttonElement &&
+            !supportsTouch(elem.ownerDocument)) {
+            // Next target is the trigger button
+            return;
+        }
+        this.popC_.shows.rawValue = false;
+    }
+    onPopupChildKeydown_(ev) {
+        if (this.popC_) {
+            if (ev.key === 'Escape') {
+                this.popC_.shows.rawValue = false;
+            }
+        }
+        else if (this.view.pickerElement) {
+            if (ev.key === 'Escape') {
+                this.view.buttonElement.focus();
+            }
+        }
+    }
+}
+
+function point2dFromUnknown(value) {
+    return Point2d.isObject(value)
+        ? new Point2d(value.x, value.y)
+        : new Point2d();
+}
+function writePoint2d(target, value) {
+    target.writeProperty('x', value.x);
+    target.writeProperty('y', value.y);
+}
+
+function createConstraint(params, initialValue) {
+    return new PointNdConstraint({
+        assembly: Point2dAssembly,
+        components: [
+            createDimensionConstraint(Object.assign(Object.assign({}, params), params.x), initialValue.x),
+            createDimensionConstraint(Object.assign(Object.assign({}, params), params.y), initialValue.y),
+        ],
+    });
+}
+function getSuitableMaxDimensionValue(params, rawValue) {
+    var _a, _b;
+    if (!isEmpty(params.min) || !isEmpty(params.max)) {
+        return Math.max(Math.abs((_a = params.min) !== null && _a !== void 0 ? _a : 0), Math.abs((_b = params.max) !== null && _b !== void 0 ? _b : 0));
+    }
+    const step = getSuitableKeyScale(params);
+    return Math.max(Math.abs(step) * 10, Math.abs(rawValue) * 10);
+}
+function getSuitableMax(params, initialValue) {
+    var _a, _b;
+    const xr = getSuitableMaxDimensionValue(deepMerge(params, ((_a = params.x) !== null && _a !== void 0 ? _a : {})), initialValue.x);
+    const yr = getSuitableMaxDimensionValue(deepMerge(params, ((_b = params.y) !== null && _b !== void 0 ? _b : {})), initialValue.y);
+    return Math.max(xr, yr);
+}
+function shouldInvertY(params) {
+    if (!('y' in params)) {
+        return false;
+    }
+    const yParams = params.y;
+    if (!yParams) {
+        return false;
+    }
+    return 'inverted' in yParams ? !!yParams.inverted : false;
+}
+/**
+ * @hidden
+ */
+const Point2dInputPlugin = createPlugin({
+    id: 'input-point2d-123',
+    type: 'input',
+    accept: (value, params) => {
+        if (!Point2d.isObject(value)) {
+            return null;
+        }
+        const result = parseRecord(params, (p) => (Object.assign(Object.assign({}, createPointDimensionParser(p)), { expanded: p.optional.boolean, picker: p.optional.custom(parsePickerLayout), readonly: p.optional.constant(false), x: p.optional.custom(parsePointDimensionParams), y: p.optional.object(Object.assign(Object.assign({}, createPointDimensionParser(p)), { inverted: p.optional.boolean })) })));
+        return result
+            ? {
+                initialValue: value,
+                params: result,
+            }
+            : null;
+    },
+    binding: {
+        reader: () => point2dFromUnknown,
+        constraint: (args) => createConstraint(args.params, args.initialValue),
+        equals: Point2d.equals,
+        writer: () => writePoint2d,
+    },
+    controller: (args) => {
+        var _a, _b;
+        const doc = args.document;
+        const value = args.value;
+        const c = args.constraint;
+        const dParams = [args.params.x, args.params.y];
+        console.log(args);
+        return new Point2dController(doc, {
+            axes: value.rawValue.getComponents().map((comp, i) => {
+                var _a;
+                return createPointAxis({
+                    constraint: c.components[i],
+                    initialValue: comp,
+                    params: deepMerge(args.params, ((_a = dParams[i]) !== null && _a !== void 0 ? _a : {})),
+                });
+            }),
+            expanded: (_a = args.params.expanded) !== null && _a !== void 0 ? _a : false,
+            invertsY: shouldInvertY(args.params),
+            max: getSuitableMax(args.params, value.rawValue),
+            parser: parseNumber,
+            pickerLayout: (_b = args.params.picker) !== null && _b !== void 0 ? _b : 'popup',
+            value: value,
+            viewProps: args.viewProps,
+        });
+    },
+});
+
 // The identifier of the plugin bundle.
 const id = 'tablepane';
 // This plugin template injects a compiled CSS by @rollup/plugin-replace
 // See rollup.config.js for details
-const css = '.tp-tmpv,.tp-valuepairsv,.tp-valuepairsv_input,.tp-valuepairsv_add-btn{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:rgba(0,0,0,0);border-width:0;font-family:inherit;font-size:inherit;font-weight:inherit;margin:0;outline:none;padding:0}.tp-valuepairsv_add-btn{background-color:var(--btn-bg);border-radius:var(--bld-br);color:var(--btn-fg);cursor:pointer;display:block;font-weight:bold;height:var(--cnt-usz);line-height:var(--cnt-usz);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tp-valuepairsv_add-btn:hover{background-color:var(--btn-bg-h)}.tp-valuepairsv_add-btn:focus{background-color:var(--btn-bg-f)}.tp-valuepairsv_add-btn:active{background-color:var(--btn-bg-a)}.tp-valuepairsv_add-btn:disabled{opacity:.5}.tp-tmpv,.tp-valuepairsv,.tp-valuepairsv_input{background-color:var(--in-bg);border-radius:var(--bld-br);box-sizing:border-box;color:var(--in-fg);font-family:inherit;height:var(--cnt-usz);line-height:var(--cnt-usz);min-width:0;width:100%}.tp-tmpv:hover,.tp-valuepairsv:hover,.tp-valuepairsv_input:hover{background-color:var(--in-bg-h)}.tp-tmpv:focus,.tp-valuepairsv:focus,.tp-valuepairsv_input:focus{background-color:var(--in-bg-f)}.tp-tmpv:active,.tp-valuepairsv:active,.tp-valuepairsv_input:active{background-color:var(--in-bg-a)}.tp-tmpv:disabled,.tp-valuepairsv:disabled,.tp-valuepairsv_input:disabled{opacity:.5}.tp-tmpv{cursor:pointer;display:grid;grid-template-columns:repeat(10, 1fr);grid-template-rows:repeat(auto-fit, 10px);height:calc(var(--cnt-usz)*3);overflow:hidden;position:relative}.tp-tmpv.tp-v-disabled{opacity:.5}.tp-tmpv_text{color:var(--in-fg);bottom:2px;font-size:.9em;line-height:.9;opacity:.5;position:absolute;right:2px}.tp-tmpv_dot{height:10px;line-height:10px;position:relative;text-align:center}.tp-tmpv_dot::before{background-color:var(--in-fg);content:"";border-radius:1px;height:2px;left:50%;margin-left:-1px;margin-top:-1px;position:absolute;top:50%;width:2px}.tp-tmpv_frac{background-color:var(--in-fg);border-radius:1px;height:2px;left:50%;margin-top:-1px;position:absolute;top:50%}.tp-valuepairsv{padding:6px;overflow:visible;height:auto;min-height:auto}.tp-valuepairsv.tp-v-disabled{opacity:.5;pointer-events:none}.tp-valuepairsv_list{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;box-sizing:border-box}.tp-valuepairsv_row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;padding:8px;margin-bottom:6px;background-color:rgba(255, 255, 255, 0.02);border:1px solid rgba(255, 255, 255, 0.08);border-radius:3px;transition:background-color .15s ease;width:100%;box-sizing:border-box;position:relative;overflow:visible}.tp-valuepairsv_row:hover{background-color:rgba(255, 255, 255, 0.04);border-color:rgba(255, 255, 255, 0.12)}.tp-valuepairsv_row:last-child{margin-bottom:0}.tp-valuepairsv_input-container{display:flex;flex-direction:column;gap:3px;width:100%;box-sizing:border-box;position:relative}.tp-valuepairsv_label{font-size:.75em;color:var(--in-fg);opacity:.8;text-transform:uppercase;font-weight:500;letter-spacing:.5px}.tp-valuepairsv_input{width:100%;height:calc(var(--cnt-usz)*.75);padding:0 6px;font-size:.85em;border:1px solid rgba(255, 255, 255, 0.1);border-radius:2px;background-color:rgba(255, 255, 255, 0.03);color:var(--in-fg);transition:all .15s ease}.tp-valuepairsv_input:focus{background-color:rgba(255, 255, 255, 0.08);border-color:rgba(255, 255, 255, 0.25);outline:none;box-shadow:0 0 0 1px rgba(255, 255, 255, 0.1)}.tp-valuepairsv_input:hover{border-color:rgba(255, 255, 255, 0.15)}.tp-valuepairsv_delete-btn{width:24px;height:calc(var(--cnt-usz)*.75);padding:0;border:1px solid rgba(255, 80, 80, 0.3);border-radius:2px;background-color:rgba(255, 80, 80, 0.1);color:rgb(255, 150, 150);cursor:pointer;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;transition:all .15s ease}.tp-valuepairsv_delete-btn:hover{background-color:rgba(255, 80, 80, 0.2);border-color:rgba(255, 80, 80, 0.5);color:rgb(255, 200, 200);transform:scale(1.05)}.tp-valuepairsv_delete-btn:active{background-color:rgba(255, 80, 80, 0.3);transform:scale(0.95)}.tp-valuepairsv_add-btn{width:100%;height:calc(var(--cnt-usz)*.85);margin-top:8px;font-size:.8em;border:1px dashed rgba(255, 255, 255, 0.2);background-color:rgba(0,0,0,0);color:var(--in-fg);cursor:pointer;transition:all .15s ease;text-transform:uppercase;letter-spacing:.5px;font-weight:500;box-sizing:border-box;position:relative;clear:both}.tp-valuepairsv_add-btn:hover{background-color:rgba(255, 255, 255, 0.05);border-color:rgba(255, 255, 255, 0.3);border-style:solid;transform:translateY(-1px)}.tp-valuepairsv_add-btn:active{background-color:rgba(255, 255, 255, 0.08);transform:translateY(0)}';
+const css = '.tp-tmpv,.tp-valuepairsv,.tp-valuepairsv_input,.tp-vplv,.tp-valuepairsv_add-btn,.tp-vplv_add{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:rgba(0,0,0,0);border-width:0;font-family:inherit;font-size:inherit;font-weight:inherit;margin:0;outline:none;padding:0}.tp-valuepairsv_add-btn,.tp-vplv_add{background-color:var(--btn-bg);border-radius:var(--bld-br);color:var(--btn-fg);cursor:pointer;display:block;font-weight:bold;height:var(--cnt-usz);line-height:var(--cnt-usz);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tp-valuepairsv_add-btn:hover,.tp-vplv_add:hover{background-color:var(--btn-bg-h)}.tp-valuepairsv_add-btn:focus,.tp-vplv_add:focus{background-color:var(--btn-bg-f)}.tp-valuepairsv_add-btn:active,.tp-vplv_add:active{background-color:var(--btn-bg-a)}.tp-valuepairsv_add-btn:disabled,.tp-vplv_add:disabled{opacity:.5}.tp-tmpv,.tp-valuepairsv,.tp-valuepairsv_input,.tp-vplv{background-color:var(--in-bg);border-radius:var(--bld-br);box-sizing:border-box;color:var(--in-fg);font-family:inherit;height:var(--cnt-usz);line-height:var(--cnt-usz);min-width:0;width:100%}.tp-tmpv:hover,.tp-valuepairsv:hover,.tp-valuepairsv_input:hover,.tp-vplv:hover{background-color:var(--in-bg-h)}.tp-tmpv:focus,.tp-valuepairsv:focus,.tp-valuepairsv_input:focus,.tp-vplv:focus{background-color:var(--in-bg-f)}.tp-tmpv:active,.tp-valuepairsv:active,.tp-valuepairsv_input:active,.tp-vplv:active{background-color:var(--in-bg-a)}.tp-tmpv:disabled,.tp-valuepairsv:disabled,.tp-valuepairsv_input:disabled,.tp-vplv:disabled{opacity:.5}.tp-tmpv{cursor:pointer;display:grid;grid-template-columns:repeat(10, 1fr);grid-template-rows:repeat(auto-fit, 10px);height:calc(var(--cnt-usz)*3);overflow:hidden;position:relative}.tp-tmpv.tp-v-disabled{opacity:.5}.tp-tmpv_text{color:var(--in-fg);bottom:2px;font-size:.9em;line-height:.9;opacity:.5;position:absolute;right:2px}.tp-tmpv_dot{height:10px;line-height:10px;position:relative;text-align:center}.tp-tmpv_dot::before{background-color:var(--in-fg);content:"";border-radius:1px;height:2px;left:50%;margin-left:-1px;margin-top:-1px;position:absolute;top:50%;width:2px}.tp-tmpv_frac{background-color:var(--in-fg);border-radius:1px;height:2px;left:50%;margin-top:-1px;position:absolute;top:50%}.tp-valuepairsv{padding:6px;overflow:visible;height:auto;min-height:auto}.tp-valuepairsv.tp-v-disabled{opacity:.5;pointer-events:none}.tp-valuepairsv_list{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;box-sizing:border-box}.tp-valuepairsv_row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;padding:8px;margin-bottom:6px;background-color:rgba(255, 255, 255, 0.02);border:1px solid rgba(255, 255, 255, 0.08);border-radius:3px;transition:background-color .15s ease;width:100%;box-sizing:border-box;position:relative;overflow:visible}.tp-valuepairsv_row:hover{background-color:rgba(255, 255, 255, 0.04);border-color:rgba(255, 255, 255, 0.12)}.tp-valuepairsv_row:last-child{margin-bottom:0}.tp-valuepairsv_input-container{display:flex;flex-direction:column;gap:3px;width:100%;box-sizing:border-box;position:relative}.tp-valuepairsv_label{font-size:.75em;color:var(--in-fg);opacity:.8;text-transform:uppercase;font-weight:500;letter-spacing:.5px}.tp-valuepairsv_input{width:100%;height:calc(var(--cnt-usz)*.75);padding:0 6px;font-size:.85em;border:1px solid rgba(255, 255, 255, 0.1);border-radius:2px;background-color:rgba(255, 255, 255, 0.03);color:var(--in-fg);transition:all .15s ease}.tp-valuepairsv_input:focus{background-color:rgba(255, 255, 255, 0.08);border-color:rgba(255, 255, 255, 0.25);outline:none;box-shadow:0 0 0 1px rgba(255, 255, 255, 0.1)}.tp-valuepairsv_input:hover{border-color:rgba(255, 255, 255, 0.15)}.tp-valuepairsv_delete-btn{width:24px;height:calc(var(--cnt-usz)*.75);padding:0;border:1px solid rgba(255, 80, 80, 0.3);border-radius:2px;background-color:rgba(255, 80, 80, 0.1);color:rgb(255, 150, 150);cursor:pointer;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;transition:all .15s ease}.tp-valuepairsv_delete-btn:hover{background-color:rgba(255, 80, 80, 0.2);border-color:rgba(255, 80, 80, 0.5);color:rgb(255, 200, 200);transform:scale(1.05)}.tp-valuepairsv_delete-btn:active{background-color:rgba(255, 80, 80, 0.3);transform:scale(0.95)}.tp-valuepairsv_add-btn{width:100%;height:calc(var(--cnt-usz)*.85);margin-top:8px;font-size:.8em;border:1px dashed rgba(255, 255, 255, 0.2);background-color:rgba(0,0,0,0);color:var(--in-fg);cursor:pointer;transition:all .15s ease;text-transform:uppercase;letter-spacing:.5px;font-weight:500;box-sizing:border-box;position:relative;clear:both}.tp-valuepairsv_add-btn:hover{background-color:rgba(255, 255, 255, 0.05);border-color:rgba(255, 255, 255, 0.3);border-style:solid;transform:translateY(-1px)}.tp-valuepairsv_add-btn:active{background-color:rgba(255, 255, 255, 0.08);transform:translateY(0)}.tp-vplv{padding:6px;overflow:visible;height:auto;min-height:auto}.tp-vplv.tp-v-disabled{opacity:.5;pointer-events:none}.tp-vplv_h{display:none}.tp-vplv_list{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;box-sizing:border-box}.tp-vplv_row{display:flex;align-items:end;gap:8px;padding:8px;margin-bottom:6px;background-color:rgba(255, 255, 255, 0.02);border:1px solid rgba(255, 255, 255, 0.08);border-radius:3px;transition:background-color .15s ease;width:100%;box-sizing:border-box;position:relative;overflow:visible}.tp-vplv_row:hover{background-color:rgba(255, 255, 255, 0.04);border-color:rgba(255, 255, 255, 0.12)}.tp-vplv_row:last-child{margin-bottom:0}.tp-vplv_pair-wrapper{flex:1;display:flex;flex-direction:column;gap:3px}.tp-vplv_labels{display:flex;gap:8px}.tp-vplv_label{flex:1;font-size:.75em;color:var(--in-fg);opacity:.8;text-transform:uppercase;font-weight:500;letter-spacing:.5px;text-align:center}.tp-vplv_pair-wrapper .tp-vpv{width:100%}.tp-vplv_pair-wrapper .tp-vpv .tp-vpv_t{width:100%}.tp-vplv_pair-wrapper .tp-vpv .tp-vpv_t .tp-pndtxtv{width:100%}.tp-vplv_remove{width:24px;height:calc(var(--cnt-usz)*.75);padding:0;border:1px solid rgba(255, 80, 80, 0.3);border-radius:2px;background-color:rgba(255, 80, 80, 0.1);color:rgb(255, 150, 150);cursor:pointer;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;transition:all .15s ease}.tp-vplv_remove:hover{background-color:rgba(255, 80, 80, 0.2);border-color:rgba(255, 80, 80, 0.5);color:rgb(255, 200, 200);transform:scale(1.05)}.tp-vplv_remove:active{background-color:rgba(255, 80, 80, 0.3);transform:scale(0.95)}.tp-vplv_add{width:100%;height:calc(var(--cnt-usz)*.85);margin-top:8px;font-size:.8em;border:1px dashed rgba(255, 255, 255, 0.2);background-color:rgba(0,0,0,0);color:var(--in-fg);cursor:pointer;transition:all .15s ease;text-transform:uppercase;letter-spacing:.5px;font-weight:500;box-sizing:border-box;position:relative;clear:both}.tp-vplv_add:hover{background-color:rgba(255, 255, 255, 0.05);border-color:rgba(255, 255, 255, 0.3);border-style:solid;transform:translateY(-1px)}.tp-vplv_add:active{background-color:rgba(255, 255, 255, 0.08);transform:translateY(0)}.tp-vpv_t{display:flex}.tp-vpv_t .tp-pndtxtv{flex:1}';
 // Export your plugin(s) as a constant `plugins`
 const plugins = [
     TemplateInputPlugin,
     ValuePairsInputPlugin,
+    ValuePairInputPlugin,
+    ValuePairListInputPlugin,
+    Point2dInputPlugin,
 ];
 
 export { css, id, plugins };

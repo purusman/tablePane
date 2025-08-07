@@ -1,0 +1,17 @@
+import { PickerLayout, Value, View, ViewProps } from "@tweakpane/core";
+interface Config {
+    expanded: Value<boolean>;
+    pickerLayout: PickerLayout;
+    viewProps: ViewProps;
+}
+/**
+ * @hidden
+ */
+export declare class Point2dView implements View {
+    readonly element: HTMLElement;
+    readonly buttonElement: HTMLButtonElement;
+    readonly textElement: HTMLElement;
+    readonly pickerElement: HTMLElement | null;
+    constructor(doc: Document, config: Config);
+}
+export {};
