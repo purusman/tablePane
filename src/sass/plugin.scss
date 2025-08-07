@@ -375,3 +375,147 @@
 		}
 	}
 }
+
+// String List Plugin styling
+.tp-slv {
+	@extend %tp-input;
+	
+	padding: 6px;
+	overflow: visible;
+	height: auto;
+	min-height: auto;
+	
+	&.tp-v-disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	&_h {
+		display: none; // Hide the header for consistency with value pairs
+	}
+	
+	&_list {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		overflow: visible;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	
+	&_row {
+		display: flex;
+		align-items: end;
+		gap: 8px;
+		padding: 8px;
+		margin-bottom: 6px;
+		background-color: #{rgba(255, 255, 255, 0.02)};
+		border: 1px solid #{rgba(255, 255, 255, 0.08)};
+		border-radius: 3px;
+		transition: background-color 0.15s ease;
+		width: 100%;
+		box-sizing: border-box;
+		position: relative;
+		overflow: visible;
+
+		&:hover {
+			background-color: #{rgba(255, 255, 255, 0.04)};
+			border-color: #{rgba(255, 255, 255, 0.12)};
+		}
+		
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&_string-wrapper {
+		flex: 1;
+		display: flex;
+		align-items: center;
+	}
+
+	// Style the string item view inside the wrapper
+	&_string-wrapper .tp-siv {
+		width: 100%;
+		
+		&_t {
+			width: 100%;
+			
+			.tp-txtv {
+				width: 100%;
+			}
+		}
+	}
+	
+	&_remove {
+		width: 24px;
+		height: calc(#{tp.cssVar('container-unit-size')} * 0.75);
+		padding: 0;
+		border: 1px solid #{rgba(255, 80, 80, 0.3)};
+		border-radius: 2px;
+		background-color: #{rgba(255, 80, 80, 0.1)};
+		color: #{rgb(255, 150, 150)};
+		cursor: pointer;
+		font-size: 12px;
+		font-weight: bold;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.15s ease;
+
+		&:hover {
+			background-color: #{rgba(255, 80, 80, 0.2)};
+			border-color: #{rgba(255, 80, 80, 0.5)};
+			color: #{rgb(255, 200, 200)};
+			transform: scale(1.05);
+		}
+
+		&:active {
+			background-color: #{rgba(255, 80, 80, 0.3)};
+			transform: scale(0.95);
+		}
+	}
+	
+	&_add {
+		@extend %tp-button;
+		
+		width: 100%;
+		height: calc(#{tp.cssVar('container-unit-size')} * 0.85);
+		margin-top: 8px;
+		font-size: 0.8em;
+		border: 1px dashed #{rgba(255, 255, 255, 0.2)};
+		background-color: transparent;
+		color: tp.cssVar('input-fg');
+		cursor: pointer;
+		transition: all 0.15s ease;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		font-weight: 500;
+		box-sizing: border-box;
+		position: relative;
+		clear: both;
+
+		&:hover {
+			background-color: #{rgba(255, 255, 255, 0.05)};
+			border-color: #{rgba(255, 255, 255, 0.3)};
+			border-style: solid;
+			transform: translateY(-1px);
+		}
+
+		&:active {
+			background-color: #{rgba(255, 255, 255, 0.08)};
+			transform: translateY(0);
+		}
+	}
+}
+
+// String Item View styling
+.tp-siv {
+	&_t {
+		display: flex;
+		
+		.tp-txtv {
+			flex: 1;
+		}
+	}
+}

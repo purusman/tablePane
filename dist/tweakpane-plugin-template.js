@@ -1130,7 +1130,7 @@ function ClassName(viewName) {
     return fn;
 }
 
-const cn$t = ClassName('lbl');
+const cn$v = ClassName('lbl');
 function createLabelNode(doc, label) {
     const frag = doc.createDocumentFragment();
     const lineNodes = label.split('\n').map((line) => {
@@ -1147,16 +1147,16 @@ function createLabelNode(doc, label) {
 class LabelView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$t());
+        this.element.classList.add(cn$v());
         config.viewProps.bindClassModifiers(this.element);
         const labelElem = doc.createElement('div');
-        labelElem.classList.add(cn$t('l'));
+        labelElem.classList.add(cn$v('l'));
         bindValueMap(config.props, 'label', (value) => {
             if (isEmpty(value)) {
-                this.element.classList.add(cn$t(undefined, 'nol'));
+                this.element.classList.add(cn$v(undefined, 'nol'));
             }
             else {
-                this.element.classList.remove(cn$t(undefined, 'nol'));
+                this.element.classList.remove(cn$v(undefined, 'nol'));
                 removeChildNodes(labelElem);
                 labelElem.appendChild(createLabelNode(doc, value));
             }
@@ -1164,7 +1164,7 @@ class LabelView {
         this.element.appendChild(labelElem);
         this.labelElement = labelElem;
         const valueElem = doc.createElement('div');
-        valueElem.classList.add(cn$t('v'));
+        valueElem.classList.add(cn$v('v'));
         this.element.appendChild(valueElem);
         this.valueElement = valueElem;
     }
@@ -1200,7 +1200,7 @@ function getAllBladePositions() {
     return ['veryfirst', 'first', 'last', 'verylast'];
 }
 
-const cn$s = ClassName('');
+const cn$u = ClassName('');
 const POS_TO_CLASS_NAME_MAP = {
     veryfirst: 'vfst',
     first: 'fst',
@@ -1216,10 +1216,10 @@ class BladeController {
         const elem = this.view.element;
         this.blade.value('positions').emitter.on('change', () => {
             getAllBladePositions().forEach((pos) => {
-                elem.classList.remove(cn$s(undefined, POS_TO_CLASS_NAME_MAP[pos]));
+                elem.classList.remove(cn$u(undefined, POS_TO_CLASS_NAME_MAP[pos]));
             });
             this.blade.get('positions').forEach((pos) => {
-                elem.classList.add(cn$s(undefined, POS_TO_CLASS_NAME_MAP[pos]));
+                elem.classList.add(cn$u(undefined, POS_TO_CLASS_NAME_MAP[pos]));
             });
         });
         this.viewProps.handleDispose(() => {
@@ -1295,19 +1295,19 @@ function bindValueToTextContent(value, elem) {
     });
 }
 
-const cn$r = ClassName('btn');
+const cn$t = ClassName('btn');
 class ButtonView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$r());
+        this.element.classList.add(cn$t());
         config.viewProps.bindClassModifiers(this.element);
         const buttonElem = doc.createElement('button');
-        buttonElem.classList.add(cn$r('b'));
+        buttonElem.classList.add(cn$t('b'));
         config.viewProps.bindDisabled(buttonElem);
         this.element.appendChild(buttonElem);
         this.buttonElement = buttonElem;
         const titleElem = doc.createElement('div');
-        titleElem.classList.add(cn$r('t'));
+        titleElem.classList.add(cn$t('t'));
         bindValueToTextContent(config.props.value('title'), titleElem);
         this.buttonElement.appendChild(titleElem);
     }
@@ -2140,9 +2140,9 @@ createPlugin({
     },
 });
 
-const cn$q = ClassName('');
+const cn$s = ClassName('');
 function valueToModifier(elem, modifier) {
-    return valueToClassName(elem, cn$q(undefined, modifier));
+    return valueToClassName(elem, cn$s(undefined, modifier));
 }
 class ViewProps extends ValueMap {
     constructor(valueMap) {
@@ -2224,40 +2224,40 @@ class ViewProps extends ValueMap {
     }
 }
 
-const cn$p = ClassName('tbp');
+const cn$r = ClassName('tbp');
 class TabPageView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$p());
+        this.element.classList.add(cn$r());
         config.viewProps.bindClassModifiers(this.element);
         const containerElem = doc.createElement('div');
-        containerElem.classList.add(cn$p('c'));
+        containerElem.classList.add(cn$r('c'));
         this.element.appendChild(containerElem);
         this.containerElement = containerElem;
     }
 }
 
-const cn$o = ClassName('tbi');
+const cn$q = ClassName('tbi');
 class TabItemView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$o());
+        this.element.classList.add(cn$q());
         config.viewProps.bindClassModifiers(this.element);
         bindValueMap(config.props, 'selected', (selected) => {
             if (selected) {
-                this.element.classList.add(cn$o(undefined, 'sel'));
+                this.element.classList.add(cn$q(undefined, 'sel'));
             }
             else {
-                this.element.classList.remove(cn$o(undefined, 'sel'));
+                this.element.classList.remove(cn$q(undefined, 'sel'));
             }
         });
         const buttonElem = doc.createElement('button');
-        buttonElem.classList.add(cn$o('b'));
+        buttonElem.classList.add(cn$q('b'));
         config.viewProps.bindDisabled(buttonElem);
         this.element.appendChild(buttonElem);
         this.buttonElement = buttonElem;
         const titleElem = doc.createElement('div');
-        titleElem.classList.add(cn$o('t'));
+        titleElem.classList.add(cn$q('t'));
         bindValueToTextContent(config.props.value('title'), titleElem);
         this.buttonElement.appendChild(titleElem);
         this.titleElement = titleElem;
@@ -2478,22 +2478,22 @@ class Tab {
     }
 }
 
-const cn$n = ClassName('tab');
+const cn$p = ClassName('tab');
 class TabView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$n(), bladeContainerClassName());
+        this.element.classList.add(cn$p(), bladeContainerClassName());
         config.viewProps.bindClassModifiers(this.element);
-        bindValue(config.empty, valueToClassName(this.element, cn$n(undefined, 'nop')));
+        bindValue(config.empty, valueToClassName(this.element, cn$p(undefined, 'nop')));
         const titleElem = doc.createElement('div');
-        titleElem.classList.add(cn$n('t'));
+        titleElem.classList.add(cn$p('t'));
         this.element.appendChild(titleElem);
         this.itemsElement = titleElem;
         const indentElem = doc.createElement('div');
-        indentElem.classList.add(cn$n('i'));
+        indentElem.classList.add(cn$p('i'));
         this.element.appendChild(indentElem);
         const contentsElem = doc.createElement('div');
-        contentsElem.classList.add(cn$n('c'));
+        contentsElem.classList.add(cn$p('c'));
         this.element.appendChild(contentsElem);
         this.contentsElement = contentsElem;
     }
@@ -2681,21 +2681,21 @@ function createListConstraint(options) {
         : null;
 }
 
-const cn$m = ClassName('lst');
+const cn$o = ClassName('lst');
 class ListView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         this.props_ = config.props;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$m());
+        this.element.classList.add(cn$o());
         config.viewProps.bindClassModifiers(this.element);
         const selectElem = doc.createElement('select');
-        selectElem.classList.add(cn$m('s'));
+        selectElem.classList.add(cn$o('s'));
         config.viewProps.bindDisabled(selectElem);
         this.element.appendChild(selectElem);
         this.selectElement = selectElem;
         const markElem = doc.createElement('div');
-        markElem.classList.add(cn$m('m'));
+        markElem.classList.add(cn$o('m'));
         markElem.appendChild(createSvgIconElement(doc, 'dropdown'));
         this.element.appendChild(markElem);
         config.value.emitter.on('change', this.onValueChange_);
@@ -2752,13 +2752,13 @@ class ListController {
     }
 }
 
-const cn$l = ClassName('pop');
+const cn$n = ClassName('pop');
 class PopupView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$l());
+        this.element.classList.add(cn$n());
         config.viewProps.bindClassModifiers(this.element);
-        bindValue(config.shows, valueToClassName(this.element, cn$l(undefined, 'v')));
+        bindValue(config.shows, valueToClassName(this.element, cn$n(undefined, 'v')));
     }
 }
 
@@ -2773,17 +2773,17 @@ class PopupController {
     }
 }
 
-const cn$k = ClassName('txt');
+const cn$m = ClassName('txt');
 class TextView {
     constructor(doc, config) {
         this.onChange_ = this.onChange_.bind(this);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$k());
+        this.element.classList.add(cn$m());
         config.viewProps.bindClassModifiers(this.element);
         this.props_ = config.props;
         this.props_.emitter.on('change', this.onChange_);
         const inputElem = doc.createElement('input');
-        inputElem.classList.add(cn$k('i'));
+        inputElem.classList.add(cn$m('i'));
         inputElem.type = 'text';
         config.viewProps.bindDisabled(inputElem);
         this.element.appendChild(inputElem);
@@ -3054,20 +3054,20 @@ class PointerHandler {
     }
 }
 
-const cn$j = ClassName('txt');
+const cn$l = ClassName('txt');
 class NumberTextView {
     constructor(doc, config) {
         this.onChange_ = this.onChange_.bind(this);
         this.props_ = config.props;
         this.props_.emitter.on('change', this.onChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$j(), cn$j(undefined, 'num'));
+        this.element.classList.add(cn$l(), cn$l(undefined, 'num'));
         if (config.arrayPosition) {
-            this.element.classList.add(cn$j(undefined, config.arrayPosition));
+            this.element.classList.add(cn$l(undefined, config.arrayPosition));
         }
         config.viewProps.bindClassModifiers(this.element);
         const inputElem = doc.createElement('input');
-        inputElem.classList.add(cn$j('i'));
+        inputElem.classList.add(cn$l('i'));
         inputElem.type = 'text';
         config.viewProps.bindDisabled(inputElem);
         this.element.appendChild(inputElem);
@@ -3075,21 +3075,21 @@ class NumberTextView {
         this.onDraggingChange_ = this.onDraggingChange_.bind(this);
         this.dragging_ = config.dragging;
         this.dragging_.emitter.on('change', this.onDraggingChange_);
-        this.element.classList.add(cn$j());
-        this.inputElement.classList.add(cn$j('i'));
+        this.element.classList.add(cn$l());
+        this.inputElement.classList.add(cn$l('i'));
         const knobElem = doc.createElement('div');
-        knobElem.classList.add(cn$j('k'));
+        knobElem.classList.add(cn$l('k'));
         this.element.appendChild(knobElem);
         this.knobElement = knobElem;
         const guideElem = doc.createElementNS(SVG_NS, 'svg');
-        guideElem.classList.add(cn$j('g'));
+        guideElem.classList.add(cn$l('g'));
         this.knobElement.appendChild(guideElem);
         const bodyElem = doc.createElementNS(SVG_NS, 'path');
-        bodyElem.classList.add(cn$j('gb'));
+        bodyElem.classList.add(cn$l('gb'));
         guideElem.appendChild(bodyElem);
         this.guideBodyElem_ = bodyElem;
         const headElem = doc.createElementNS(SVG_NS, 'path');
-        headElem.classList.add(cn$j('gh'));
+        headElem.classList.add(cn$l('gh'));
         guideElem.appendChild(headElem);
         this.guideHeadElem_ = headElem;
         const tooltipElem = doc.createElement('div');
@@ -3102,10 +3102,10 @@ class NumberTextView {
     }
     onDraggingChange_(ev) {
         if (ev.rawValue === null) {
-            this.element.classList.remove(cn$j(undefined, 'drg'));
+            this.element.classList.remove(cn$l(undefined, 'drg'));
             return;
         }
-        this.element.classList.add(cn$j(undefined, 'drg'));
+        this.element.classList.add(cn$l(undefined, 'drg'));
         const x = ev.rawValue / this.props_.get('pointerScale');
         const aox = x + (x > 0 ? -1 : x < 0 ? +1 : 0);
         const adx = constrainRange(-aox, -4, +4);
@@ -3232,22 +3232,22 @@ class NumberTextController {
     }
 }
 
-const cn$i = ClassName('sld');
+const cn$k = ClassName('sld');
 class SliderView {
     constructor(doc, config) {
         this.onChange_ = this.onChange_.bind(this);
         this.props_ = config.props;
         this.props_.emitter.on('change', this.onChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$i());
+        this.element.classList.add(cn$k());
         config.viewProps.bindClassModifiers(this.element);
         const trackElem = doc.createElement('div');
-        trackElem.classList.add(cn$i('t'));
+        trackElem.classList.add(cn$k('t'));
         config.viewProps.bindTabIndex(trackElem);
         this.element.appendChild(trackElem);
         this.trackElement = trackElem;
         const knobElem = doc.createElement('div');
-        knobElem.classList.add(cn$i('k'));
+        knobElem.classList.add(cn$k('k'));
         this.trackElement.appendChild(knobElem);
         this.knobElement = knobElem;
         config.value.emitter.on('change', this.onChange_);
@@ -3324,18 +3324,18 @@ class SliderController {
     }
 }
 
-const cn$h = ClassName('sldtxt');
+const cn$j = ClassName('sldtxt');
 class SliderTextView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$h());
+        this.element.classList.add(cn$j());
         const sliderElem = doc.createElement('div');
-        sliderElem.classList.add(cn$h('s'));
+        sliderElem.classList.add(cn$j('s'));
         this.sliderView_ = config.sliderView;
         sliderElem.appendChild(this.sliderView_.element);
         this.element.appendChild(sliderElem);
         const textElem = doc.createElement('div');
-        textElem.classList.add(cn$h('t'));
+        textElem.classList.add(cn$j('t'));
         this.textView_ = config.textView;
         textElem.appendChild(this.textView_.element);
         this.element.appendChild(textElem);
@@ -3446,25 +3446,25 @@ function writePrimitive(target, value) {
     target.write(value);
 }
 
-const cn$g = ClassName('ckb');
+const cn$i = ClassName('ckb');
 class CheckboxView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$g());
+        this.element.classList.add(cn$i());
         config.viewProps.bindClassModifiers(this.element);
         const labelElem = doc.createElement('label');
-        labelElem.classList.add(cn$g('l'));
+        labelElem.classList.add(cn$i('l'));
         this.element.appendChild(labelElem);
         this.labelElement = labelElem;
         const inputElem = doc.createElement('input');
-        inputElem.classList.add(cn$g('i'));
+        inputElem.classList.add(cn$i('i'));
         inputElem.type = 'checkbox';
         this.labelElement.appendChild(inputElem);
         this.inputElement = inputElem;
         config.viewProps.bindDisabled(this.inputElement);
         const wrapperElem = doc.createElement('div');
-        wrapperElem.classList.add(cn$g('w'));
+        wrapperElem.classList.add(cn$i('w'));
         this.labelElement.appendChild(wrapperElem);
         const markElem = createSvgIconElement(doc, 'check');
         wrapperElem.appendChild(markElem);
@@ -3565,27 +3565,27 @@ createPlugin({
     },
 });
 
-const cn$f = ClassName('col');
+const cn$h = ClassName('col');
 class ColorView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$f());
-        config.foldable.bindExpandedClass(this.element, cn$f(undefined, 'expanded'));
-        bindValueMap(config.foldable, 'completed', valueToClassName(this.element, cn$f(undefined, 'cpl')));
+        this.element.classList.add(cn$h());
+        config.foldable.bindExpandedClass(this.element, cn$h(undefined, 'expanded'));
+        bindValueMap(config.foldable, 'completed', valueToClassName(this.element, cn$h(undefined, 'cpl')));
         const headElem = doc.createElement('div');
-        headElem.classList.add(cn$f('h'));
+        headElem.classList.add(cn$h('h'));
         this.element.appendChild(headElem);
         const swatchElem = doc.createElement('div');
-        swatchElem.classList.add(cn$f('s'));
+        swatchElem.classList.add(cn$h('s'));
         headElem.appendChild(swatchElem);
         this.swatchElement = swatchElem;
         const textElem = doc.createElement('div');
-        textElem.classList.add(cn$f('t'));
+        textElem.classList.add(cn$h('t'));
         headElem.appendChild(textElem);
         this.textElement = textElem;
         if (config.pickerLayout === 'inline') {
             const pickerElem = doc.createElement('div');
-            pickerElem.classList.add(cn$f('p'));
+            pickerElem.classList.add(cn$h('p'));
             this.element.appendChild(pickerElem);
             this.pickerElement = pickerElem;
         }
@@ -3791,28 +3791,28 @@ class IntColor {
     }
 }
 
-const cn$e = ClassName('colp');
+const cn$g = ClassName('colp');
 class ColorPickerView {
     constructor(doc, config) {
         this.alphaViews_ = null;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$e());
+        this.element.classList.add(cn$g());
         config.viewProps.bindClassModifiers(this.element);
         const hsvElem = doc.createElement('div');
-        hsvElem.classList.add(cn$e('hsv'));
+        hsvElem.classList.add(cn$g('hsv'));
         const svElem = doc.createElement('div');
-        svElem.classList.add(cn$e('sv'));
+        svElem.classList.add(cn$g('sv'));
         this.svPaletteView_ = config.svPaletteView;
         svElem.appendChild(this.svPaletteView_.element);
         hsvElem.appendChild(svElem);
         const hElem = doc.createElement('div');
-        hElem.classList.add(cn$e('h'));
+        hElem.classList.add(cn$g('h'));
         this.hPaletteView_ = config.hPaletteView;
         hElem.appendChild(this.hPaletteView_.element);
         hsvElem.appendChild(hElem);
         this.element.appendChild(hsvElem);
         const rgbElem = doc.createElement('div');
-        rgbElem.classList.add(cn$e('rgb'));
+        rgbElem.classList.add(cn$g('rgb'));
         this.textsView_ = config.textsView;
         rgbElem.appendChild(this.textsView_.element);
         this.element.appendChild(rgbElem);
@@ -3822,13 +3822,13 @@ class ColorPickerView {
                 text: config.alphaViews.text,
             };
             const aElem = doc.createElement('div');
-            aElem.classList.add(cn$e('a'));
+            aElem.classList.add(cn$g('a'));
             const apElem = doc.createElement('div');
-            apElem.classList.add(cn$e('ap'));
+            apElem.classList.add(cn$g('ap'));
             apElem.appendChild(this.alphaViews_.palette.element);
             aElem.appendChild(apElem);
             const atElem = doc.createElement('div');
-            atElem.classList.add(cn$e('at'));
+            atElem.classList.add(cn$g('at'));
             atElem.appendChild(this.alphaViews_.text.element);
             aElem.appendChild(atElem);
             this.element.appendChild(aElem);
@@ -4428,29 +4428,29 @@ function findColorStringifier(format) {
     }, null);
 }
 
-const cn$d = ClassName('apl');
+const cn$f = ClassName('apl');
 class APaletteView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         this.value = config.value;
         this.value.emitter.on('change', this.onValueChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$d());
+        this.element.classList.add(cn$f());
         config.viewProps.bindClassModifiers(this.element);
         config.viewProps.bindTabIndex(this.element);
         const barElem = doc.createElement('div');
-        barElem.classList.add(cn$d('b'));
+        barElem.classList.add(cn$f('b'));
         this.element.appendChild(barElem);
         const colorElem = doc.createElement('div');
-        colorElem.classList.add(cn$d('c'));
+        colorElem.classList.add(cn$f('c'));
         barElem.appendChild(colorElem);
         this.colorElem_ = colorElem;
         const markerElem = doc.createElement('div');
-        markerElem.classList.add(cn$d('m'));
+        markerElem.classList.add(cn$f('m'));
         this.element.appendChild(markerElem);
         this.markerElem_ = markerElem;
         const previewElem = doc.createElement('div');
-        previewElem.classList.add(cn$d('p'));
+        previewElem.classList.add(cn$f('p'));
         this.markerElem_.appendChild(previewElem);
         this.previewElem_ = previewElem;
         this.update_();
@@ -4546,7 +4546,7 @@ class APaletteController {
     }
 }
 
-const cn$c = ClassName('coltxt');
+const cn$e = ClassName('coltxt');
 function createModeSelectElement(doc) {
     const selectElem = doc.createElement('select');
     const items = [
@@ -4567,21 +4567,21 @@ function createModeSelectElement(doc) {
 class ColorTextsView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$c());
+        this.element.classList.add(cn$e());
         config.viewProps.bindClassModifiers(this.element);
         const modeElem = doc.createElement('div');
-        modeElem.classList.add(cn$c('m'));
+        modeElem.classList.add(cn$e('m'));
         this.modeElem_ = createModeSelectElement(doc);
-        this.modeElem_.classList.add(cn$c('ms'));
+        this.modeElem_.classList.add(cn$e('ms'));
         modeElem.appendChild(this.modeSelectElement);
         config.viewProps.bindDisabled(this.modeElem_);
         const modeMarkerElem = doc.createElement('div');
-        modeMarkerElem.classList.add(cn$c('mm'));
+        modeMarkerElem.classList.add(cn$e('mm'));
         modeMarkerElem.appendChild(createSvgIconElement(doc, 'dropdown'));
         modeElem.appendChild(modeMarkerElem);
         this.element.appendChild(modeElem);
         const inputsElem = doc.createElement('div');
-        inputsElem.classList.add(cn$c('w'));
+        inputsElem.classList.add(cn$e('w'));
         this.element.appendChild(inputsElem);
         this.inputsElem_ = inputsElem;
         this.inputViews_ = config.inputViews;
@@ -4605,7 +4605,7 @@ class ColorTextsView {
         const doc = this.element.ownerDocument;
         this.inputViews_.forEach((v) => {
             const compElem = doc.createElement('div');
-            compElem.classList.add(cn$c('c'));
+            compElem.classList.add(cn$e('c'));
             compElem.appendChild(v.element);
             this.inputsElem_.appendChild(compElem);
         });
@@ -4723,21 +4723,21 @@ class ColorTextsController {
     }
 }
 
-const cn$b = ClassName('hpl');
+const cn$d = ClassName('hpl');
 class HPaletteView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         this.value = config.value;
         this.value.emitter.on('change', this.onValueChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$b());
+        this.element.classList.add(cn$d());
         config.viewProps.bindClassModifiers(this.element);
         config.viewProps.bindTabIndex(this.element);
         const colorElem = doc.createElement('div');
-        colorElem.classList.add(cn$b('c'));
+        colorElem.classList.add(cn$d('c'));
         this.element.appendChild(colorElem);
         const markerElem = doc.createElement('div');
-        markerElem.classList.add(cn$b('m'));
+        markerElem.classList.add(cn$d('m'));
         this.element.appendChild(markerElem);
         this.markerElem_ = markerElem;
         this.update_();
@@ -4825,7 +4825,7 @@ class HPaletteController {
     }
 }
 
-const cn$a = ClassName('svp');
+const cn$c = ClassName('svp');
 const CANVAS_RESOL = 64;
 class SvPaletteView {
     constructor(doc, config) {
@@ -4833,17 +4833,17 @@ class SvPaletteView {
         this.value = config.value;
         this.value.emitter.on('change', this.onValueChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$a());
+        this.element.classList.add(cn$c());
         config.viewProps.bindClassModifiers(this.element);
         config.viewProps.bindTabIndex(this.element);
         const canvasElem = doc.createElement('canvas');
         canvasElem.height = CANVAS_RESOL;
         canvasElem.width = CANVAS_RESOL;
-        canvasElem.classList.add(cn$a('c'));
+        canvasElem.classList.add(cn$c('c'));
         this.element.appendChild(canvasElem);
         this.canvasElement = canvasElem;
         const markerElem = doc.createElement('div');
-        markerElem.classList.add(cn$a('m'));
+        markerElem.classList.add(cn$c('m'));
         this.element.appendChild(markerElem);
         this.markerElem_ = markerElem;
         this.update_();
@@ -5027,21 +5027,21 @@ class ColorPickerController {
     }
 }
 
-const cn$9 = ClassName('colsw');
+const cn$b = ClassName('colsw');
 class ColorSwatchView {
     constructor(doc, config) {
         this.onValueChange_ = this.onValueChange_.bind(this);
         config.value.emitter.on('change', this.onValueChange_);
         this.value = config.value;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$9());
+        this.element.classList.add(cn$b());
         config.viewProps.bindClassModifiers(this.element);
         const swatchElem = doc.createElement('div');
-        swatchElem.classList.add(cn$9('sw'));
+        swatchElem.classList.add(cn$b('sw'));
         this.element.appendChild(swatchElem);
         this.swatchElem_ = swatchElem;
         const buttonElem = doc.createElement('button');
-        buttonElem.classList.add(cn$9('b'));
+        buttonElem.classList.add(cn$b('b'));
         config.viewProps.bindDisabled(buttonElem);
         this.element.appendChild(buttonElem);
         this.buttonElement = buttonElem;
@@ -5489,15 +5489,15 @@ class PointNdConstraint {
     }
 }
 
-const cn$8 = ClassName('pndtxt');
+const cn$a = ClassName('pndtxt');
 class PointNdTextView$1 {
     constructor(doc, config) {
         this.textViews = config.textViews;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$8());
+        this.element.classList.add(cn$a());
         this.textViews.forEach((v) => {
             const axisElem = doc.createElement('div');
-            axisElem.classList.add(cn$8('a'));
+            axisElem.classList.add(cn$a('a'));
             axisElem.appendChild(v.element);
             this.element.appendChild(axisElem);
         });
@@ -5665,29 +5665,29 @@ const Point2dAssembly = {
     fromComponents: (comps) => new Point2d(...comps),
 };
 
-const cn$7 = ClassName('p2d');
+const cn$9 = ClassName('p2d');
 class Point2dView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$7());
+        this.element.classList.add(cn$9());
         config.viewProps.bindClassModifiers(this.element);
-        bindValue(config.expanded, valueToClassName(this.element, cn$7(undefined, 'expanded')));
+        bindValue(config.expanded, valueToClassName(this.element, cn$9(undefined, 'expanded')));
         const headElem = doc.createElement('div');
-        headElem.classList.add(cn$7('h'));
+        headElem.classList.add(cn$9('h'));
         this.element.appendChild(headElem);
         const buttonElem = doc.createElement('button');
-        buttonElem.classList.add(cn$7('b'));
+        buttonElem.classList.add(cn$9('b'));
         buttonElem.appendChild(createSvgIconElement(doc, 'p2dpad'));
         config.viewProps.bindDisabled(buttonElem);
         headElem.appendChild(buttonElem);
         this.buttonElement = buttonElem;
         const textElem = doc.createElement('div');
-        textElem.classList.add(cn$7('t'));
+        textElem.classList.add(cn$9('t'));
         headElem.appendChild(textElem);
         this.textElement = textElem;
         if (config.pickerLayout === 'inline') {
             const pickerElem = doc.createElement('div');
-            pickerElem.classList.add(cn$7('p'));
+            pickerElem.classList.add(cn$9('p'));
             this.element.appendChild(pickerElem);
             this.pickerElement = pickerElem;
         }
@@ -5697,7 +5697,7 @@ class Point2dView {
     }
 }
 
-const cn$6 = ClassName('p2dp');
+const cn$8 = ClassName('p2dp');
 class Point2dPickerView {
     constructor(doc, config) {
         this.onFoldableChange_ = this.onFoldableChange_.bind(this);
@@ -5706,42 +5706,42 @@ class Point2dPickerView {
         this.props_ = config.props;
         this.props_.emitter.on('change', this.onPropsChange_);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$6());
+        this.element.classList.add(cn$8());
         if (config.layout === 'popup') {
-            this.element.classList.add(cn$6(undefined, 'p'));
+            this.element.classList.add(cn$8(undefined, 'p'));
         }
         config.viewProps.bindClassModifiers(this.element);
         const padElem = doc.createElement('div');
-        padElem.classList.add(cn$6('p'));
+        padElem.classList.add(cn$8('p'));
         config.viewProps.bindTabIndex(padElem);
         this.element.appendChild(padElem);
         this.padElement = padElem;
         const svgElem = doc.createElementNS(SVG_NS, 'svg');
-        svgElem.classList.add(cn$6('g'));
+        svgElem.classList.add(cn$8('g'));
         this.padElement.appendChild(svgElem);
         this.svgElem_ = svgElem;
         const xAxisElem = doc.createElementNS(SVG_NS, 'line');
-        xAxisElem.classList.add(cn$6('ax'));
+        xAxisElem.classList.add(cn$8('ax'));
         xAxisElem.setAttributeNS(null, 'x1', '0');
         xAxisElem.setAttributeNS(null, 'y1', '50%');
         xAxisElem.setAttributeNS(null, 'x2', '100%');
         xAxisElem.setAttributeNS(null, 'y2', '50%');
         this.svgElem_.appendChild(xAxisElem);
         const yAxisElem = doc.createElementNS(SVG_NS, 'line');
-        yAxisElem.classList.add(cn$6('ax'));
+        yAxisElem.classList.add(cn$8('ax'));
         yAxisElem.setAttributeNS(null, 'x1', '50%');
         yAxisElem.setAttributeNS(null, 'y1', '0');
         yAxisElem.setAttributeNS(null, 'x2', '50%');
         yAxisElem.setAttributeNS(null, 'y2', '100%');
         this.svgElem_.appendChild(yAxisElem);
         const lineElem = doc.createElementNS(SVG_NS, 'line');
-        lineElem.classList.add(cn$6('l'));
+        lineElem.classList.add(cn$8('l'));
         lineElem.setAttributeNS(null, 'x1', '50%');
         lineElem.setAttributeNS(null, 'y1', '50%');
         this.svgElem_.appendChild(lineElem);
         this.lineElem_ = lineElem;
         const markerElem = doc.createElement('div');
-        markerElem.classList.add(cn$6('m'));
+        markerElem.classList.add(cn$8('m'));
         this.padElement.appendChild(markerElem);
         this.markerElem_ = markerElem;
         config.value.emitter.on('change', this.onValueChange_);
@@ -6342,16 +6342,16 @@ const Constants = {
     },
 };
 
-const cn$5 = ClassName('mll');
+const cn$7 = ClassName('mll');
 class MultiLogView {
     constructor(doc, config) {
         this.onValueUpdate_ = this.onValueUpdate_.bind(this);
         this.formatter_ = config.formatter;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$5());
+        this.element.classList.add(cn$7());
         config.viewProps.bindClassModifiers(this.element);
         const textareaElem = doc.createElement('textarea');
-        textareaElem.classList.add(cn$5('i'));
+        textareaElem.classList.add(cn$7('i'));
         textareaElem.style.height = `calc(var(${getCssVar('containerUnitSize')}) * ${config.rows})`;
         textareaElem.readOnly = true;
         config.viewProps.bindDisabled(textareaElem);
@@ -6393,16 +6393,16 @@ class MultiLogController {
     }
 }
 
-const cn$4 = ClassName('sgl');
+const cn$6 = ClassName('sgl');
 class SingleLogView {
     constructor(doc, config) {
         this.onValueUpdate_ = this.onValueUpdate_.bind(this);
         this.formatter_ = config.formatter;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$4());
+        this.element.classList.add(cn$6());
         config.viewProps.bindClassModifiers(this.element);
         const inputElem = doc.createElement('input');
-        inputElem.classList.add(cn$4('i'));
+        inputElem.classList.add(cn$6('i'));
         inputElem.readOnly = true;
         inputElem.type = 'text';
         config.viewProps.bindDisabled(inputElem);
@@ -6489,20 +6489,20 @@ class GraphLogMonitorBindingApi extends BindingApi {
     }
 }
 
-const cn$3 = ClassName('grl');
+const cn$5 = ClassName('grl');
 class GraphLogView {
     constructor(doc, config) {
         this.onCursorChange_ = this.onCursorChange_.bind(this);
         this.onValueUpdate_ = this.onValueUpdate_.bind(this);
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$3());
+        this.element.classList.add(cn$5());
         config.viewProps.bindClassModifiers(this.element);
         this.formatter_ = config.formatter;
         this.props_ = config.props;
         this.cursor_ = config.cursor;
         this.cursor_.emitter.on('change', this.onCursorChange_);
         const svgElem = doc.createElementNS(SVG_NS, 'svg');
-        svgElem.classList.add(cn$3('g'));
+        svgElem.classList.add(cn$5('g'));
         svgElem.style.height = `calc(var(${getCssVar('containerUnitSize')}) * ${config.rows})`;
         this.element.appendChild(svgElem);
         this.svgElem_ = svgElem;
@@ -6510,7 +6510,7 @@ class GraphLogView {
         this.svgElem_.appendChild(lineElem);
         this.lineElem_ = lineElem;
         const tooltipElem = doc.createElement('div');
-        tooltipElem.classList.add(cn$3('t'), ClassName('tt')());
+        tooltipElem.classList.add(cn$5('t'), ClassName('tt')());
         this.element.appendChild(tooltipElem);
         this.tooltipElem_ = tooltipElem;
         config.value.emitter.on('change', this.onValueUpdate_);
@@ -6538,7 +6538,7 @@ class GraphLogView {
         const tooltipElem = this.tooltipElem_;
         const value = this.value.rawValue[this.cursor_.rawValue];
         if (value === undefined) {
-            tooltipElem.classList.remove(cn$3('t', 'a'));
+            tooltipElem.classList.remove(cn$5('t', 'a'));
             return;
         }
         const tx = mapRange(this.cursor_.rawValue, 0, maxIndex, 0, w);
@@ -6546,10 +6546,10 @@ class GraphLogView {
         tooltipElem.style.left = `${tx}px`;
         tooltipElem.style.top = `${ty}px`;
         tooltipElem.textContent = `${this.formatter_(value)}`;
-        if (!tooltipElem.classList.contains(cn$3('t', 'a'))) {
-            tooltipElem.classList.add(cn$3('t', 'a'), cn$3('t', 'in'));
+        if (!tooltipElem.classList.contains(cn$5('t', 'a'))) {
+            tooltipElem.classList.add(cn$5('t', 'a'), cn$5('t', 'in'));
             forceReflow(tooltipElem);
-            tooltipElem.classList.remove(cn$3('t', 'in'));
+            tooltipElem.classList.remove(cn$5('t', 'in'));
         }
     }
     onValueUpdate_() {
@@ -6781,20 +6781,20 @@ const ValuePairAssembly = {
     fromComponents: (comps) => new ValuePair(comps[0], comps[1]),
 };
 
-const cn$2 = ClassName('vp');
+const cn$4 = ClassName('vp');
 class ValuePairView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$2());
+        this.element.classList.add(cn$4());
         config.viewProps.bindClassModifiers(this.element);
         const textElem = doc.createElement('div');
-        textElem.classList.add(cn$2('t'));
+        textElem.classList.add(cn$4('t'));
         this.element.appendChild(textElem);
         this.textElement = textElem;
     }
 }
 
-const cn$1 = ClassName('pndtxt');
+const cn$3 = ClassName('pndtxt');
 /**
  * @hidden
  */
@@ -6802,10 +6802,10 @@ class PointNdTextView {
     constructor(doc, config) {
         this.textViews = config.textViews;
         this.element = doc.createElement('div');
-        this.element.classList.add(cn$1());
+        this.element.classList.add(cn$3());
         this.textViews.forEach((v) => {
             const axisElem = doc.createElement('div');
-            axisElem.classList.add(cn$1('a'));
+            axisElem.classList.add(cn$3('a'));
             axisElem.appendChild(v.element);
             this.element.appendChild(axisElem);
         });
@@ -6827,7 +6827,6 @@ class PointNdTextController {
     constructor(doc, config) {
         this.value = config.value;
         this.viewProps = config.viewProps;
-        console.log(config.axes);
         this.acs_ = config.axes.map((_, index) => createAxisController(doc, config, index));
         this.acs_.forEach((c, index) => {
             connectValues({
@@ -6951,53 +6950,53 @@ const ValuePairInputPlugin = createPlugin({
     },
 });
 
-const cn = ClassName('vpl');
+const cn$2 = ClassName('vpl');
 class ValuePairListView {
     constructor(doc, config) {
         this.element = doc.createElement('div');
-        this.element.classList.add(cn());
+        this.element.classList.add(cn$2());
         config.viewProps.bindClassModifiers(this.element);
         // Create header with labels
         this.headerElement_ = doc.createElement('div');
-        this.headerElement_.classList.add(cn('h'));
+        this.headerElement_.classList.add(cn$2('h'));
         const firstLabel = doc.createElement('div');
-        firstLabel.classList.add(cn('l'));
+        firstLabel.classList.add(cn$2('l'));
         firstLabel.textContent = config.firstLabel;
         this.headerElement_.appendChild(firstLabel);
         const secondLabel = doc.createElement('div');
-        secondLabel.classList.add(cn('l'));
+        secondLabel.classList.add(cn$2('l'));
         secondLabel.textContent = config.secondLabel;
         this.headerElement_.appendChild(secondLabel);
         const actionLabel = doc.createElement('div');
-        actionLabel.classList.add(cn('l'));
+        actionLabel.classList.add(cn$2('l'));
         actionLabel.textContent = 'Actions';
         this.headerElement_.appendChild(actionLabel);
         this.element.appendChild(this.headerElement_);
         // Create list container
         this.listElement_ = doc.createElement('div');
-        this.listElement_.classList.add(cn('list'));
+        this.listElement_.classList.add(cn$2('list'));
         this.element.appendChild(this.listElement_);
         // Create add button
         this.addButton = doc.createElement('button');
-        this.addButton.classList.add(cn('add'));
+        this.addButton.classList.add(cn$2('add'));
         this.addButton.textContent = '+ Add Pair';
         this.element.appendChild(this.addButton);
     }
     addPairRow(pairView, onRemove, firstLabel, secondLabel) {
         const rowElement = document.createElement('div');
-        rowElement.classList.add(cn('row'));
+        rowElement.classList.add(cn$2('row'));
         // Create a wrapper that includes labels and the original pair view
         const pairWrapper = document.createElement('div');
-        pairWrapper.classList.add(cn('pair-wrapper'));
+        pairWrapper.classList.add(cn$2('pair-wrapper'));
         // Create labels container
         const labelsContainer = document.createElement('div');
-        labelsContainer.classList.add(cn('labels'));
+        labelsContainer.classList.add(cn$2('labels'));
         const firstLabelElem = document.createElement('div');
-        firstLabelElem.classList.add(cn('label'));
+        firstLabelElem.classList.add(cn$2('label'));
         firstLabelElem.textContent = firstLabel || 'First';
         labelsContainer.appendChild(firstLabelElem);
         const secondLabelElem = document.createElement('div');
-        secondLabelElem.classList.add(cn('label'));
+        secondLabelElem.classList.add(cn$2('label'));
         secondLabelElem.textContent = secondLabel || 'Second';
         labelsContainer.appendChild(secondLabelElem);
         // Add labels and the original pair view
@@ -7006,7 +7005,7 @@ class ValuePairListView {
         rowElement.appendChild(pairWrapper);
         // Add remove button
         const removeButton = document.createElement('button');
-        removeButton.classList.add(cn('remove'));
+        removeButton.classList.add(cn$2('remove'));
         removeButton.textContent = '×';
         removeButton.addEventListener('click', () => {
             // Remove the row from the list
@@ -7205,15 +7204,264 @@ const ValuePairListInputPlugin = createPlugin({
     },
 });
 
+class StringList {
+    constructor(items = []) {
+        this.items = [...items];
+    }
+    getComponents() {
+        return [...this.items];
+    }
+    static isObject(obj) {
+        if (!Array.isArray(obj)) {
+            return false;
+        }
+        return obj.every(item => typeof item === 'string');
+    }
+    static equals(v1, v2) {
+        if (v1.items.length !== v2.items.length) {
+            return false;
+        }
+        return v1.items.every((item, index) => item === v2.items[index]);
+    }
+    static fromObject(obj) {
+        return new StringList(obj);
+    }
+    toObject() {
+        return [...this.items];
+    }
+}
+
+const cn$1 = ClassName('sl');
+class StringListView {
+    constructor(doc, config) {
+        this.element = doc.createElement('div');
+        this.element.classList.add(cn$1());
+        config.viewProps.bindClassModifiers(this.element);
+        // Create header with label
+        this.headerElement_ = doc.createElement('div');
+        this.headerElement_.classList.add(cn$1('h'));
+        const label = doc.createElement('div');
+        label.classList.add(cn$1('l'));
+        label.textContent = config.label || 'String';
+        this.headerElement_.appendChild(label);
+        const actionLabel = doc.createElement('div');
+        actionLabel.classList.add(cn$1('l'));
+        actionLabel.textContent = 'Actions';
+        this.headerElement_.appendChild(actionLabel);
+        this.element.appendChild(this.headerElement_);
+        // Create list container
+        this.listElement_ = doc.createElement('div');
+        this.listElement_.classList.add(cn$1('list'));
+        this.element.appendChild(this.listElement_);
+        // Create add button
+        this.addButton = doc.createElement('button');
+        this.addButton.classList.add(cn$1('add'));
+        this.addButton.textContent = '+ Add String';
+        this.element.appendChild(this.addButton);
+    }
+    addStringRow(stringView, onRemove, label) {
+        const rowElement = document.createElement('div');
+        rowElement.classList.add(cn$1('row'));
+        // Create a wrapper for just the string view (no label)
+        const stringWrapper = document.createElement('div');
+        stringWrapper.classList.add(cn$1('string-wrapper'));
+        // Add only the string view (no label)
+        stringWrapper.appendChild(stringView.element);
+        rowElement.appendChild(stringWrapper);
+        // Add remove button
+        const removeButton = document.createElement('button');
+        removeButton.classList.add(cn$1('remove'));
+        removeButton.textContent = '×';
+        removeButton.addEventListener('click', () => {
+            // Remove the row from the list
+            if (rowElement.parentNode) {
+                rowElement.parentNode.removeChild(rowElement);
+            }
+            onRemove();
+        });
+        rowElement.appendChild(removeButton);
+        this.listElement_.appendChild(rowElement);
+    }
+    clearRows() {
+        while (this.listElement_.firstChild) {
+            this.listElement_.removeChild(this.listElement_.firstChild);
+        }
+    }
+}
+
+const cn = ClassName('si');
+class StringItemView {
+    constructor(doc, config) {
+        this.element = doc.createElement('div');
+        this.element.classList.add(cn());
+        config.viewProps.bindClassModifiers(this.element);
+        const textElem = doc.createElement('div');
+        textElem.classList.add(cn('t'));
+        this.element.appendChild(textElem);
+        this.textElement = textElem;
+    }
+}
+
+class StringItemController {
+    constructor(doc, config) {
+        this.value = config.value;
+        this.viewProps = config.viewProps;
+        // Create TextController using the provided example pattern
+        this.textC_ = new TextController(doc, {
+            parser: (v) => v,
+            props: ValueMap.fromObject({
+                formatter: (v) => v,
+            }),
+            value: this.value,
+            viewProps: this.viewProps,
+        });
+        this.view = new StringItemView(doc, {
+            viewProps: this.viewProps,
+        });
+        this.view.textElement.appendChild(this.textC_.view.element);
+    }
+    get textController() {
+        return this.textC_;
+    }
+}
+
+class StringListController {
+    constructor(doc, config) {
+        this.stringControllers_ = [];
+        this.value = config.value;
+        this.viewProps = config.viewProps;
+        this.params_ = config.params;
+        this.view = new StringListView(doc, {
+            viewProps: this.viewProps,
+            label: config.params.label || 'String',
+        });
+        // Create controllers for existing strings
+        this.recreateControllers_(doc);
+        // Listen for value changes to recreate controllers only when array length changes
+        this.value.emitter.on('change', () => {
+            const currentLength = this.value.rawValue.items.length;
+            const controllerLength = this.stringControllers_.length;
+            // Only recreate if the array length changed (add/remove), not for value updates within strings
+            if (currentLength !== controllerLength) {
+                this.recreateControllers_(doc);
+            }
+        });
+        // Handle add button
+        this.view.addButton.addEventListener('click', () => {
+            this.addString_();
+        });
+    }
+    recreateControllers_(doc) {
+        // Clear existing controllers and views
+        this.stringControllers_.forEach(controller => {
+            // Remove from view properly
+            if (controller.view.element.parentNode) {
+                controller.view.element.parentNode.removeChild(controller.view.element);
+            }
+        });
+        this.stringControllers_.length = 0;
+        // Clear all rows from the view
+        this.view.clearRows();
+        // Create new controllers for current strings
+        const strings = this.value.rawValue.items;
+        strings.forEach((str, index) => {
+            this.createStringController_(doc, str, index);
+        });
+    }
+    createStringController_(doc, str, index) {
+        // Create value for this string
+        const stringValue = createValue(str);
+        // Create controller
+        const controller = new StringItemController(doc, {
+            value: stringValue,
+            viewProps: this.viewProps,
+        });
+        // Listen for changes to update the main array
+        stringValue.emitter.on('change', () => {
+            this.updateStringAtIndex_(index, stringValue.rawValue);
+        });
+        this.stringControllers_.push(controller);
+        // Add to view with remove button
+        this.view.addStringRow(controller.view, () => {
+            this.removeString_(index);
+        });
+    }
+    addString_() {
+        const newString = '';
+        const currentStrings = [...this.value.rawValue.items];
+        currentStrings.push(newString);
+        this.value.rawValue = new StringList(currentStrings);
+    }
+    removeString_(index) {
+        const currentStrings = [...this.value.rawValue.items];
+        currentStrings.splice(index, 1);
+        this.value.rawValue = new StringList(currentStrings);
+    }
+    updateStringAtIndex_(index, newString) {
+        const currentStrings = [...this.value.rawValue.items];
+        // Only update if the value actually changed to prevent unnecessary events
+        if (currentStrings[index] !== newString) {
+            currentStrings[index] = newString;
+            this.value.rawValue = new StringList(currentStrings);
+        }
+    }
+}
+
+function stringListFromUnknown(value) {
+    if (StringList.isObject(value)) {
+        return StringList.fromObject(value);
+    }
+    return new StringList();
+}
+function writeStringList(target, inValue) {
+    target.write(inValue.toObject());
+}
+
+const StringListInputPlugin = createPlugin({
+    id: 'input-stringlist',
+    type: 'input',
+    accept: (value, params) => {
+        const parsedParams = parseRecord(params, (p) => ({
+            view: p.optional.constant('stringlist'),
+            label: p.optional.string,
+        }));
+        if (!parsedParams) {
+            return null;
+        }
+        if (!StringList.isObject(value)) {
+            return null;
+        }
+        return {
+            initialValue: value,
+            params: parsedParams,
+        };
+    },
+    binding: {
+        reader: (_args) => stringListFromUnknown,
+        equals: StringList.equals,
+        writer: (_args) => writeStringList,
+    },
+    controller: (args) => {
+        const doc = args.document;
+        const value = args.value;
+        return new StringListController(doc, {
+            params: args.params,
+            value: value,
+            viewProps: args.viewProps,
+        });
+    },
+});
+
 // The identifier of the plugin bundle.
 const id = 'tablepane';
 // This plugin template injects a compiled CSS by @rollup/plugin-replace
 // See rollup.config.js for details
-const css = '.tp-tmpv,.tp-valuepairsv,.tp-valuepairsv_input,.tp-vplv,.tp-valuepairsv_add-btn,.tp-vplv_add{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:rgba(0,0,0,0);border-width:0;font-family:inherit;font-size:inherit;font-weight:inherit;margin:0;outline:none;padding:0}.tp-valuepairsv_add-btn,.tp-vplv_add{background-color:var(--btn-bg);border-radius:var(--bld-br);color:var(--btn-fg);cursor:pointer;display:block;font-weight:bold;height:var(--cnt-usz);line-height:var(--cnt-usz);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tp-valuepairsv_add-btn:hover,.tp-vplv_add:hover{background-color:var(--btn-bg-h)}.tp-valuepairsv_add-btn:focus,.tp-vplv_add:focus{background-color:var(--btn-bg-f)}.tp-valuepairsv_add-btn:active,.tp-vplv_add:active{background-color:var(--btn-bg-a)}.tp-valuepairsv_add-btn:disabled,.tp-vplv_add:disabled{opacity:.5}.tp-tmpv,.tp-valuepairsv,.tp-valuepairsv_input,.tp-vplv{background-color:var(--in-bg);border-radius:var(--bld-br);box-sizing:border-box;color:var(--in-fg);font-family:inherit;height:var(--cnt-usz);line-height:var(--cnt-usz);min-width:0;width:100%}.tp-tmpv:hover,.tp-valuepairsv:hover,.tp-valuepairsv_input:hover,.tp-vplv:hover{background-color:var(--in-bg-h)}.tp-tmpv:focus,.tp-valuepairsv:focus,.tp-valuepairsv_input:focus,.tp-vplv:focus{background-color:var(--in-bg-f)}.tp-tmpv:active,.tp-valuepairsv:active,.tp-valuepairsv_input:active,.tp-vplv:active{background-color:var(--in-bg-a)}.tp-tmpv:disabled,.tp-valuepairsv:disabled,.tp-valuepairsv_input:disabled,.tp-vplv:disabled{opacity:.5}.tp-tmpv{cursor:pointer;display:grid;grid-template-columns:repeat(10, 1fr);grid-template-rows:repeat(auto-fit, 10px);height:calc(var(--cnt-usz)*3);overflow:hidden;position:relative}.tp-tmpv.tp-v-disabled{opacity:.5}.tp-tmpv_text{color:var(--in-fg);bottom:2px;font-size:.9em;line-height:.9;opacity:.5;position:absolute;right:2px}.tp-tmpv_dot{height:10px;line-height:10px;position:relative;text-align:center}.tp-tmpv_dot::before{background-color:var(--in-fg);content:"";border-radius:1px;height:2px;left:50%;margin-left:-1px;margin-top:-1px;position:absolute;top:50%;width:2px}.tp-tmpv_frac{background-color:var(--in-fg);border-radius:1px;height:2px;left:50%;margin-top:-1px;position:absolute;top:50%}.tp-valuepairsv{padding:6px;overflow:visible;height:auto;min-height:auto}.tp-valuepairsv.tp-v-disabled{opacity:.5;pointer-events:none}.tp-valuepairsv_list{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;box-sizing:border-box}.tp-valuepairsv_row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;padding:8px;margin-bottom:6px;background-color:rgba(255, 255, 255, 0.02);border:1px solid rgba(255, 255, 255, 0.08);border-radius:3px;transition:background-color .15s ease;width:100%;box-sizing:border-box;position:relative;overflow:visible}.tp-valuepairsv_row:hover{background-color:rgba(255, 255, 255, 0.04);border-color:rgba(255, 255, 255, 0.12)}.tp-valuepairsv_row:last-child{margin-bottom:0}.tp-valuepairsv_input-container{display:flex;flex-direction:column;gap:3px;width:100%;box-sizing:border-box;position:relative}.tp-valuepairsv_label{font-size:.75em;color:var(--in-fg);opacity:.8;text-transform:uppercase;font-weight:500;letter-spacing:.5px}.tp-valuepairsv_input{width:100%;height:calc(var(--cnt-usz)*.75);padding:0 6px;font-size:.85em;border:1px solid rgba(255, 255, 255, 0.1);border-radius:2px;background-color:rgba(255, 255, 255, 0.03);color:var(--in-fg);transition:all .15s ease}.tp-valuepairsv_input:focus{background-color:rgba(255, 255, 255, 0.08);border-color:rgba(255, 255, 255, 0.25);outline:none;box-shadow:0 0 0 1px rgba(255, 255, 255, 0.1)}.tp-valuepairsv_input:hover{border-color:rgba(255, 255, 255, 0.15)}.tp-valuepairsv_delete-btn{width:24px;height:calc(var(--cnt-usz)*.75);padding:0;border:1px solid rgba(255, 80, 80, 0.3);border-radius:2px;background-color:rgba(255, 80, 80, 0.1);color:rgb(255, 150, 150);cursor:pointer;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;transition:all .15s ease}.tp-valuepairsv_delete-btn:hover{background-color:rgba(255, 80, 80, 0.2);border-color:rgba(255, 80, 80, 0.5);color:rgb(255, 200, 200);transform:scale(1.05)}.tp-valuepairsv_delete-btn:active{background-color:rgba(255, 80, 80, 0.3);transform:scale(0.95)}.tp-valuepairsv_add-btn{width:100%;height:calc(var(--cnt-usz)*.85);margin-top:8px;font-size:.8em;border:1px dashed rgba(255, 255, 255, 0.2);background-color:rgba(0,0,0,0);color:var(--in-fg);cursor:pointer;transition:all .15s ease;text-transform:uppercase;letter-spacing:.5px;font-weight:500;box-sizing:border-box;position:relative;clear:both}.tp-valuepairsv_add-btn:hover{background-color:rgba(255, 255, 255, 0.05);border-color:rgba(255, 255, 255, 0.3);border-style:solid;transform:translateY(-1px)}.tp-valuepairsv_add-btn:active{background-color:rgba(255, 255, 255, 0.08);transform:translateY(0)}.tp-vplv{padding:6px;overflow:visible;height:auto;min-height:auto}.tp-vplv.tp-v-disabled{opacity:.5;pointer-events:none}.tp-vplv_h{display:none}.tp-vplv_list{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;box-sizing:border-box}.tp-vplv_row{display:flex;align-items:end;gap:8px;padding:8px;margin-bottom:6px;background-color:rgba(255, 255, 255, 0.02);border:1px solid rgba(255, 255, 255, 0.08);border-radius:3px;transition:background-color .15s ease;width:100%;box-sizing:border-box;position:relative;overflow:visible}.tp-vplv_row:hover{background-color:rgba(255, 255, 255, 0.04);border-color:rgba(255, 255, 255, 0.12)}.tp-vplv_row:last-child{margin-bottom:0}.tp-vplv_pair-wrapper{flex:1;display:flex;flex-direction:column;gap:3px}.tp-vplv_labels{display:flex;gap:8px}.tp-vplv_label{flex:1;font-size:.75em;color:var(--in-fg);opacity:.8;text-transform:uppercase;font-weight:500;letter-spacing:.5px;text-align:center}.tp-vplv_pair-wrapper .tp-vpv{width:100%}.tp-vplv_pair-wrapper .tp-vpv .tp-vpv_t{width:100%}.tp-vplv_pair-wrapper .tp-vpv .tp-vpv_t .tp-pndtxtv{width:100%}.tp-vplv_remove{width:24px;height:calc(var(--cnt-usz)*.75);padding:0;border:1px solid rgba(255, 80, 80, 0.3);border-radius:2px;background-color:rgba(255, 80, 80, 0.1);color:rgb(255, 150, 150);cursor:pointer;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;transition:all .15s ease}.tp-vplv_remove:hover{background-color:rgba(255, 80, 80, 0.2);border-color:rgba(255, 80, 80, 0.5);color:rgb(255, 200, 200);transform:scale(1.05)}.tp-vplv_remove:active{background-color:rgba(255, 80, 80, 0.3);transform:scale(0.95)}.tp-vplv_add{width:100%;height:calc(var(--cnt-usz)*.85);margin-top:8px;font-size:.8em;border:1px dashed rgba(255, 255, 255, 0.2);background-color:rgba(0,0,0,0);color:var(--in-fg);cursor:pointer;transition:all .15s ease;text-transform:uppercase;letter-spacing:.5px;font-weight:500;box-sizing:border-box;position:relative;clear:both}.tp-vplv_add:hover{background-color:rgba(255, 255, 255, 0.05);border-color:rgba(255, 255, 255, 0.3);border-style:solid;transform:translateY(-1px)}.tp-vplv_add:active{background-color:rgba(255, 255, 255, 0.08);transform:translateY(0)}.tp-vpv_t{display:flex}.tp-vpv_t .tp-pndtxtv{flex:1}';
+const css = '.tp-tmpv,.tp-valuepairsv,.tp-valuepairsv_input,.tp-vplv,.tp-slv,.tp-valuepairsv_add-btn,.tp-vplv_add,.tp-slv_add{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:rgba(0,0,0,0);border-width:0;font-family:inherit;font-size:inherit;font-weight:inherit;margin:0;outline:none;padding:0}.tp-valuepairsv_add-btn,.tp-vplv_add,.tp-slv_add{background-color:var(--btn-bg);border-radius:var(--bld-br);color:var(--btn-fg);cursor:pointer;display:block;font-weight:bold;height:var(--cnt-usz);line-height:var(--cnt-usz);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tp-valuepairsv_add-btn:hover,.tp-vplv_add:hover,.tp-slv_add:hover{background-color:var(--btn-bg-h)}.tp-valuepairsv_add-btn:focus,.tp-vplv_add:focus,.tp-slv_add:focus{background-color:var(--btn-bg-f)}.tp-valuepairsv_add-btn:active,.tp-vplv_add:active,.tp-slv_add:active{background-color:var(--btn-bg-a)}.tp-valuepairsv_add-btn:disabled,.tp-vplv_add:disabled,.tp-slv_add:disabled{opacity:.5}.tp-tmpv,.tp-valuepairsv,.tp-valuepairsv_input,.tp-vplv,.tp-slv{background-color:var(--in-bg);border-radius:var(--bld-br);box-sizing:border-box;color:var(--in-fg);font-family:inherit;height:var(--cnt-usz);line-height:var(--cnt-usz);min-width:0;width:100%}.tp-tmpv:hover,.tp-valuepairsv:hover,.tp-valuepairsv_input:hover,.tp-vplv:hover,.tp-slv:hover{background-color:var(--in-bg-h)}.tp-tmpv:focus,.tp-valuepairsv:focus,.tp-valuepairsv_input:focus,.tp-vplv:focus,.tp-slv:focus{background-color:var(--in-bg-f)}.tp-tmpv:active,.tp-valuepairsv:active,.tp-valuepairsv_input:active,.tp-vplv:active,.tp-slv:active{background-color:var(--in-bg-a)}.tp-tmpv:disabled,.tp-valuepairsv:disabled,.tp-valuepairsv_input:disabled,.tp-vplv:disabled,.tp-slv:disabled{opacity:.5}.tp-tmpv{cursor:pointer;display:grid;grid-template-columns:repeat(10, 1fr);grid-template-rows:repeat(auto-fit, 10px);height:calc(var(--cnt-usz)*3);overflow:hidden;position:relative}.tp-tmpv.tp-v-disabled{opacity:.5}.tp-tmpv_text{color:var(--in-fg);bottom:2px;font-size:.9em;line-height:.9;opacity:.5;position:absolute;right:2px}.tp-tmpv_dot{height:10px;line-height:10px;position:relative;text-align:center}.tp-tmpv_dot::before{background-color:var(--in-fg);content:"";border-radius:1px;height:2px;left:50%;margin-left:-1px;margin-top:-1px;position:absolute;top:50%;width:2px}.tp-tmpv_frac{background-color:var(--in-fg);border-radius:1px;height:2px;left:50%;margin-top:-1px;position:absolute;top:50%}.tp-valuepairsv{padding:6px;overflow:visible;height:auto;min-height:auto}.tp-valuepairsv.tp-v-disabled{opacity:.5;pointer-events:none}.tp-valuepairsv_list{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;box-sizing:border-box}.tp-valuepairsv_row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;padding:8px;margin-bottom:6px;background-color:rgba(255, 255, 255, 0.02);border:1px solid rgba(255, 255, 255, 0.08);border-radius:3px;transition:background-color .15s ease;width:100%;box-sizing:border-box;position:relative;overflow:visible}.tp-valuepairsv_row:hover{background-color:rgba(255, 255, 255, 0.04);border-color:rgba(255, 255, 255, 0.12)}.tp-valuepairsv_row:last-child{margin-bottom:0}.tp-valuepairsv_input-container{display:flex;flex-direction:column;gap:3px;width:100%;box-sizing:border-box;position:relative}.tp-valuepairsv_label{font-size:.75em;color:var(--in-fg);opacity:.8;text-transform:uppercase;font-weight:500;letter-spacing:.5px}.tp-valuepairsv_input{width:100%;height:calc(var(--cnt-usz)*.75);padding:0 6px;font-size:.85em;border:1px solid rgba(255, 255, 255, 0.1);border-radius:2px;background-color:rgba(255, 255, 255, 0.03);color:var(--in-fg);transition:all .15s ease}.tp-valuepairsv_input:focus{background-color:rgba(255, 255, 255, 0.08);border-color:rgba(255, 255, 255, 0.25);outline:none;box-shadow:0 0 0 1px rgba(255, 255, 255, 0.1)}.tp-valuepairsv_input:hover{border-color:rgba(255, 255, 255, 0.15)}.tp-valuepairsv_delete-btn{width:24px;height:calc(var(--cnt-usz)*.75);padding:0;border:1px solid rgba(255, 80, 80, 0.3);border-radius:2px;background-color:rgba(255, 80, 80, 0.1);color:rgb(255, 150, 150);cursor:pointer;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;transition:all .15s ease}.tp-valuepairsv_delete-btn:hover{background-color:rgba(255, 80, 80, 0.2);border-color:rgba(255, 80, 80, 0.5);color:rgb(255, 200, 200);transform:scale(1.05)}.tp-valuepairsv_delete-btn:active{background-color:rgba(255, 80, 80, 0.3);transform:scale(0.95)}.tp-valuepairsv_add-btn{width:100%;height:calc(var(--cnt-usz)*.85);margin-top:8px;font-size:.8em;border:1px dashed rgba(255, 255, 255, 0.2);background-color:rgba(0,0,0,0);color:var(--in-fg);cursor:pointer;transition:all .15s ease;text-transform:uppercase;letter-spacing:.5px;font-weight:500;box-sizing:border-box;position:relative;clear:both}.tp-valuepairsv_add-btn:hover{background-color:rgba(255, 255, 255, 0.05);border-color:rgba(255, 255, 255, 0.3);border-style:solid;transform:translateY(-1px)}.tp-valuepairsv_add-btn:active{background-color:rgba(255, 255, 255, 0.08);transform:translateY(0)}.tp-vplv{padding:6px;overflow:visible;height:auto;min-height:auto}.tp-vplv.tp-v-disabled{opacity:.5;pointer-events:none}.tp-vplv_h{display:none}.tp-vplv_list{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;box-sizing:border-box}.tp-vplv_row{display:flex;align-items:end;gap:8px;padding:8px;margin-bottom:6px;background-color:rgba(255, 255, 255, 0.02);border:1px solid rgba(255, 255, 255, 0.08);border-radius:3px;transition:background-color .15s ease;width:100%;box-sizing:border-box;position:relative;overflow:visible}.tp-vplv_row:hover{background-color:rgba(255, 255, 255, 0.04);border-color:rgba(255, 255, 255, 0.12)}.tp-vplv_row:last-child{margin-bottom:0}.tp-vplv_pair-wrapper{flex:1;display:flex;flex-direction:column;gap:3px}.tp-vplv_labels{display:flex;gap:8px}.tp-vplv_label{flex:1;font-size:.75em;color:var(--in-fg);opacity:.8;text-transform:uppercase;font-weight:500;letter-spacing:.5px;text-align:center}.tp-vplv_pair-wrapper .tp-vpv{width:100%}.tp-vplv_pair-wrapper .tp-vpv .tp-vpv_t{width:100%}.tp-vplv_pair-wrapper .tp-vpv .tp-vpv_t .tp-pndtxtv{width:100%}.tp-vplv_remove{width:24px;height:calc(var(--cnt-usz)*.75);padding:0;border:1px solid rgba(255, 80, 80, 0.3);border-radius:2px;background-color:rgba(255, 80, 80, 0.1);color:rgb(255, 150, 150);cursor:pointer;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;transition:all .15s ease}.tp-vplv_remove:hover{background-color:rgba(255, 80, 80, 0.2);border-color:rgba(255, 80, 80, 0.5);color:rgb(255, 200, 200);transform:scale(1.05)}.tp-vplv_remove:active{background-color:rgba(255, 80, 80, 0.3);transform:scale(0.95)}.tp-vplv_add{width:100%;height:calc(var(--cnt-usz)*.85);margin-top:8px;font-size:.8em;border:1px dashed rgba(255, 255, 255, 0.2);background-color:rgba(0,0,0,0);color:var(--in-fg);cursor:pointer;transition:all .15s ease;text-transform:uppercase;letter-spacing:.5px;font-weight:500;box-sizing:border-box;position:relative;clear:both}.tp-vplv_add:hover{background-color:rgba(255, 255, 255, 0.05);border-color:rgba(255, 255, 255, 0.3);border-style:solid;transform:translateY(-1px)}.tp-vplv_add:active{background-color:rgba(255, 255, 255, 0.08);transform:translateY(0)}.tp-vpv_t{display:flex}.tp-vpv_t .tp-pndtxtv{flex:1}.tp-slv{padding:6px;overflow:visible;height:auto;min-height:auto}.tp-slv.tp-v-disabled{opacity:.5;pointer-events:none}.tp-slv_h{display:none}.tp-slv_list{display:flex;flex-direction:column;gap:6px;overflow:visible;width:100%;box-sizing:border-box}.tp-slv_row{display:flex;align-items:end;gap:8px;padding:8px;margin-bottom:6px;background-color:rgba(255, 255, 255, 0.02);border:1px solid rgba(255, 255, 255, 0.08);border-radius:3px;transition:background-color .15s ease;width:100%;box-sizing:border-box;position:relative;overflow:visible}.tp-slv_row:hover{background-color:rgba(255, 255, 255, 0.04);border-color:rgba(255, 255, 255, 0.12)}.tp-slv_row:last-child{margin-bottom:0}.tp-slv_string-wrapper{flex:1;display:flex;align-items:center}.tp-slv_string-wrapper .tp-siv{width:100%}.tp-slv_string-wrapper .tp-siv_t{width:100%}.tp-slv_string-wrapper .tp-siv_t .tp-txtv{width:100%}.tp-slv_remove{width:24px;height:calc(var(--cnt-usz)*.75);padding:0;border:1px solid rgba(255, 80, 80, 0.3);border-radius:2px;background-color:rgba(255, 80, 80, 0.1);color:rgb(255, 150, 150);cursor:pointer;font-size:12px;font-weight:bold;display:flex;align-items:center;justify-content:center;transition:all .15s ease}.tp-slv_remove:hover{background-color:rgba(255, 80, 80, 0.2);border-color:rgba(255, 80, 80, 0.5);color:rgb(255, 200, 200);transform:scale(1.05)}.tp-slv_remove:active{background-color:rgba(255, 80, 80, 0.3);transform:scale(0.95)}.tp-slv_add{width:100%;height:calc(var(--cnt-usz)*.85);margin-top:8px;font-size:.8em;border:1px dashed rgba(255, 255, 255, 0.2);background-color:rgba(0,0,0,0);color:var(--in-fg);cursor:pointer;transition:all .15s ease;text-transform:uppercase;letter-spacing:.5px;font-weight:500;box-sizing:border-box;position:relative;clear:both}.tp-slv_add:hover{background-color:rgba(255, 255, 255, 0.05);border-color:rgba(255, 255, 255, 0.3);border-style:solid;transform:translateY(-1px)}.tp-slv_add:active{background-color:rgba(255, 255, 255, 0.08);transform:translateY(0)}.tp-siv_t{display:flex}.tp-siv_t .tp-txtv{flex:1}';
 // Export your plugin(s) as a constant `plugins`
 const plugins = [
     ValuePairInputPlugin,
     ValuePairListInputPlugin,
+    StringListInputPlugin,
 ];
 
 export { css, id, plugins };

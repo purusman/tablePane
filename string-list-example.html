@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>String List Plugin Example</title>
+	<style>
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+			margin: 0;
+			padding: 20px;
+			background: #1a1a1a;
+			color: #ffffff;
+		}
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+		}
+		h1 {
+			color: #ffffff;
+			margin-bottom: 10px;
+		}
+		.description {
+			color: #cccccc;
+			margin-bottom: 30px;
+			line-height: 1.5;
+		}
+		.demo-section {
+			background: #2a2a2a;
+			border-radius: 8px;
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+		.demo-section h2 {
+			color: #ffffff;
+			margin-top: 0;
+			margin-bottom: 15px;
+			font-size: 1.2em;
+		}
+		#output {
+			background: #1e1e1e;
+			border: 1px solid #444;
+			border-radius: 4px;
+			padding: 15px;
+			margin-top: 15px;
+		}
+		#output h3 {
+			color: #ffffff;
+			margin-top: 0;
+			margin-bottom: 10px;
+		}
+		#value-display {
+			color: #00ff88;
+			font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+			font-size: 14px;
+			white-space: pre-wrap;
+			margin: 0;
+		}
+		.code-block {
+			background: #1e1e1e;
+			border: 1px solid #444;
+			border-radius: 4px;
+			padding: 15px;
+			margin: 15px 0;
+			overflow-x: auto;
+		}
+		.code-block code {
+			color: #00ff88;
+			font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+			font-size: 14px;
+		}
+		.warning {
+			background: #4a3a00;
+			border: 1px solid #8a6a00;
+			border-radius: 4px;
+			padding: 15px;
+			margin: 15px 0;
+			color: #ffcc00;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>String List Plugin for Tweakpane</h1>
+		<p class="description">
+			This plugin allows you to create and manage dynamic lists of strings using Tweakpane. 
+			Each string in the list uses TextController for consistent text input behavior, and you can 
+			add/remove items dynamically.
+		</p>
+
+		<div class="warning">
+			<strong>Note:</strong> This is a demonstration page. To actually use the plugin, you need to 
+			build the project and import the generated plugin bundle into your Tweakpane setup.
+		</div>
+
+		<div class="demo-section">
+			<h2>Usage Example</h2>
+			<p>Here's how you would use the String List plugin in your project:</p>
+			
+			<div class="code-block">
+				<code>import {Pane} from 'tweakpane';
+import * as TablePanePlugin from './path/to/dist/tweakpane-plugin-template.js';
+
+// Register the plugin
+const pane = new Pane();
+pane.registerPlugin(TablePanePlugin);
+
+// Create parameters object with string list
+const PARAMS = {
+  stringList: ['Hello', 'World', 'Example', 'Strings']
+};
+
+// Add the string list input
+const stringListInput = pane.addInput(PARAMS, 'stringList', {
+  view: 'stringlist',
+  label: 'Items'
+});
+
+// Listen for changes
+stringListInput.on('change', (ev) => {
+  console.log('String list changed:', ev.value);
+  // ev.value will be an array of strings
+});</code>
+			</div>
+		</div>
+
+		<div class="demo-section">
+			<h2>Plugin Features</h2>
+			<ul style="color: #cccccc; line-height: 1.6;">
+				<li><strong>Dynamic Management:</strong> Add and remove string items with buttons</li>
+				<li><strong>TextController Integration:</strong> Each string uses Tweakpane's native text input</li>
+				<li><strong>Real-time Updates:</strong> Changes are immediately reflected in the bound object</li>
+				<li><strong>Consistent Styling:</strong> Matches the existing Tweakpane theme</li>
+				<li><strong>Type Safety:</strong> Full TypeScript support with proper type definitions</li>
+			</ul>
+		</div>
+
+		<div class="demo-section">
+			<h2>Plugin Parameters</h2>
+			<div class="code-block">
+				<code>interface StringListPluginInputParams {
+  view: 'stringlist';  // Required identifier
+  label?: string;      // Label for string items (default: 'String')
+}</code>
+			</div>
+		</div>
+
+		<div class="demo-section">
+			<h2>Demo Placeholder</h2>
+			<p>In a real implementation, you would see an interactive Tweakpane control here:</p>
+			<div id="pane-container" style="background: #333; padding: 20px; border-radius: 4px; text-align: center; color: #999;">
+				[Tweakpane String List Control would appear here]
+			</div>
+			
+			<div id="output">
+				<h3>Current Value:</h3>
+				<pre id="value-display">['Hello', 'World', 'Example', 'Strings']</pre>
+			</div>
+		</div>
+
+		<div class="demo-section">
+			<h2>Build Instructions</h2>
+			<p>To use this plugin in your project:</p>
+			<ol style="color: #cccccc; line-height: 1.6;">
+				<li>Run <code style="background: #1e1e1e; padding: 2px 6px; border-radius: 3px;">npm run build</code> to build the plugin</li>
+				<li>Import the generated bundle from <code style="background: #1e1e1e; padding: 2px 6px; border-radius: 3px;">dist/tweakpane-plugin-template.js</code></li>
+				<li>Register the plugin with your Tweakpane instance</li>
+				<li>Use <code style="background: #1e1e1e; padding: 2px 6px; border-radius: 3px;">view: 'stringlist'</code> when adding inputs</li>
+			</ol>
+		</div>
+
+		<div class="demo-section">
+			<h2>Technical Implementation</h2>
+			<p>The plugin is built using the value pair list as a foundation but adapted for strings:</p>
+			<ul style="color: #cccccc; line-height: 1.6;">
+				<li><strong>Model:</strong> StringList class managing an array of strings</li>
+				<li><strong>Controller:</strong> Uses TextController for each string item instead of NumberTextController</li>
+				<li><strong>View:</strong> Simplified single-input rows instead of dual number inputs</li>
+				<li><strong>Styling:</strong> Consistent with existing Tweakpane design patterns</li>
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		// Simulate value updates for demonstration
+		let demoValues = ['Hello', 'World', 'Example', 'Strings'];
+		let counter = 0;
+		
+		function updateDemo() {
+			const actions = [
+				() => demoValues.push(`Item ${++counter}`),
+				() => demoValues.length > 1 && demoValues.pop(),
+				() => demoValues.length > 0 && (demoValues[0] = `Updated ${++counter}`),
+			];
+			
+			// Randomly perform an action
+			const action = actions[Math.floor(Math.random() * actions.length)];
+			action();
+			
+			document.getElementById('value-display').textContent = JSON.stringify(demoValues, null, 2);
+		}
+		
+		// Update demo every 3 seconds
+		setInterval(updateDemo, 3000);
+	</script>
+</body>
+</html>

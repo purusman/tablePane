@@ -40,8 +40,6 @@ export class PointNdTextController<PointNd>
 		this.value = config.value;
 		this.viewProps = config.viewProps;
 
-		console.log(config.axes);
-
 		this.acs_ = config.axes.map((_, index) =>
 			createAxisController(doc, config, index),
 		);

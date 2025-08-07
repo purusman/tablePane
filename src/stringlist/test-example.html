@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>String List Plugin Test</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			padding: 20px;
+		}
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+		}
+		#output {
+			margin-top: 20px;
+			padding: 10px;
+			background: #f5f5f5;
+			border-radius: 4px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>String List Plugin Test</h1>
+		<p>This demonstrates the string list plugin in action:</p>
+		
+		<div id="pane"></div>
+		
+		<div id="output">
+			<h3>Current Value:</h3>
+			<pre id="value-display">[]</pre>
+		</div>
+	</div>
+
+	<script type="module">
+		// This is a demonstration of how to use the StringListInputPlugin
+		// In a real implementation, you would import from your built plugin bundle
+		
+		// Example usage (pseudo-code):
+		/*
+		import {Pane} from 'tweakpane';
+		import * as YourPlugin from './path/to/your/plugin';
+
+		const pane = new Pane();
+		pane.registerPlugin(YourPlugin);
+
+		const PARAMS = {
+			stringList: ['Hello', 'World', 'Example']
+		};
+
+		pane.addInput(PARAMS, 'stringList', {
+			view: 'stringlist',
+			label: 'Items'
+		}).on('change', (ev) => {
+			console.log('String list changed:', ev.value);
+			document.getElementById('value-display').textContent = JSON.stringify(ev.value, null, 2);
+		});
+		*/
+		
+		// Display example usage
+		document.getElementById('value-display').textContent = 'Plugin ready for integration!';
+	</script>
+</body>
+</html>
